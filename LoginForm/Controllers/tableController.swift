@@ -10,35 +10,33 @@ import UIKit
 
 
 class tableController: UITableViewController {
-
-    
-    
-    @IBOutlet var tableView1: UITableView!
-    
-    
     var firstName: String!
     var user: String!
     var group: Int!
     var contentManager = ContentManager()
     var content: [Topic] = []
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        
         self.navigationItem.title = "Мои замеры"
+
         let rightBackButton = UIBarButtonItem(
-//            title: "Back",
+    //            title: "Back",
             image: UIImage(systemName: "plus.circle.fill"),
             style: .plain,
             target: self,
             action: #selector(didTapMenuButtonAdd)
         )
         let leftBackButton = UIBarButtonItem(
-//            title: "Back",
+    //            title: "Back",
             image: UIImage(systemName: "arrow.backward.circle.fill"),
             style: .plain,
             target: self,
             action: #selector(didTapMenuButton))
-        
         self.navigationItem.rightBarButtonItem = rightBackButton
         self.navigationItem.leftBarButtonItem = leftBackButton
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -51,7 +49,7 @@ class tableController: UITableViewController {
         contentManager.performLogin(user: user)
         self.tableView.dataSource = self
         self.tableView.delegate = self
-      
+
     }
     
     
@@ -123,7 +121,8 @@ class tableController: UITableViewController {
                 let nameTopic = textField.text
              
                 self.contentManager.performAddTopic(loginLet: self.user, groupLet: self.group, nameTopic: nameTopic!)
-                  
+//                self.tableView.deleteRows(at: [indexPath], with: .fade)
+         
                    
 //                   let newItem = Exercise(context: self.context)
 //                   newItem.name = textField.text!
@@ -133,7 +132,8 @@ class tableController: UITableViewController {
 //                   //save data
 //                   self.saveItems()
 //                  // self.saveItems()
-
+                self.contentManager.performLogin(user: self.user)
+                self.tableView.reloadData()
         
         }
         alert.addTextField { (alertTextField) in
@@ -154,7 +154,7 @@ class tableController: UITableViewController {
 //            self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
 //
         }
-        self.contentManager.performLogin(user: self.user)
+
     }
     
 }
