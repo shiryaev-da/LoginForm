@@ -23,25 +23,13 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zz-Pm-tii">
-                        <rect key="frame" x="258" y="14" width="46" height="30"/>
-                        <state key="normal" title="Button"/>
-                        <connections>
-                            <action selector="nextStepTopic:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="b8h-Av-gXG"/>
-                        </connections>
-                    </button>
                 </subviews>
-                <constraints>
-                    <constraint firstAttribute="bottom" secondItem="0zz-Pm-tii" secondAttribute="bottom" constant="16" id="Gta-i9-SJd"/>
-                    <constraint firstItem="0zz-Pm-tii" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="t4i-Gj-lO2"/>
-                    <constraint firstAttribute="trailing" secondItem="0zz-Pm-tii" secondAttribute="trailing" constant="16" id="ucB-QL-KWj"/>
-                </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="labelNme" destination="NXf-j5-Tm1" id="Cyl-nT-7yF"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="86.383928571428569"/>
+            <point key="canvasLocation" x="153.62318840579712" y="53.571428571428569"/>
         </tableViewCell>
     </objects>
 </document>

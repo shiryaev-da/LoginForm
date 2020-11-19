@@ -17,7 +17,9 @@ class CustomTableViewCell: UITableViewCell {
     @IBAction func nextStepTopic(_ sender: Any) {
         if let text = self.labelNme.text {
             print(text)
+            
         }
+        
     }
     
     override func awakeFromNib() {

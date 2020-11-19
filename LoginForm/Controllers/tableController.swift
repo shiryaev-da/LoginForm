@@ -87,7 +87,7 @@ class tableController: UITableViewController {
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
             cell.labelNme.text = message.TOPIC_NAME
 //            cell.labelId.text = String(message.id)
-            
+        
             return cell
 
 //        cell.labelNameTopic.text = message.TOPIC_NAME
@@ -97,11 +97,31 @@ class tableController: UITableViewController {
 //       return cell
     }
     
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(indexPath.row)
-//        let message = content[indexPath.row]
-//        print(message.id)
-//    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        let message = content[indexPath.row]
+        print(message.id)
+        print(message.TOPIC_NAME)
+        
+
+        
+        if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "TableStep") as? tableStepController {
+
+            newViewController.TOPIC_NAME = message.TOPIC_NAME
+            newViewController.user = user
+            newViewController.group = group
+            
+            let navController = UINavigationController(rootViewController: newViewController)
+            navController.modalTransitionStyle = .flipHorizontal
+            navController.modalPresentationStyle = .overFullScreen
+            
+//            newViewController.modalPresentationStyle = .currentContext
+//            newViewController.modalPresentationStyle = .overCurrentContext // это та самая волшебная строка, убрав или закомментировав ее, вы получите появление смахиваемого контроллера
+            self.present(navController, animated: true, completion: nil)
+           }
+        
+        
+    }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

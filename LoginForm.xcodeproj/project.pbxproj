@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8F1300A525665BB200AE5DBD /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */; };
 		8F1300A625665BB200AE5DBD /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */; };
+		8F1300BC256679D200AE5DBD /* tableStepController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300BB256679D200AE5DBD /* tableStepController.swift */; };
 		8F16C6F6254AEE8B000B0424 /* loginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F16C6F5254AEE8B000B0424 /* loginModel.swift */; };
 		8F30740E254952F500EB36BE /* loginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30740D254952F500EB36BE /* loginManager.swift */; };
 		8F7A415325405529009440C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A415225405529009440C8 /* AppDelegate.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
+		8F1300BB256679D200AE5DBD /* tableStepController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tableStepController.swift; sourceTree = "<group>"; };
 		8F16C6F5254AEE8B000B0424 /* loginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginModel.swift; sourceTree = "<group>"; };
 		8F30740D254952F500EB36BE /* loginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginManager.swift; sourceTree = "<group>"; };
 		8F7A414F25405529009440C8 /* LoginForm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoginForm.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,8 +147,6 @@
 		8F7A415125405529009440C8 /* LoginForm */ = {
 			isa = PBXGroup;
 			children = (
-				8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */,
-				8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */,
 				8FAACDD0254C082700DFB7E9 /* Core */,
 				8FD1C3592548461400242C42 /* Model */,
 				8FA2B0FB25406EAD005401B2 /* Controllers */,
@@ -191,6 +191,7 @@
 		8FA2B0F925406E8A005401B2 /* VIEWS */ = {
 			isa = PBXGroup;
 			children = (
+				8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */,
 				8F7A415825405529009440C8 /* Main.storyboard */,
 			);
 			path = VIEWS;
@@ -199,9 +200,11 @@
 		8FA2B0FB25406EAD005401B2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */,
 				8F7A415625405529009440C8 /* ViewController.swift */,
 				8FA2B10125406F06005401B2 /* loginController.swift */,
 				8FA2B0FC25406EF5005401B2 /* registerController.swift */,
+				8F1300BB256679D200AE5DBD /* tableStepController.swift */,
 				8F9083B2255136C700FB2ACC /* tableController.swift */,
 				8F9083C42551780300FB2ACC /* Forms */,
 			);
@@ -378,6 +381,7 @@
 				8F7A415525405529009440C8 /* SceneDelegate.swift in Sources */,
 				8FA2B10225406F06005401B2 /* loginController.swift in Sources */,
 				8FAACE04254C355B00DFB7E9 /* contentModel.swift in Sources */,
+				8F1300BC256679D200AE5DBD /* tableStepController.swift in Sources */,
 				8FA2B0FD25406EF5005401B2 /* registerController.swift in Sources */,
 				8F7A415D25405529009440C8 /* LoginForm.xcdatamodeld in Sources */,
 				8F9083C62551782E00FB2ACC /* cellForm.swift in Sources */,
