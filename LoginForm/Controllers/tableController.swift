@@ -41,7 +41,8 @@ class tableController: UITableViewController {
         self.navigationItem.leftBarButtonItem = leftBackButton
         self.navigationController?.navigationBar.prefersLargeTitles = true
 //        labelHello.text =  "Привет \(String(firstName))!!!"
-        self.tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+//        self.tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        self.registerTableViewCells()
 //        self.tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell" )
 //        let itemExersiceArray = contentManager.performLogin
 //        print(contentManager.performLogin)
@@ -60,7 +61,12 @@ class tableController: UITableViewController {
  
     
     //MARK: Замеры
-    
+    private func registerTableViewCells() {
+        let textFieldCell = UINib(nibName: "CustomTableViewCell",
+                                  bundle: nil)
+        self.tableView.register(textFieldCell,
+                                forCellReuseIdentifier: "CustomTableViewCell")
+    }
 
     
 //    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -78,14 +84,24 @@ class tableController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let message = content[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-        cell.textLabel?.text = message.TOPIC_NAME
-       return cell
+         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
+            cell.labelNme.text = message.TOPIC_NAME
+//            cell.labelId.text = String(message.id)
+            
+            return cell
+
+//        cell.labelNameTopic.text = message.TOPIC_NAME
+//        cell.textLabel?.text = message.TOPIC_NAME
+//        cell.textLabel?.text = "1"
+        
+//       return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print(indexPath.row)
+//        let message = content[indexPath.row]
+//        print(message.id)
+//    }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -142,9 +158,8 @@ class tableController: UITableViewController {
         }
         
         alert.addAction(action)
-                    
-                    self.tableView.reloadData()
         
+                    self.tableView.reloadData()
                     self.present(alert, animated: true, completion: nil)
   
 

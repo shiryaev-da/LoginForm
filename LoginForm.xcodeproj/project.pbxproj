@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F1300A525665BB200AE5DBD /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */; };
+		8F1300A625665BB200AE5DBD /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */; };
 		8F16C6F6254AEE8B000B0424 /* loginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F16C6F5254AEE8B000B0424 /* loginModel.swift */; };
 		8F30740E254952F500EB36BE /* loginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30740D254952F500EB36BE /* loginManager.swift */; };
 		8F7A415325405529009440C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A415225405529009440C8 /* AppDelegate.swift */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
 		8F16C6F5254AEE8B000B0424 /* loginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginModel.swift; sourceTree = "<group>"; };
 		8F30740D254952F500EB36BE /* loginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginManager.swift; sourceTree = "<group>"; };
 		8F7A414F25405529009440C8 /* LoginForm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoginForm.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,6 +145,8 @@
 		8F7A415125405529009440C8 /* LoginForm */ = {
 			isa = PBXGroup;
 			children = (
+				8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */,
+				8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */,
 				8FAACDD0254C082700DFB7E9 /* Core */,
 				8FD1C3592548461400242C42 /* Model */,
 				8FA2B0FB25406EAD005401B2 /* Controllers */,
@@ -334,6 +340,7 @@
 				8F7A41622540552B009440C8 /* LaunchScreen.storyboard in Resources */,
 				8F9083C02551764300FB2ACC /* cellForm.xib in Resources */,
 				8F7A415F2540552B009440C8 /* Assets.xcassets in Resources */,
+				8F1300A625665BB200AE5DBD /* CustomTableViewCell.xib in Resources */,
 				8F7A415A25405529009440C8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,6 +372,7 @@
 				8F7A415725405529009440C8 /* ViewController.swift in Sources */,
 				8F30740E254952F500EB36BE /* loginManager.swift in Sources */,
 				8FD1C35B2548464A00242C42 /* registerModel.swift in Sources */,
+				8F1300A525665BB200AE5DBD /* CustomTableViewCell.swift in Sources */,
 				8F7A415325405529009440C8 /* AppDelegate.swift in Sources */,
 				8F16C6F6254AEE8B000B0424 /* loginModel.swift in Sources */,
 				8F7A415525405529009440C8 /* SceneDelegate.swift in Sources */,
