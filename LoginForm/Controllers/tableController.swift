@@ -110,13 +110,11 @@ class tableController: UITableViewController {
             newViewController.TOPIC_NAME = message.TOPIC_NAME
             newViewController.user = user
             newViewController.group = group
+            newViewController.idStep = message.id
             
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .flipHorizontal
             navController.modalPresentationStyle = .overFullScreen
-            
-//            newViewController.modalPresentationStyle = .currentContext
-//            newViewController.modalPresentationStyle = .overCurrentContext // это та самая волшебная строка, убрав или закомментировав ее, вы получите появление смахиваемого контроллера
             self.present(navController, animated: true, completion: nil)
            }
         

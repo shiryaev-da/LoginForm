@@ -10,6 +10,8 @@
 		8F1300A525665BB200AE5DBD /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */; };
 		8F1300A625665BB200AE5DBD /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */; };
 		8F1300BC256679D200AE5DBD /* tableStepController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300BB256679D200AE5DBD /* tableStepController.swift */; };
+		8F1300C225668E5F00AE5DBD /* contentStepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300C125668E5F00AE5DBD /* contentStepModel.swift */; };
+		8F1300C725668EA200AE5DBD /* contentStepManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300C625668EA200AE5DBD /* contentStepManager.swift */; };
 		8F16C6F6254AEE8B000B0424 /* loginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F16C6F5254AEE8B000B0424 /* loginModel.swift */; };
 		8F30740E254952F500EB36BE /* loginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30740D254952F500EB36BE /* loginManager.swift */; };
 		8F7A415325405529009440C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A415225405529009440C8 /* AppDelegate.swift */; };
@@ -53,6 +55,8 @@
 		8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
 		8F1300BB256679D200AE5DBD /* tableStepController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tableStepController.swift; sourceTree = "<group>"; };
+		8F1300C125668E5F00AE5DBD /* contentStepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contentStepModel.swift; sourceTree = "<group>"; };
+		8F1300C625668EA200AE5DBD /* contentStepManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contentStepManager.swift; sourceTree = "<group>"; };
 		8F16C6F5254AEE8B000B0424 /* loginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginModel.swift; sourceTree = "<group>"; };
 		8F30740D254952F500EB36BE /* loginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginManager.swift; sourceTree = "<group>"; };
 		8F7A414F25405529009440C8 /* LoginForm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoginForm.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +110,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F1300C025668E2C00AE5DBD /* Step */ = {
+			isa = PBXGroup;
+			children = (
+				8F1300C125668E5F00AE5DBD /* contentStepModel.swift */,
+				8F1300C625668EA200AE5DBD /* contentStepManager.swift */,
+			);
+			path = Step;
+			sourceTree = "<group>";
+		};
 		8F30740825494F9900EB36BE /* Registration */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +236,7 @@
 			children = (
 				8FAACE03254C355B00DFB7E9 /* contentModel.swift */,
 				8FAACE0B254C36F400DFB7E9 /* contentManager.swift */,
+				8F1300C025668E2C00AE5DBD /* Step */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -376,8 +390,10 @@
 				8F30740E254952F500EB36BE /* loginManager.swift in Sources */,
 				8FD1C35B2548464A00242C42 /* registerModel.swift in Sources */,
 				8F1300A525665BB200AE5DBD /* CustomTableViewCell.swift in Sources */,
+				8F1300C725668EA200AE5DBD /* contentStepManager.swift in Sources */,
 				8F7A415325405529009440C8 /* AppDelegate.swift in Sources */,
 				8F16C6F6254AEE8B000B0424 /* loginModel.swift in Sources */,
+				8F1300C225668E5F00AE5DBD /* contentStepModel.swift in Sources */,
 				8F7A415525405529009440C8 /* SceneDelegate.swift in Sources */,
 				8FA2B10225406F06005401B2 /* loginController.swift in Sources */,
 				8FAACE04254C355B00DFB7E9 /* contentModel.swift in Sources */,
