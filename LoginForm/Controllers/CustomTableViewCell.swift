@@ -12,15 +12,10 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBOutlet weak var labelNme: UILabel!
 
-    @IBOutlet weak var labelId: UILabel!
+
+    @IBOutlet weak var labelCount: UILabel!
     
-    @IBAction func nextStepTopic(_ sender: Any) {
-        if let text = self.labelNme.text {
-            print(text)
-            
-        }
-        
-    }
+
     
     override func awakeFromNib() {
         super.awakeFromNib()

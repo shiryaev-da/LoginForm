@@ -86,6 +86,8 @@ class tableController: UITableViewController {
         let message = content[indexPath.row]
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
             cell.labelNme.text = message.TOPIC_NAME
+        let count = String(message.COUNT_STEP)
+            cell.labelCount.text = "Кол-во шагов: \(count)"
 //            cell.labelId.text = String(message.id)
         
             return cell

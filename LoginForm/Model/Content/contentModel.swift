@@ -36,6 +36,7 @@ struct ContentData: Codable  {
 struct Topic: Codable {
     let id: Int
     let TOPIC_NAME: String
+    let COUNT_STEP: Int
 //    let step_topic: [Step_topic]
 }
 

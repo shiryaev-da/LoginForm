@@ -70,8 +70,8 @@ struct ContentStepManager {
     request.httpMethod = "POST"
 
     // HTTP Request Parameters which will be sent in HTTP Request Body
-    let postString : Data = " { \"TOPIC_ID\": \(groupLet), \"STEP_NAME\": \(nameStep)}".data(using: .utf8)!;
-
+    let postString : Data = " { \"TOPIC_ID\": \(groupLet), \"STEP_NAME\":\"\(nameStep)\"}".data(using: .utf8)!;
+    
     // Set HTTP Request Body
     request.httpBody = postString;
     request.setValue("Application/json", forHTTPHeaderField: "Content-Type")

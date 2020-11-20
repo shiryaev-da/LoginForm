@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,20 +17,39 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXf-j5-Tm1">
-                        <rect key="frame" x="16" y="9" width="96" height="40"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXf-j5-Tm1">
+                        <rect key="frame" x="10" y="9" width="39.5" height="42"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92a-ea-cXI">
+                        <rect key="frame" x="281.5" y="10" width="28.5" height="40"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" systemColor="systemGray2Color"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="NXf-j5-Tm1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="5ZA-do-xgf"/>
+                    <constraint firstAttribute="trailing" secondItem="92a-ea-cXI" secondAttribute="trailing" constant="10" id="K9n-PB-lin"/>
+                    <constraint firstItem="NXf-j5-Tm1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="ovl-F8-hZZ"/>
+                    <constraint firstAttribute="bottom" secondItem="NXf-j5-Tm1" secondAttribute="bottom" constant="9" id="pYr-Jk-3VD"/>
+                    <constraint firstItem="92a-ea-cXI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="s5d-3b-TXI"/>
+                    <constraint firstAttribute="bottom" secondItem="92a-ea-cXI" secondAttribute="bottom" constant="10" id="wpX-Et-br6"/>
+                </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="labelCount" destination="92a-ea-cXI" id="kgx-Ih-Cls"/>
                 <outlet property="labelNme" destination="NXf-j5-Tm1" id="Cyl-nT-7yF"/>
             </connections>
             <point key="canvasLocation" x="153.62318840579712" y="53.571428571428569"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

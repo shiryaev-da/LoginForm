@@ -65,6 +65,7 @@ class tableStepController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
         cell.labelNme.text = content[indexPath.row].STEP_NAME
+        cell.labelCount.text = nil
 //            cell.labelId.text = String(message.id)
        
            return cell
