@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 
 class tableStepController: UITableViewController {
-    let arrayText = ["1","2","3"]
-    
     var TOPIC_NAME: String!
     var idStep: Int!
     var user: String!
     var group: Int!
     var contentStepManager = ContentStepManager()
     var content: [TopicStep] = []
+
+     
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,6 @@ class tableStepController: UITableViewController {
     // MARK: - Table view data source
 
 
-
     private func registerTableViewCells() {
         let textFieldCell = UINib(nibName: "CustomTableViewCell",
                                   bundle: nil)
@@ -66,9 +65,22 @@ class tableStepController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
         cell.labelNme.text = content[indexPath.row].STEP_NAME
         cell.labelCount.text = nil
-//            cell.labelId.text = String(message.id)
-       
-           return cell
+        return cell
+    }
+
+    //MARK:  Действия на свайп
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let testAction = UIContextualAction(style: .destructive, title: "del") { (_, _, completionHandler) in
+
+            
+            completionHandler(true)
+            
+            print("Play")
+        }
+        testAction.backgroundColor = .clear
+        testAction.image = UIImage(systemName: "play.circle")
+
+        return UISwipeActionsConfiguration(actions: [testAction])
     }
 
 
@@ -80,7 +92,7 @@ class tableStepController: UITableViewController {
             newViewController.group = group
             
             let navController = UINavigationController(rootViewController: newViewController)
-            navController.modalTransitionStyle = .flipHorizontal
+            navController.modalTransitionStyle = .crossDissolve
             navController.modalPresentationStyle = .overFullScreen
             self.present(navController, animated: true, completion: nil)
 
@@ -96,7 +108,7 @@ class tableStepController: UITableViewController {
                let action = UIAlertAction (title: "Добавить", style: .default) { (action) in
 //                   print(textField.text)
                 let nameTopic = textField.text
-             
+                
                 self.contentStepManager.performAddTopicStep(groupLet: self.idStep, nameStep: nameTopic!)
 //                self.tableView.deleteRows(at: [indexPath], with: .fade)
          
@@ -109,6 +121,7 @@ class tableStepController: UITableViewController {
 //                   //save data
 //                   self.saveItems()
 //                  // self.saveItems()
+                sleep(1)
                 self.contentStepManager.performLogin(user: self.idStep)
                 self.tableView.reloadData()
         

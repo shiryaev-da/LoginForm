@@ -44,7 +44,7 @@
                 <outlet property="labelCount" destination="92a-ea-cXI" id="kgx-Ih-Cls"/>
                 <outlet property="labelNme" destination="NXf-j5-Tm1" id="Cyl-nT-7yF"/>
             </connections>
-            <point key="canvasLocation" x="153.62318840579712" y="53.571428571428569"/>
+            <point key="canvasLocation" x="119" y="54"/>
         </tableViewCell>
     </objects>
     <resources>

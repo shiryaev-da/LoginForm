@@ -88,6 +88,7 @@ class tableController: UITableViewController {
             cell.labelNme.text = message.TOPIC_NAME
         let count = String(message.COUNT_STEP)
             cell.labelCount.text = "Кол-во шагов: \(count)"
+//        cell.runTimeButton.isHidden = true
 //            cell.labelId.text = String(message.id)
         
             return cell
@@ -115,7 +116,7 @@ class tableController: UITableViewController {
             newViewController.idStep = message.id
             
             let navController = UINavigationController(rootViewController: newViewController)
-            navController.modalTransitionStyle = .flipHorizontal
+            navController.modalTransitionStyle = .crossDissolve
             navController.modalPresentationStyle = .overFullScreen
             self.present(navController, animated: true, completion: nil)
            }
@@ -123,16 +124,41 @@ class tableController: UITableViewController {
         
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            contentManager.performDelTopic(loginLet: self.user, groupLet: self.group, nameTopic: content[indexPath.row].TOPIC_NAME)
-            content.remove(at: indexPath.row)
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            contentManager.performDelTopic(loginLet: self.user, groupLet: self.group, nameTopic: content[indexPath.row].TOPIC_NAME)
+//            content.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+////            print(content[indexPath.row].TOPIC_NAME)
+//        } else if editingStyle == .insert {
+//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+//        }
+//    }
+//
+//    //Название кнопки удалить
+//
+
+    //MARK:  Действия на свайп
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let testAction = UIContextualAction(style: .destructive, title: "del") { (_, _, completionHandler) in
+            self.contentManager.performDelTopic(loginLet: self.user, groupLet: self.group, nameTopic: self.content[indexPath.row].TOPIC_NAME)
+            self.content.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-//            print(content[indexPath.row].TOPIC_NAME)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+            
+//            completionHandler(true)
         }
+        testAction.backgroundColor = .red
+        testAction.image = UIImage(systemName: "trash")
+        let testAction2 = UIContextualAction(style: .destructive, title: "Edit") { (_, _, completionHandler) in
+            print("test")
+            completionHandler(true)
+        }
+        testAction2.backgroundColor = .clear
+        testAction2.image = UIImage(systemName: "pencil")
+        return UISwipeActionsConfiguration(actions: [testAction2,testAction])
     }
+    
+
     
     //MARK: Кнопка Выход
     @objc public func didTapMenuButton() {
@@ -168,6 +194,7 @@ class tableController: UITableViewController {
 //                   //save data
 //                   self.saveItems()
 //                  // self.saveItems()
+                sleep(1)
                 self.contentManager.performLogin(user: self.user)
                 self.tableView.reloadData()
         
