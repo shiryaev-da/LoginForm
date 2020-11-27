@@ -15,15 +15,18 @@ class tableStepController: UITableViewController {
     var group: Int!
     var contentStepManager = ContentStepManager()
     var content: [TopicStep] = []
+    var timer: Timer?
+    var taskList: [Task] = []
+    var textCell: String!
+    let vw = UIView()
+    
 
      
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-
         self.navigationItem.title = TOPIC_NAME
-        
         let rightBackButton = UIBarButtonItem(
     //            title: "Back",
             image: UIImage(systemName: "plus.circle.fill"),
@@ -31,22 +34,46 @@ class tableStepController: UITableViewController {
             target: self,
             action: #selector(didTapMenuButtonAdd)
         )
+        let rightBackButton1 = UIBarButtonItem(
+    //            title: "Back",
+            image: UIImage(systemName: "stop"),
+            style: .plain,
+            target: self,
+            action: #selector(didRunTime)
+        )
         let leftBackButton = UIBarButtonItem(
     //            title: "Back",
             image: UIImage(systemName: "arrow.backward.circle.fill"),
             style: .plain,
             target: self,
             action: #selector(didTapMenuButton))
-        self.navigationItem.rightBarButtonItem = rightBackButton
+        self.navigationItem.rightBarButtonItems = [rightBackButton1,rightBackButton]
         self.navigationItem.leftBarButtonItem = leftBackButton
         self.registerTableViewCells()
         contentStepManager.delegate = self
         contentStepManager.performLogin(user: self.idStep)
         self.tableView.dataSource = self
         self.tableView.delegate = self
+
+//        let footer = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 300))
+//        footer.backgroundColor = .brown
+//        tableView.tableFooterView = footer
+//        footer.isHidden = true
+        
+        
     }
 
+//    @IBOutlet weak var viewNaw: UIView!
     // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        vw.isHidden = true
+        return vw
+    }
+
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 150
+    }
 
 
     private func registerTableViewCells() {
@@ -64,21 +91,94 @@ class tableStepController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
         cell.labelNme.text = content[indexPath.row].STEP_NAME
-        cell.labelCount.text = nil
+        cell.labelCount.text = "nil"
+//        cell.labelCount.isHidden = true
+      
+        
+//        cell.runTimeButton.isHidden = true
         return cell
+        
     }
+   //MARK: Действие на нажатие
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        tableView.tableFooterView?.isHidden = false
+        vw.isHidden = false
+        let titleLabel = UILabel(frame: CGRect(x:0, y: 0 ,width: tableView.bounds.width ,height:150))
+        titleLabel.numberOfLines = 0;
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.backgroundColor = .brown
+        titleLabel.baselineAdjustment = .alignCenters
+        titleLabel.textAlignment = NSTextAlignment.center
+        titleLabel.font = UIFont(name: "Montserrat-Regular", size: 12)
+        titleLabel.text = content[indexPath.row].STEP_NAME
+      
+        
+//        let btn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: tableView.bounds.width/3, height: 44))
+//        self.view.addSubview(btn)
+//        btn.setTitle("My button", for: .normal)
+////        btn.backgroundColor = UIColor.blue
+//        btn.setImage(UIImage(systemName: "checkmark.circle.fill"),
+//                        for: [.highlighted, .selected])
+     
+//        btn.layer.cornerRadius = 44/2
+        
+
+
+
+
+
+        vw.addSubview(titleLabel)
+//        vw.addSubview(btn)
+
+    }
+    
+    @objc public func someButtonAction() {
+        print("Button is tapped")
+    }
+    
+    @objc public func didRunTime() {
+        
+
+        timer?.invalidate()
+        
+
+        
+    }
+    
+    
+
 
     //MARK:  Действия на свайп
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let testAction = UIContextualAction(style: .destructive, title: "del") { (_, _, completionHandler) in
+        let testAction = UIContextualAction(style: .destructive, title: "runleft") { (_, _, completionHandler) in
 
             
             completionHandler(true)
             
-            print("Play")
+            
+
+
         }
         testAction.backgroundColor = .clear
-        testAction.image = UIImage(systemName: "play.circle")
+        testAction.image = UIImage(systemName: "play")
+
+        return UISwipeActionsConfiguration(actions: [testAction])
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let testAction = UIContextualAction(style: .destructive, title: "runright") { (_, _, completionHandler) in
+
+            
+            completionHandler(true)
+
+            
+
+
+        }
+        testAction.backgroundColor = .darkGray
+        testAction.image = UIImage(systemName: "stop")
 
         return UISwipeActionsConfiguration(actions: [testAction])
     }
@@ -106,21 +206,8 @@ class tableStepController: UITableViewController {
                
                let alert = UIAlertController (title: "Добавить действие", message: "", preferredStyle: .alert)
                let action = UIAlertAction (title: "Добавить", style: .default) { (action) in
-//                   print(textField.text)
                 let nameTopic = textField.text
-                
                 self.contentStepManager.performAddTopicStep(groupLet: self.idStep, nameStep: nameTopic!)
-//                self.tableView.deleteRows(at: [indexPath], with: .fade)
-         
-                   
-//                   let newItem = Exercise(context: self.context)
-//                   newItem.name = textField.text!
-//                   newItem.perentGroupExercise = self.selectidGroup
-//                    print("Добалвен элемент\(self.selectidGroup!)")
-//                   self.itemExersiceArray.append(newItem)
-//                   //save data
-//                   self.saveItems()
-//                  // self.saveItems()
                 sleep(1)
                 self.contentStepManager.performLogin(user: self.idStep)
                 self.tableView.reloadData()
@@ -132,23 +219,14 @@ class tableStepController: UITableViewController {
         }
         
         alert.addAction(action)
-        
-                    self.tableView.reloadData()
-                    self.present(alert, animated: true, completion: nil)
-  
-
-
-//
-//            let indexPath = IndexPath(row: self.content.count - 1, section: 0)
-//            self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
-//
+            self.tableView.reloadData()
+            self.present(alert, animated: true, completion: nil)
         }
 
     }
     
 
 }
-
 
 extension tableStepController: ContentStepManagerDelegate {
     func didContentStepData(_ Content: ContentStepManager, content: [TopicStep]) {
@@ -169,6 +247,8 @@ extension tableStepController: ContentStepManagerDelegate {
     func didDelTopicStep(_ Content: ContentStepManager, content: AddTopicModelStep) {
         
     }
-    
-    
+}
+
+extension tableStepController {
+
 }

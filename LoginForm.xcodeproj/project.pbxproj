@@ -23,9 +23,8 @@
 		8F7A41622540552B009440C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7A41602540552B009440C8 /* LaunchScreen.storyboard */; };
 		8F7A416D2540552B009440C8 /* LoginFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A416C2540552B009440C8 /* LoginFormTests.swift */; };
 		8F7A41782540552B009440C8 /* LoginFormUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A41772540552B009440C8 /* LoginFormUITests.swift */; };
+		8F8546F5256BC5BD00A32F50 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8546F4256BC5BD00A32F50 /* Task.swift */; };
 		8F9083B3255136C700FB2ACC /* tableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9083B2255136C700FB2ACC /* tableController.swift */; };
-		8F9083C02551764300FB2ACC /* cellForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F9083BF2551764300FB2ACC /* cellForm.xib */; };
-		8F9083C62551782E00FB2ACC /* cellForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9083C52551782E00FB2ACC /* cellForm.swift */; };
 		8FA2B0FD25406EF5005401B2 /* registerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA2B0FC25406EF5005401B2 /* registerController.swift */; };
 		8FA2B10225406F06005401B2 /* loginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA2B10125406F06005401B2 /* loginController.swift */; };
 		8FAACE04254C355B00DFB7E9 /* contentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAACE03254C355B00DFB7E9 /* contentModel.swift */; };
@@ -74,9 +73,8 @@
 		8F7A41732540552B009440C8 /* LoginFormUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoginFormUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7A41772540552B009440C8 /* LoginFormUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormUITests.swift; sourceTree = "<group>"; };
 		8F7A41792540552B009440C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F8546F4256BC5BD00A32F50 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		8F9083B2255136C700FB2ACC /* tableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tableController.swift; sourceTree = "<group>"; };
-		8F9083BF2551764300FB2ACC /* cellForm.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = cellForm.xib; sourceTree = "<group>"; };
-		8F9083C52551782E00FB2ACC /* cellForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cellForm.swift; sourceTree = "<group>"; };
 		8FA2B0FC25406EF5005401B2 /* registerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerController.swift; sourceTree = "<group>"; };
 		8FA2B10125406F06005401B2 /* loginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginController.swift; sourceTree = "<group>"; };
 		8FAACE03254C355B00DFB7E9 /* contentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contentModel.swift; sourceTree = "<group>"; };
@@ -192,15 +190,6 @@
 			path = LoginFormUITests;
 			sourceTree = "<group>";
 		};
-		8F9083C42551780300FB2ACC /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				8F9083C52551782E00FB2ACC /* cellForm.swift */,
-				8F9083BF2551764300FB2ACC /* cellForm.xib */,
-			);
-			path = Forms;
-			sourceTree = "<group>";
-		};
 		8FA2B0F925406E8A005401B2 /* VIEWS */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,7 +208,6 @@
 				8FA2B0FC25406EF5005401B2 /* registerController.swift */,
 				8F1300BB256679D200AE5DBD /* tableStepController.swift */,
 				8F9083B2255136C700FB2ACC /* tableController.swift */,
-				8F9083C42551780300FB2ACC /* Forms */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -247,6 +235,7 @@
 				8FAACE02254C350600DFB7E9 /* Content */,
 				8F30740C2549518900EB36BE /* Login */,
 				8F30740825494F9900EB36BE /* Registration */,
+				8F8546F4256BC5BD00A32F50 /* Task.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -355,7 +344,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F7A41622540552B009440C8 /* LaunchScreen.storyboard in Resources */,
-				8F9083C02551764300FB2ACC /* cellForm.xib in Resources */,
 				8F7A415F2540552B009440C8 /* Assets.xcassets in Resources */,
 				8F1300A625665BB200AE5DBD /* CustomTableViewCell.xib in Resources */,
 				8F7A415A25405529009440C8 /* Main.storyboard in Resources */,
@@ -399,8 +387,8 @@
 				8FAACE04254C355B00DFB7E9 /* contentModel.swift in Sources */,
 				8F1300BC256679D200AE5DBD /* tableStepController.swift in Sources */,
 				8FA2B0FD25406EF5005401B2 /* registerController.swift in Sources */,
+				8F8546F5256BC5BD00A32F50 /* Task.swift in Sources */,
 				8F7A415D25405529009440C8 /* LoginForm.xcdatamodeld in Sources */,
-				8F9083C62551782E00FB2ACC /* cellForm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

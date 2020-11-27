@@ -7,16 +7,16 @@
 
 import UIKit
 
+
 class CustomTableViewCell: UITableViewCell {
     
+
+    
+
     
     @IBOutlet weak var labelNme: UILabel!
-
-
     @IBOutlet weak var labelCount: UILabel!
-    
 
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -28,4 +28,11 @@ class CustomTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    
+
+    
+
+    
+
 }
+

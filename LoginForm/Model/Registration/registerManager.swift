@@ -28,8 +28,8 @@ struct RegisterManager {
     request.httpMethod = "POST"
      
     // HTTP Request Parameters which will be sent in HTTP Request Body
-    let postString : Data = " {\"FLD_EMAIL\": \"\(mailRegLet)\", \"FIRST_NAME\": \"\(nameRegLet)\", \"USER_LOGIN\": \"\(loginRegLet)\", \"PHONE_NUMBER\": \"\(phoneRegLet)\", \"USER_PASS\": \"\(passRegLet)\", \"FLD_GROUP\": \(groupLet)}".data(using: .utf8)!;
-    
+    let postString : Data = " {\"FLD_EMAIL\": \"\(mailRegLet)\", \"FIRST_NAME\": \"\(nameRegLet)\", \"USER_LOGIN\": \"\(loginRegLet)\", \"PHONE_NUMBER\": \"\(phoneRegLet)\", \"USER_PASS\": \"\(passRegLet)\", \"FLD_GROUP\": \"\(groupLet)\"}".data(using: .utf8)!;
+    print(postString)
         
 //        print(postString)
     // Set HTTP Request Body

@@ -22,7 +22,7 @@ class tableController: UITableViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         
-        self.navigationItem.title = "Мои замеры"
+        self.navigationItem.title = "Активные замеры"
 
         let rightBackButton = UIBarButtonItem(
     //            title: "Back",
@@ -43,7 +43,7 @@ class tableController: UITableViewController {
 //        labelHello.text =  "Привет \(String(firstName))!!!"
 //        self.tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         self.registerTableViewCells()
-//        self.tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell" )
+        self.tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell" )
 //        let itemExersiceArray = contentManager.performLogin
 //        print(contentManager.performLogin)
         contentManager.delegate = self
@@ -88,7 +88,7 @@ class tableController: UITableViewController {
             cell.labelNme.text = message.TOPIC_NAME
         let count = String(message.COUNT_STEP)
             cell.labelCount.text = "Кол-во шагов: \(count)"
-//        cell.runTimeButton.isHidden = true
+    
 //            cell.labelId.text = String(message.id)
         
             return cell
@@ -162,14 +162,36 @@ class tableController: UITableViewController {
     
     //MARK: Кнопка Выход
     @objc public func didTapMenuButton() {
-        if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "main") {
-            newViewController.modalTransitionStyle = .flipHorizontal // это значение можно менять для разных видов анимации появления
-            newViewController.modalPresentationStyle = .overFullScreen
-//            newViewController.modalPresentationStyle = .currentContext
-//            newViewController.modalPresentationStyle = .overCurrentContext // это та самая волшебная строка, убрав или закомментировав ее, вы получите появление смахиваемого контроллера
-            self.present(newViewController, animated: true, completion: nil)
+        
+        let alertController = UIAlertController(title: "Выход", message: "Вы хотите выйти?", preferredStyle: .alert)
 
-           }
+            // Initialize Actions
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
+                print("The user is okay.")
+            
+            if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "main") {
+                newViewController.modalTransitionStyle = .flipHorizontal // это значение можно менять для разных видов анимации появления
+                newViewController.modalPresentationStyle = .overFullScreen
+    //            newViewController.modalPresentationStyle = .currentContext
+    //            newViewController.modalPresentationStyle = .overCurrentContext // это та самая волшебная строка, убрав или закомментировав ее, вы получите появление смахиваемого контроллера
+                self.present(newViewController, animated: true, completion: nil)
+
+               }
+            }
+
+        let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
+                print("The user is not okay.")
+            }
+
+            // Add Actions
+            alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+
+            // Present Alert Controller
+        self.present(alertController, animated: true, completion: nil)
+        
+        
+
     }
     
     //MARK: Кнопка Добавления
