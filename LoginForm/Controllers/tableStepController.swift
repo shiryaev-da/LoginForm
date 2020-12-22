@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class tableStepController: UITableViewController {
     var TOPIC_NAME: String!
@@ -19,6 +20,9 @@ class tableStepController: UITableViewController {
     var taskList: [Task] = []
     var textCell: String!
     let vw = UIView()
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var itemTimeArray = [Logtimer]()
     
 
      
@@ -64,6 +68,38 @@ class tableStepController: UITableViewController {
     }
 
 //    @IBOutlet weak var viewNaw: UIView!
+    
+    
+    //MARK: - CoreDATA
+    
+    func typeAction(nameAction: String, topicID: Int, stepID: Int) {
+        let newItem = Logtimer(context: self.context)
+        newItem.dateTimeStart = Date()
+        newItem.typeAction = nameAction
+        newItem.topicID = Int16(topicID)
+        newItem.stepID = Int16(stepID)
+        
+        print(newItem)
+        // newItem.perentGroupExercise = self.selectidGroup
+        //  print("Добалвен элемент\(self.selectidGroup!)")
+        self.itemTimeArray.append(newItem)
+        //save data
+        self.saveItems()
+        
+    }
+    
+    func saveItems() {
+              
+              do {
+                  try context.save()
+                   print("Информация сохранена")
+              } catch {
+                print("Ошибка сохранения нового элемента замера\(error)")
+              }
+        //  self.tableView.reloadData()
+          }
+    
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -92,7 +128,8 @@ class tableStepController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
         cell.labelNme.text = content[indexPath.row].STEP_NAME
         cell.labelCount.text = "nil"
-//        cell.labelCount.isHidden = true
+        cell.labelCount.isHidden = true
+        cell.labelComment.isHidden = true
       
         
 //        cell.runTimeButton.isHidden = true
@@ -151,12 +188,15 @@ class tableStepController: UITableViewController {
 
     //MARK:  Действия на свайп
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let testAction = UIContextualAction(style: .destructive, title: "runleft") { (_, _, completionHandler) in
+        let testAction = UIContextualAction(style: .destructive, title: "play") { (_, _, completionHandler) in
 
             
             completionHandler(true)
             
-            
+            let topic_id = self.content[indexPath.row].TOPIC_ID
+            let step_id = self.content[indexPath.row].id
+           
+            self.typeAction(nameAction: "Start", topicID: topic_id, stepID: step_id )
 
 
         }
@@ -168,19 +208,39 @@ class tableStepController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let testAction = UIContextualAction(style: .destructive, title: "runright") { (_, _, completionHandler) in
+        let stopAction = UIContextualAction(style: .destructive, title: "stop") { (_, _, completionHandler) in
 
             
             completionHandler(true)
 
+            let topic_id = self.content[indexPath.row].TOPIC_ID
+            let step_id = self.content[indexPath.row].id
+           
+            self.typeAction(nameAction: "Stop", topicID: topic_id, stepID: step_id )
+
+
+        }
+        stopAction.backgroundColor = .darkGray
+        stopAction.image = UIImage(systemName: "stop")
+        
+        let editAction = UIContextualAction(style: .destructive, title: "edit") { (_, _, completionHandler) in
+
+            
+//            completionHandler(true)
+
+//            let topic_id = self.content[indexPath.row].TOPIC_ID
+//            let step_id = self.content[indexPath.row].id
+//
+//            self.typeAction(nameAction: "edit", topicID: topic_id, stepID: step_id )
+            
             
 
 
         }
-        testAction.backgroundColor = .darkGray
-        testAction.image = UIImage(systemName: "stop")
+        editAction.backgroundColor = .blue
+        editAction.image = UIImage(systemName: "edit")
 
-        return UISwipeActionsConfiguration(actions: [testAction])
+        return UISwipeActionsConfiguration(actions: [stopAction,editAction])
     }
 
 

@@ -7,14 +7,15 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class loginController: UIViewController {
 
-    
+
     
     @IBOutlet weak var labelHello: UILabel!
     
-    
+
     var contentManager = ContentManager()
     let itemArray = ["1", "2", "3"]
     
@@ -59,7 +60,7 @@ extension loginController: ContentManagerDelegate {
     }
     
     func didContentData(_ Content: ContentManager, content: [Topic]) {
-//        print(content.TOPIC_NAME)
+
     }
     
     

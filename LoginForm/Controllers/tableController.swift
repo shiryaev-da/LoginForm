@@ -163,10 +163,10 @@ class tableController: UITableViewController {
     //MARK: Кнопка Выход
     @objc public func didTapMenuButton() {
         
-        let alertController = UIAlertController(title: "Выход", message: "Вы хотите выйти?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Выход", message: "Вы хотите выйти?", preferredStyle: .actionSheet)
 
             // Initialize Actions
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
+        let yesAction = UIAlertAction(title: "Выйти", style: .destructive) { (action) -> Void in
                 print("The user is okay.")
             
             if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "main") {
@@ -179,13 +179,14 @@ class tableController: UITableViewController {
                }
             }
 
-        let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
+        let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
                 print("The user is not okay.")
             }
 
             // Add Actions
-            alertController.addAction(yesAction)
+        
             alertController.addAction(noAction)
+            alertController.addAction(yesAction)
 
             // Present Alert Controller
         self.present(alertController, animated: true, completion: nil)

@@ -31,6 +31,7 @@
 		8FAACE0C254C36F400DFB7E9 /* contentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAACE0B254C36F400DFB7E9 /* contentManager.swift */; };
 		8FD1C35B2548464A00242C42 /* registerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD1C35A2548464A00242C42 /* registerModel.swift */; };
 		8FD1C3602548479200242C42 /* registerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD1C35F2548479200242C42 /* registerManager.swift */; };
+		8FD598DC25922018005B7AF9 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8FD598DA25922018005B7AF9 /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		8FAACE0B254C36F400DFB7E9 /* contentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contentManager.swift; sourceTree = "<group>"; };
 		8FD1C35A2548464A00242C42 /* registerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerModel.swift; sourceTree = "<group>"; };
 		8FD1C35F2548479200242C42 /* registerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerManager.swift; sourceTree = "<group>"; };
+		8FD598DB25922018005B7AF9 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +217,7 @@
 		8FAACDD0254C082700DFB7E9 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				8FD598DA25922018005B7AF9 /* Model.xcdatamodeld */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				8F1300BC256679D200AE5DBD /* tableStepController.swift in Sources */,
 				8FA2B0FD25406EF5005401B2 /* registerController.swift in Sources */,
 				8F8546F5256BC5BD00A32F50 /* Task.swift in Sources */,
+				8FD598DC25922018005B7AF9 /* Model.xcdatamodeld in Sources */,
 				8F7A415D25405529009440C8 /* LoginForm.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -730,6 +734,16 @@
 			);
 			currentVersion = 8F7A415C25405529009440C8 /* LoginForm.xcdatamodel */;
 			path = LoginForm.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		8FD598DA25922018005B7AF9 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8FD598DB25922018005B7AF9 /* Model.xcdatamodel */,
+			);
+			currentVersion = 8FD598DB25922018005B7AF9 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

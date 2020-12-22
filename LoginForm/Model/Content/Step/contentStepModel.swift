@@ -34,6 +34,7 @@ struct ContentDataStep: Codable  {
 }
 
 struct TopicStep: Codable {
+    let id: Int
     let TOPIC_ID: Int
     let STEP_NAME: String
 //    let step_topic: [Step_topic]
