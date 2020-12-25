@@ -20,6 +20,8 @@ class tableStepController: UITableViewController {
     var taskList: [Task] = []
     var textCell: String!
     let vw = UIView()
+    var idStepIn: Int!
+    var r: Int!
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var itemTimeArray = [Logtimer]()
@@ -59,6 +61,8 @@ class tableStepController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
 
+        
+        loadItems()
 //        let footer = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 300))
 //        footer.backgroundColor = .brown
 //        tableView.tableFooterView = footer
@@ -78,6 +82,7 @@ class tableStepController: UITableViewController {
         newItem.typeAction = nameAction
         newItem.topicID = Int16(topicID)
         newItem.stepID = Int16(stepID)
+        idStepIn = stepID
         
         print(newItem)
         // newItem.perentGroupExercise = self.selectidGroup
@@ -87,7 +92,7 @@ class tableStepController: UITableViewController {
         self.saveItems()
         
     }
-    
+    // Сохранение
     func saveItems() {
               
               do {
@@ -98,6 +103,53 @@ class tableStepController: UITableViewController {
               }
         //  self.tableView.reloadData()
           }
+    
+    
+    //Загрузка в массив
+    func loadItems() {
+        let request : NSFetchRequest<Logtimer> = Logtimer.fetchRequest()
+        do {
+            itemTimeArray = try context.fetch(request)
+        } catch {
+            print("Error")
+        }
+    }
+    
+
+    // Обновление данных
+    func stopUpdate(value searchValue: Int)
+    {
+        if let i = itemTimeArray.firstIndex(where: { $0.stepID == Int16(searchValue) && $0.dateTimeEnd == nil }) {
+            print(i)
+            idStepIn = i
+            itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
+            itemTimeArray[i].setValue("Finish", forKey: "typeAction")
+        }
+    }
+    
+    
+    func startUpdate(value searchValue: Int)
+    {
+            if let i = itemTimeArray.firstIndex(where: { $0.stepID == Int16(searchValue) && $0.dateTimeEnd == nil }) {
+                itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
+                itemTimeArray[i].setValue("Finish", forKey: "typeAction")
+        }
+    }
+    
+    func timeDelta(value searchValue: Int) -> Int {
+        r = 0
+        if let i = itemTimeArray.firstIndex(where: { $0.stepID == Int16(searchValue) }) {
+            let dateStartInt = itemTimeArray[i].dateTimeStart?.timeIntervalSince1970
+            let dateEndInt = itemTimeArray[i].dateTimeEnd?.timeIntervalSince1970
+//            let timeInterval = someDate.dateStartInt
+            r = Int(dateEndInt ?? 0) - Int(dateStartInt ?? 0)
+        }
+        if r != nil {
+            return r!
+        } else{
+            return 0
+        }
+    }
     
     
     // MARK: - Table view data source
@@ -129,15 +181,20 @@ class tableStepController: UITableViewController {
         cell.labelNme.text = content[indexPath.row].STEP_NAME
         cell.labelCount.text = "nil"
         cell.labelCount.isHidden = true
-        cell.labelComment.isHidden = true
-      
+//        cell.labelComment.isHidden = true
+        var idStepViz = content[indexPath.row].id
+         let data = timeDelta(value: idStepViz)
+        cell.labelComment.text =  String(data)
+        idStepViz = 0
+//        let str = String(decoding: data, as: UTF8.self)
+  
         
 //        cell.runTimeButton.isHidden = true
         return cell
         
     }
    //MARK: Действие на нажатие
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)  {
         print(indexPath.row)
         tableView.tableFooterView?.isHidden = false
         vw.isHidden = false
@@ -149,7 +206,17 @@ class tableStepController: UITableViewController {
         titleLabel.textAlignment = NSTextAlignment.center
         titleLabel.font = UIFont(name: "Montserrat-Regular", size: 12)
         titleLabel.text = content[indexPath.row].STEP_NAME
+        
+
       
+//        let index = find(value: "Eddie", in: itemTimeArray)
+//        print(index)
+       
+        self.saveItems()
+        
+//        itemTimeArray[0].setValue("43", forKey: "stepID")
+        
+//        self.saveItems()
         
 //        let btn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: tableView.bounds.width/3, height: 44))
 //        self.view.addSubview(btn)
@@ -195,9 +262,11 @@ class tableStepController: UITableViewController {
             
             let topic_id = self.content[indexPath.row].TOPIC_ID
             let step_id = self.content[indexPath.row].id
-           
+            if (self.idStepIn != nil) {
+                self.startUpdate(value: self.idStepIn)
+            }
             self.typeAction(nameAction: "Start", topicID: topic_id, stepID: step_id )
-
+            self.tableView.reloadData()
 
         }
         testAction.backgroundColor = .clear
@@ -213,10 +282,14 @@ class tableStepController: UITableViewController {
             
             completionHandler(true)
 
-            let topic_id = self.content[indexPath.row].TOPIC_ID
-            let step_id = self.content[indexPath.row].id
+//            let topic_id = self.content[indexPath.row].TOPIC_ID
+//            let step_id = self.content[indexPath.row].id
+            
+            self.stopUpdate(value: self.content[indexPath.row].id)
+            self.saveItems()
+            self.tableView.reloadData()
            
-            self.typeAction(nameAction: "Stop", topicID: topic_id, stepID: step_id )
+//            self.typeAction(nameAction: "Stop", topicID: topic_id, stepID: step_id )
 
 
         }
@@ -247,6 +320,11 @@ class tableStepController: UITableViewController {
     //MARK: Кнопка Выход
     @objc public func didTapMenuButton() {
         if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
+            
+            if (self.idStepIn != nil) {
+                self.startUpdate(value: self.idStepIn)
+            }
+            self.saveItems()
             
             newViewController.user = user
             newViewController.group = group
