@@ -17,6 +17,7 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var labelNme: UILabel!
     @IBOutlet weak var labelCount: UILabel!
     @IBOutlet weak var labelComment: UILabel!
+    var countSecond = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,7 +31,34 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     
-
+    @objc func updateTime(localTime: Date) {
+//        countSecond = 0
+        let localTimeInt =  localTime.timeIntervalSince1970
+       
+        let localTimeDelta = Int(Date().timeIntervalSince1970) - Int(localTimeInt)
+        print(localTimeDelta)
+//        self.tableView.reloadData()
+        
+        
+   
+        
+        let hours = Int(localTimeDelta) / 3600
+        let minutes = Int(localTimeDelta) / 60 % 60
+        let seconds = Int(localTimeDelta) % 60
+        
+        var times: [String] = []
+        if hours > 0 {
+          times.append("\(hours)h")
+        }
+        if minutes > 0 {
+          times.append("\(minutes)m")
+        }
+        times.append("\(seconds)s")
+        
+        labelCount.text = times.joined(separator: " ")
+        
+//        labelCount.text = String(localTimeDelta)
+      }
     
 
     

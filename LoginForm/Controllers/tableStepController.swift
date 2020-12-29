@@ -16,13 +16,16 @@ class tableStepController: UITableViewController {
     var group: Int!
     var contentStepManager = ContentStepManager()
     var content: [TopicStep] = []
-    var timer: Timer?
+//    var timer: Timer?
     var taskList: [Task] = []
     var textCell: String!
     let vw = UIView()
     var idStepIn: Int!
     var r: Int!
-    
+    var timer = Timer()
+    var countSecond = 0
+    var indexRow = 0
+    var localTime = Date()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var itemTimeArray = [Logtimer]()
     
@@ -73,12 +76,21 @@ class tableStepController: UITableViewController {
 
 //    @IBOutlet weak var viewNaw: UIView!
     
-    
-    //MARK: - CoreDATA
+//    MARK: Timer
+//
+//    @objc func updateTimer() {
+////        countSecond = 0
+//        countSecond += 1
+//        print(countSecond)
+//        self.tableView.reloadData()
+////        cell.labelCount.text = String(countSecond)
+//      }
+    //MARK: CoreDATA
     
     func typeAction(nameAction: String, topicID: Int, stepID: Int) {
         let newItem = Logtimer(context: self.context)
         newItem.dateTimeStart = Date()
+        localTime = Date()
         newItem.typeAction = nameAction
         newItem.topicID = Int16(topicID)
         newItem.stepID = Int16(stepID)
@@ -144,7 +156,7 @@ class tableStepController: UITableViewController {
 //            let timeInterval = someDate.dateStartInt
             r = Int(dateEndInt ?? 0) - Int(dateStartInt ?? 0)
         }
-        if r != nil {
+        if r != nil && r > 0 {
             return r!
         } else{
             return 0
@@ -152,6 +164,23 @@ class tableStepController: UITableViewController {
     }
     
     
+    //MARK: Преобразование во Время
+    func castTime (localTimeDelta: Int) -> String {
+    let hours = Int(localTimeDelta) / 3600
+    let minutes = Int(localTimeDelta) / 60 % 60
+    let seconds = Int(localTimeDelta) % 60
+    
+    var times: [String] = []
+    if hours > 0 {
+      times.append("\(hours)h")
+    }
+    if minutes > 0 {
+      times.append("\(minutes)m")
+    }
+    times.append("\(seconds)s")
+    
+    return times.joined(separator: " ")
+    }
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -179,12 +208,12 @@ class tableStepController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
         cell.labelNme.text = content[indexPath.row].STEP_NAME
-        cell.labelCount.text = "nil"
-        cell.labelCount.isHidden = true
+        cell.labelCount.text = String(countSecond)
+//        cell.labelCount.isHidden = true
 //        cell.labelComment.isHidden = true
         var idStepViz = content[indexPath.row].id
          let data = timeDelta(value: idStepViz)
-        cell.labelComment.text =  String(data)
+        cell.labelComment.text =  castTime(localTimeDelta: data)
         idStepViz = 0
 //        let str = String(decoding: data, as: UTF8.self)
   
@@ -244,7 +273,7 @@ class tableStepController: UITableViewController {
     @objc public func didRunTime() {
         
 
-        timer?.invalidate()
+
         
 
         
@@ -254,10 +283,10 @@ class tableStepController: UITableViewController {
 
 
     //MARK:  Действия на свайп
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let testAction = UIContextualAction(style: .destructive, title: "play") { (_, _, completionHandler) in
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let testAction = UIContextualAction(style: .destructive, title: "Старт") { (_, _, completionHandler) in
 
-            
+            self.indexRow = -1
             completionHandler(true)
             
             let topic_id = self.content[indexPath.row].TOPIC_ID
@@ -266,25 +295,30 @@ class tableStepController: UITableViewController {
                 self.startUpdate(value: self.idStepIn)
             }
             self.typeAction(nameAction: "Start", topicID: topic_id, stepID: step_id )
-            self.tableView.reloadData()
+            self.timer.invalidate()
+  
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
+
+            self.indexRow = indexPath.row
+//            self.tableView.reloadData()
 
         }
-        testAction.backgroundColor = .clear
-        testAction.image = UIImage(systemName: "play")
+        testAction.backgroundColor = .systemGreen
+        testAction.image = UIImage(systemName: "forward.fill")
 
         return UISwipeActionsConfiguration(actions: [testAction])
     }
     
     
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let stopAction = UIContextualAction(style: .destructive, title: "stop") { (_, _, completionHandler) in
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let stopAction = UIContextualAction(style: .destructive, title: "Стоп") { (_, _, completionHandler) in
 
             
             completionHandler(true)
 
 //            let topic_id = self.content[indexPath.row].TOPIC_ID
 //            let step_id = self.content[indexPath.row].id
-            
+            self.timer.invalidate()
             self.stopUpdate(value: self.content[indexPath.row].id)
             self.saveItems()
             self.tableView.reloadData()
@@ -335,6 +369,7 @@ class tableStepController: UITableViewController {
             self.present(navController, animated: true, completion: nil)
 
            }
+        self.timer.invalidate()
     }
     
     //MARK: Кнопка Добавления
@@ -387,6 +422,53 @@ extension tableStepController: ContentStepManagerDelegate {
     }
 }
 
+
+// MARK: - Timer
 extension tableStepController {
 
+//    @objc func updateTimer() {
+//      // 1
+//      guard let visibleRowsIndexPaths = tableView.indexPathsForVisibleRows else {
+//        return
+//      }
+//
+//      for indexPath in visibleRowsIndexPaths {
+//        // 2
+//        if let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell {
+//          cell.updateTime()
+//        }
+//      }
+//    }
+    
+    
+    
+    
+//    @objc func updateTimer() {
+////       1
+//      guard let visibleRowsIndexPaths = tableView.indexPathsForSelectedRows else {
+//        return
+//      }
+//
+//      for indexPath in visibleRowsIndexPaths {
+//        // 2
+//        if let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? CustomTableViewCell {
+//          cell.updateTime()
+//            print(indexPath.row)
+//        }
+//      }
+//    }
+    
+    
+    @objc func updateTimer() {
+
+
+
+//        for indexPath in visibleRowsIndexPaths {
+          // 2
+          if let cell = tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as? CustomTableViewCell {
+            cell.updateTime(localTime: localTime)
+//              print(indexPath.row)
+          }
+        }
+    
 }
