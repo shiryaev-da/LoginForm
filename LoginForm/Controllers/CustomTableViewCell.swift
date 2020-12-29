@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 
 class CustomTableViewCell: UITableViewCell {
@@ -21,12 +22,13 @@ class CustomTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+     
         // Configure the view for the selected state
     }
     
@@ -48,14 +50,17 @@ class CustomTableViewCell: UITableViewCell {
         
         var times: [String] = []
         if hours > 0 {
-          times.append("\(hours)h")
+          times.append("\(hours)Час")
         }
         if minutes > 0 {
-          times.append("\(minutes)m")
+          times.append("\(minutes)мин.")
         }
-        times.append("\(seconds)s")
+        times.append("\(seconds)сек.")
         
         labelCount.text = times.joined(separator: " ")
+        
+//        labelCount.backgroundColor = UIColor.brown
+        
         
 //        labelCount.text = String(localTimeDelta)
       }

@@ -170,14 +170,14 @@ class tableStepController: UITableViewController {
     let minutes = Int(localTimeDelta) / 60 % 60
     let seconds = Int(localTimeDelta) % 60
     
-    var times: [String] = []
-    if hours > 0 {
-      times.append("\(hours)h")
-    }
-    if minutes > 0 {
-      times.append("\(minutes)m")
-    }
-    times.append("\(seconds)s")
+        var times: [String] = []
+        if hours > 0 {
+          times.append("\(hours)Час")
+        }
+        if minutes > 0 {
+          times.append("\(minutes)мин.")
+        }
+        times.append("\(seconds)сек.")
     
     return times.joined(separator: " ")
     }
