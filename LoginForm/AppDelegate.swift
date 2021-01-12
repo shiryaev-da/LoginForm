@@ -8,8 +8,13 @@
 import UIKit
 import CoreData
 
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    
+
+
 
 
 
@@ -33,10 +38,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
+    func applicationWillResignActive(_ application: UIApplication) {
+        print("111")
+    }
+    
+    
+    
     // MARK: - Core Data save context
     
     func applicationWillTerminate(_ application: UIApplication) {
-        self.saveContext()
+//        self.saveContext()
+        print("444")
+        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+      
     }
 
     // MARK: - Core Data stack
@@ -69,6 +83,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
 
     // MARK: - Core Data Saving support
+    
+//    func stopTimeUpdate() {
+//        delegate?.stopUpdate(self)
+//    }
 
     func saveContext () {
         let context = persistentContainer.viewContext

@@ -5,18 +5,30 @@
 //  Created by Вадим Куйда on 19.11.2020.
 //
 
+
+
+
+
+    
+
+
+
 import Foundation
 import UIKit
 import CoreData
 
+
+
+
 class tableStepController: UITableViewController {
+    
+
     var TOPIC_NAME: String!
     var idStep: Int!
     var user: String!
     var group: Int!
     var contentStepManager = ContentStepManager()
     var content: [TopicStep] = []
-//    var timer: Timer?
     var taskList: [Task] = []
     var textCell: String!
     let vw = UIView()
@@ -61,6 +73,9 @@ class tableStepController: UITableViewController {
         self.registerTableViewCells()
         contentStepManager.delegate = self
         contentStepManager.performLogin(user: self.idStep)
+
+
+        
         self.tableView.dataSource = self
         self.tableView.delegate = self
 
@@ -88,6 +103,7 @@ class tableStepController: UITableViewController {
     //MARK: CoreDATA
     
     func typeAction(nameAction: String, topicID: Int, stepID: Int) {
+        
         let newItem = Logtimer(context: self.context)
         newItem.dateTimeStart = Date()
         localTime = Date()
@@ -129,13 +145,14 @@ class tableStepController: UITableViewController {
     
 
     // Обновление данных
-    func stopUpdate(value searchValue: Int)
+    func stopUpdateLocal()
     {
-        if let i = itemTimeArray.firstIndex(where: { $0.stepID == Int16(searchValue) && $0.dateTimeEnd == nil }) {
+        if let i = itemTimeArray.firstIndex(where: { /*$0.stepID == Int16(searchValue) &&*/ $0.dateTimeEnd == nil }) {
             print(i)
             idStepIn = i
             itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
             itemTimeArray[i].setValue("Finish", forKey: "typeAction")
+            itemTimeArray[i].setValue(0, forKey: "flagActive")
         }
     }
     
@@ -210,10 +227,10 @@ class tableStepController: UITableViewController {
         cell.labelNme.text = content[indexPath.row].STEP_NAME
         cell.labelCount.text = String(countSecond)
 //        cell.labelCount.isHidden = true
-//        cell.labelComment.isHidden = true
+        cell.labelComment.isHidden = true
         var idStepViz = content[indexPath.row].id
          let data = timeDelta(value: idStepViz)
-        cell.labelComment.text =  castTime(localTimeDelta: data)
+        cell.labelCount.text =  castTime(localTimeDelta: data)
         idStepViz = 0
 //        let str = String(decoding: data, as: UTF8.self)
   
@@ -319,7 +336,7 @@ class tableStepController: UITableViewController {
 //            let topic_id = self.content[indexPath.row].TOPIC_ID
 //            let step_id = self.content[indexPath.row].id
             self.timer.invalidate()
-            self.stopUpdate(value: self.content[indexPath.row].id)
+            self.stopUpdateLocal()
             self.saveItems()
             self.tableView.reloadData()
            
@@ -423,8 +440,11 @@ extension tableStepController: ContentStepManagerDelegate {
 }
 
 
+
 // MARK: - Timer
 extension tableStepController {
+    
+    
 
 //    @objc func updateTimer() {
 //      // 1
