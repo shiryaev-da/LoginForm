@@ -3,11 +3,12 @@
     <entity name="Logtimer" representedClassName=".Logtimer" syncable="YES" codeGenerationType="class">
         <attribute name="dateTimeEnd" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateTimeStart" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="flagActive" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="stepID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="topicID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="typeAction" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Logtimer" positionX="-63" positionY="-18" width="128" height="104"/>
+        <element name="Logtimer" positionX="-63" positionY="-18" width="128" height="133"/>
     </elements>
 </model>

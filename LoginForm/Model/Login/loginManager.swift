@@ -19,7 +19,7 @@ struct LoginManager {
 
     func performLogin (loginRegLet: String, passRegLet: String){
 
-    let url = URL(string: "http://95.165.3.188:8082/ords/interval/login_user/login/")
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/login_user/login/")
     guard let requestUrl = url else { fatalError() }
 
     // Prepare URL Request Object

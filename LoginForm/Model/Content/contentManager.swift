@@ -21,7 +21,7 @@ struct ContentManager {
     
     //MARK: VIEW TOPIC
     func performLogin(user: String) {
-    let url = URL(string: "http://95.165.3.188:8082/ords/interval/mod_interval_topc_user/get_topic/\(user)")
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/mod_interval_topc_user/get_topic/\(user)")
     guard let requestUrl = url else { fatalError() }
 
     // Prepare URL Request Object
@@ -60,7 +60,7 @@ struct ContentManager {
     //MARK: ADD TOPIC
     func performAddTopic (loginLet: String, groupLet: Int, nameTopic: String){
 
-    let url = URL(string: "http://95.165.3.188:8082/ords/interval/create_interval_add_topic/topic/")
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/create_interval_add_topic/topic/")
     guard let requestUrl = url else { fatalError() }
 
     // Prepare URL Request Object
@@ -112,7 +112,7 @@ struct ContentManager {
     //MARK: DEL TOPIC
     func performDelTopic (loginLet: String, groupLet: Int, nameTopic: String){
 
-    let url = URL(string: "http://95.165.3.188:8082/ords/interval/create_interval_del_topic/topic/")
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/create_interval_del_topic/topic/")
     guard let requestUrl = url else { fatalError() }
 
     // Prepare URL Request Object

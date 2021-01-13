@@ -21,7 +21,7 @@ struct ContentStepManager {
     
     //MARK: VIEW TOPIC
     func performLogin(user: Int) {
-    let url = URL(string: "http://95.165.3.188:8082/ords/interval/mod_interval_step_user/topicID/\(user)")
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/mod_interval_step_user/topicID/\(user)")
 //        let url = URL(string: "http://95.165.3.188:8082/ords/interval/mod_interval_step_user/topicID/1")
     guard let requestUrl = url else { fatalError() }
 
@@ -62,7 +62,7 @@ struct ContentStepManager {
 //    //MARK: ADD TOPIC
     func performAddTopicStep (groupLet: Int, nameStep: String){
 
-    let url = URL(string: "http://95.165.3.188:8082/ords/interval/create_interval_add_step/step/")
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/create_interval_add_step/step/")
     guard let requestUrl = url else { fatalError() }
 
     // Prepare URL Request Object

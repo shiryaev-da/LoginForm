@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 
 class tableController: UITableViewController {
@@ -15,6 +16,8 @@ class tableController: UITableViewController {
     var group: Int!
     var contentManager = ContentManager()
     var content: [Topic] = []
+    var itemTimeArray = [Logtimer]()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
 
     
@@ -50,15 +53,39 @@ class tableController: UITableViewController {
         contentManager.performLogin(user: user)
         self.tableView.dataSource = self
         self.tableView.delegate = self
-
+        loadItems()
     }
     
-    
-//    func loadMessages() {
-//
-//
-//    }
+    //MARK: CoreDATA
  
+    func loadItems() {
+        let request : NSFetchRequest<Logtimer> = Logtimer.fetchRequest()
+        do {
+            itemTimeArray = try context.fetch(request)
+        } catch {
+            print("Error")
+        }
+    }
+    
+    func saveItems() {
+        do {
+        try context.save()
+        print("Информация сохранена")
+        } catch {
+        print("Ошибка сохранения нового элемента замера\(error)")
+        }
+        //  self.tableView.reloadData()
+    }
+    
+    func sumFactCell (topicI: Int) -> Int {
+        var i = 0
+        self.itemTimeArray.forEach({ book in
+            if (book.topicID == topicI && book.flagActive == 0) {
+                i = i + 1
+            }
+        })
+        return i
+    }
     
     //MARK: Замеры
     private func registerTableViewCells() {
@@ -86,8 +113,9 @@ class tableController: UITableViewController {
         let message = content[indexPath.row]
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
             cell.labelNme.text = message.TOPIC_NAME
-        let count = String(message.COUNT_STEP)
-            cell.labelCount.text = "Кол-во шагов: \(count)"
+            let count = String(message.COUNT_STEP)
+//        let numStepFact =
+        cell.labelCount.text = "Кол-во шагов: \(String(sumFactCell(topicI: message.id))) из \(count)"
     
 //            cell.labelId.text = String(message.id)
         
@@ -99,28 +127,68 @@ class tableController: UITableViewController {
         
 //       return cell
     }
-    
+    //MARK: Действие по нажатию
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
         let message = content[indexPath.row]
         print(message.id)
         print(message.TOPIC_NAME)
         
-
-        
+        func openCell() {
         if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "TableStep") as? tableStepController {
 
             newViewController.TOPIC_NAME = message.TOPIC_NAME
-            newViewController.user = user
-            newViewController.group = group
+            newViewController.user = self.user
+            newViewController.group = self.group
             newViewController.idStep = message.id
-            
+
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .crossDissolve
             navController.modalPresentationStyle = .overFullScreen
             self.present(navController, animated: true, completion: nil)
            }
+        }
         
+        func upadteFlagAction () {
+            self.itemTimeArray.forEach({ book in
+                print(book.topicID)
+                if (book.topicID == message.id && book.flagActive == 0) {
+                    book.flagActive = 1
+                    saveItems()
+                }
+            })
+        }
+        
+
+        if ((sumFactCell(topicI: message.id)) != 0) {
+            let alertController = UIAlertController(title: "Создать новый замер?", message: "", preferredStyle: .alert)
+
+                // Initialize Actions
+            let yesAction = UIAlertAction(title: "Да", style: .default) { (action) -> Void in
+                    print("The user is okay.")
+                    openCell()
+                    upadteFlagAction ()
+
+                }
+
+            let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
+                    print("The user is not okay.")
+                    openCell()
+                }
+
+                // Add Actions
+            
+                alertController.addAction(yesAction)
+                alertController.addAction(noAction)
+     
+
+                // Present Alert Controller
+            self.present(alertController, animated: true, completion: nil)
+        }
+        else {
+            openCell()
+        }
+
         
     }
     

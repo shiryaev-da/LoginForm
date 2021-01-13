@@ -20,7 +20,7 @@ struct RegisterManager {
     
     func performRequest (nameRegLet: String, loginRegLet: String, mailRegLet: String, phoneRegLet: String, passRegLet: String , groupLet: String){
     
-    let url = URL(string: "http://95.165.3.188:8082/ords/interval/create_interval_login_user/employees/")
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/create_interval_login_user/employees/")
     guard let requestUrl = url else { fatalError() }
 
     // Prepare URL Request Object

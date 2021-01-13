@@ -167,7 +167,7 @@ class tableStepController: UITableViewController {
     
     func timeDelta(value searchValue: Int) -> Int {
         r = 0
-        if let i = itemTimeArray.firstIndex(where: { $0.stepID == Int16(searchValue) }) {
+        if let i = itemTimeArray.firstIndex(where: {$0.flagActive == 0 && $0.stepID == Int16(searchValue) }) {
             let dateStartInt = itemTimeArray[i].dateTimeStart?.timeIntervalSince1970
             let dateEndInt = itemTimeArray[i].dateTimeEnd?.timeIntervalSince1970
 //            let timeInterval = someDate.dateStartInt
