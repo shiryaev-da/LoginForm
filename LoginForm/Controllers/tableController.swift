@@ -114,8 +114,9 @@ class tableController: UITableViewController {
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
             cell.labelNme.text = message.TOPIC_NAME
             let count = String(message.COUNT_STEP)
+        cell.labelComment.isHidden = true
 //        let numStepFact =
-        cell.labelCount.text = "Кол-во шагов: \(String(sumFactCell(topicI: message.id))) из \(count)"
+        cell.labelCount.text = "Шаги: \(String(sumFactCell(topicI: message.id))) из \(count)"
     
 //            cell.labelId.text = String(message.id)
         

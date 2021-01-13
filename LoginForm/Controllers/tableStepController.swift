@@ -153,6 +153,7 @@ class tableStepController: UITableViewController {
             itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
             itemTimeArray[i].setValue("Finish", forKey: "typeAction")
             itemTimeArray[i].setValue(0, forKey: "flagActive")
+            self.saveItems()
         }
     }
     
@@ -162,6 +163,8 @@ class tableStepController: UITableViewController {
             if let i = itemTimeArray.firstIndex(where: { $0.stepID == Int16(searchValue) && $0.dateTimeEnd == nil }) {
                 itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
                 itemTimeArray[i].setValue("Finish", forKey: "typeAction")
+//                itemTimeArray[i].setValue(1, forKey: "flagActive")
+                self.saveItems()
         }
     }
     
@@ -178,6 +181,16 @@ class tableStepController: UITableViewController {
         } else{
             return 0
         }
+    }
+    
+    func upadteFlagAction (stepID: Int) {
+        self.itemTimeArray.forEach({ book in
+//            print(book.topicID)
+            if (book.stepID == stepID && book.flagActive == 0) {
+                book.flagActive = 1
+                saveItems()
+            }
+        })
     }
     
     
@@ -241,7 +254,7 @@ class tableStepController: UITableViewController {
     }
    //MARK: Действие на нажатие
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)  {
-        print(indexPath.row)
+//        print(indexPath.row)
         tableView.tableFooterView?.isHidden = false
         vw.isHidden = false
         let titleLabel = UILabel(frame: CGRect(x:0, y: 0 ,width: tableView.bounds.width ,height:150))
@@ -258,7 +271,7 @@ class tableStepController: UITableViewController {
 //        let index = find(value: "Eddie", in: itemTimeArray)
 //        print(index)
        
-        self.saveItems()
+//        self.saveItems()
         
 //        itemTimeArray[0].setValue("43", forKey: "stepID")
         
@@ -288,12 +301,9 @@ class tableStepController: UITableViewController {
     }
     
     @objc public func didRunTime() {
-        
-
-
-        
-
-        
+        stopUpdateLocal()
+//        stopUpdateLocal()
+        self.timer.invalidate()
     }
     
     
@@ -302,7 +312,10 @@ class tableStepController: UITableViewController {
     //MARK:  Действия на свайп
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let testAction = UIContextualAction(style: .destructive, title: "Старт") { (_, _, completionHandler) in
-
+            
+           
+            self.upadteFlagAction(stepID: self.content[indexPath.row].id)
+            
             self.indexRow = -1
             completionHandler(true)
             
@@ -311,6 +324,7 @@ class tableStepController: UITableViewController {
             if (self.idStepIn != nil) {
                 self.startUpdate(value: self.idStepIn)
             }
+            self.upadteFlagAction(stepID: step_id)
             self.typeAction(nameAction: "Start", topicID: topic_id, stepID: step_id )
             self.timer.invalidate()
   
@@ -364,7 +378,7 @@ class tableStepController: UITableViewController {
         editAction.backgroundColor = .blue
         editAction.image = UIImage(systemName: "edit")
 
-        return UISwipeActionsConfiguration(actions: [stopAction,editAction])
+        return UISwipeActionsConfiguration(actions: [stopAction/*,editAction*/])
     }
 
 
