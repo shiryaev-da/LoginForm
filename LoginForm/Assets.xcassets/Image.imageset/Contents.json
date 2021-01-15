@@ -2,16 +2,7 @@
   "images" : [
     {
       "filename" : "Снимок экрана 2021-01-13 в 17.49.54.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "iphone"
     }
   ],
   "info" : {

@@ -16,15 +16,19 @@
 import Foundation
 import UIKit
 import CoreData
+import Sync
+import DATASource
 
+struct Record : Encodable {
 
+}
 
 
 class tableStepController: UITableViewController {
     
 
     var TOPIC_NAME: String!
-    var idStep: Int!
+    var idTopic: Int!
     var user: String!
     var group: Int!
     var contentStepManager = ContentStepManager()
@@ -40,6 +44,8 @@ class tableStepController: UITableViewController {
     var localTime = Date()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var itemTimeArray = [Logtimer]()
+    weak var dataStack: DataStack?
+    var records = [Record]()
     
 
      
@@ -72,7 +78,7 @@ class tableStepController: UITableViewController {
         self.navigationItem.leftBarButtonItem = leftBackButton
         self.registerTableViewCells()
         contentStepManager.delegate = self
-        contentStepManager.performLogin(user: self.idStep)
+        contentStepManager.performLogin(user: self.idTopic)
 
 
         
@@ -81,25 +87,10 @@ class tableStepController: UITableViewController {
 
         
         loadItems()
-//        let footer = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 300))
-//        footer.backgroundColor = .brown
-//        tableView.tableFooterView = footer
-//        footer.isHidden = true
-        
+
         
     }
 
-//    @IBOutlet weak var viewNaw: UIView!
-    
-//    MARK: Timer
-//
-//    @objc func updateTimer() {
-////        countSecond = 0
-//        countSecond += 1
-//        print(countSecond)
-//        self.tableView.reloadData()
-////        cell.labelCount.text = String(countSecond)
-//      }
     //MARK: CoreDATA
     
     func typeAction(nameAction: String, topicID: Int, stepID: Int) {
@@ -138,22 +129,47 @@ class tableStepController: UITableViewController {
         let request : NSFetchRequest<Logtimer> = Logtimer.fetchRequest()
         do {
             itemTimeArray = try context.fetch(request)
+//            records = try context.fetch(request) as [Record]
+//            let jsonData = try JSONEncoder().encode(records)
+            print(itemTimeArray)
+            let jsonTo = convertToJSONArray(moArray: itemTimeArray)
+            print(jsonTo)
         } catch {
             print("Error")
         }
     }
     
+    
+    //MARK: Попытка сконвертить в json
+    func convertToJSONArray(moArray: [NSManagedObject]) -> Any {
+        var jsonArray: [[String: Any]] = []
+        for item in moArray {
+            var dict: [String: Any] = [:]
+            for attribute in item.entity.attributesByName {
+                //check if value is present, then add key to dictionary so as to avoid the nil value crash
+                if let value = item.value(forKey: attribute.key) {
+                    dict[attribute.key] = value
+                }
+            }
+            jsonArray.append(dict)
+        }
+        return jsonArray
+    }
+
+    
 
     // Обновление данных
     func stopUpdateLocal()
     {
-        if let i = itemTimeArray.firstIndex(where: { /*$0.stepID == Int16(searchValue) &&*/ $0.dateTimeEnd == nil }) {
-            print(i)
-            idStepIn = i
-            itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
-            itemTimeArray[i].setValue("Finish", forKey: "typeAction")
-            itemTimeArray[i].setValue(0, forKey: "flagActive")
-            self.saveItems()
+        if (self.idStepIn != nil) {
+            if let i = itemTimeArray.firstIndex(where: { $0.stepID == self.idStepIn && $0.dateTimeEnd == nil }) {
+                print(i)
+                idStepIn = i
+                itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
+                itemTimeArray[i].setValue("Finish", forKey: "typeAction")
+                itemTimeArray[i].setValue(0, forKey: "flagActive")
+                self.saveItems()
+            }
         }
     }
     
@@ -202,12 +218,12 @@ class tableStepController: UITableViewController {
     
         var times: [String] = []
         if hours > 0 {
-          times.append("\(hours)Час")
+          times.append("\(hours) Час")
         }
         if minutes > 0 {
-          times.append("\(minutes)мин.")
+          times.append("\(minutes) мин")
         }
-        times.append("\(seconds)сек.")
+        times.append("\(seconds) сек")
     
     return times.joined(separator: " ")
     }
@@ -304,6 +320,8 @@ class tableStepController: UITableViewController {
         stopUpdateLocal()
 //        stopUpdateLocal()
         self.timer.invalidate()
+
+        
     }
     
     
@@ -411,9 +429,9 @@ class tableStepController: UITableViewController {
                let alert = UIAlertController (title: "Добавить действие", message: "", preferredStyle: .alert)
                let action = UIAlertAction (title: "Добавить", style: .default) { (action) in
                 let nameTopic = textField.text
-                self.contentStepManager.performAddTopicStep(groupLet: self.idStep, nameStep: nameTopic!)
+                self.contentStepManager.performAddTopicStep(groupLet: self.idTopic, nameStep: nameTopic!)
                 sleep(1)
-                self.contentStepManager.performLogin(user: self.idStep)
+                self.contentStepManager.performLogin(user: self.idTopic)
                 self.tableView.reloadData()
         
         }
@@ -454,43 +472,26 @@ extension tableStepController: ContentStepManagerDelegate {
 }
 
 
+extension NSManagedObject {
+  func toJSON() -> String? {
+    let keys = Array(self.entity.attributesByName.keys)
+    let dict = self.dictionaryWithValues(forKeys: keys)
+    do {
+        let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+        let reqJSONStr = String(data: jsonData, encoding: .utf8)
+        return reqJSONStr
+    }
+    catch{}
+    return nil
+  }
+}
+
+
+
+
 
 // MARK: - Timer
 extension tableStepController {
-    
-    
-
-//    @objc func updateTimer() {
-//      // 1
-//      guard let visibleRowsIndexPaths = tableView.indexPathsForVisibleRows else {
-//        return
-//      }
-//
-//      for indexPath in visibleRowsIndexPaths {
-//        // 2
-//        if let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell {
-//          cell.updateTime()
-//        }
-//      }
-//    }
-    
-    
-    
-    
-//    @objc func updateTimer() {
-////       1
-//      guard let visibleRowsIndexPaths = tableView.indexPathsForSelectedRows else {
-//        return
-//      }
-//
-//      for indexPath in visibleRowsIndexPaths {
-//        // 2
-//        if let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? CustomTableViewCell {
-//          cell.updateTime()
-//            print(indexPath.row)
-//        }
-//      }
-//    }
     
     
     @objc func updateTimer() {
@@ -506,3 +507,4 @@ extension tableStepController {
         }
     
 }
+
