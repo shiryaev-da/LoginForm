@@ -141,7 +141,7 @@ class tableController: UITableViewController {
             newViewController.TOPIC_NAME = message.TOPIC_NAME
             newViewController.user = self.user
             newViewController.group = self.group
-            newViewController.idStep = message.id
+            newViewController.idTopic = message.id
 
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .crossDissolve

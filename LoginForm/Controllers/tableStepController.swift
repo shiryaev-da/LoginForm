@@ -123,7 +123,7 @@ class tableStepController: UITableViewController {
         //  self.tableView.reloadData()
           }
     
-    
+    let array = [["typeAction": "Finish", "stepID": 63, "dateTimeEnd": "2021-01-18 10:49:00 +0000", "dateTimeStart": "2021-01-18 10:48:56 +0000", "flagActive": 0, "topicID": 201]]
     //Загрузка в массив
     func loadItems() {
         let request : NSFetchRequest<Logtimer> = Logtimer.fetchRequest()
@@ -133,12 +133,14 @@ class tableStepController: UITableViewController {
 //            let jsonData = try JSONEncoder().encode(records)
             print(itemTimeArray)
             let jsonTo = convertToJSONArray(moArray: itemTimeArray)
-            print(jsonTo)
+//            print(jsonTo)
+//            let jsonString = convertIntoJSONString(arrayObject: array)
+            print(convertIntoJSONString(arrayObject: jsonTo))
         } catch {
             print("Error")
         }
     }
-    
+
     
     //MARK: Попытка сконвертить в json
     func convertToJSONArray(moArray: [NSManagedObject]) -> Any {
@@ -148,7 +150,7 @@ class tableStepController: UITableViewController {
             for attribute in item.entity.attributesByName {
                 //check if value is present, then add key to dictionary so as to avoid the nil value crash
                 if let value = item.value(forKey: attribute.key) {
-                    dict[attribute.key] = value
+                    dict[attribute.key] = "\(value)"
                 }
             }
             jsonArray.append(dict)
@@ -156,6 +158,20 @@ class tableStepController: UITableViewController {
         return jsonArray
     }
 
+    
+    func convertIntoJSONString(arrayObject: Any) -> String? {
+
+            do {
+                let jsonData: Data = try JSONSerialization.data(withJSONObject: arrayObject, options: [])
+                if  let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) {
+                    return jsonString as String
+                }
+
+            } catch let error as NSError {
+                print("Array convertIntoJSON - \(error.description)")
+            }
+            return nil
+        }
     
 
     // Обновление данных
@@ -471,7 +487,7 @@ extension tableStepController: ContentStepManagerDelegate {
     }
 }
 
-
+//MARK: Json
 extension NSManagedObject {
   func toJSON() -> String? {
     let keys = Array(self.entity.attributesByName.keys)
@@ -484,6 +500,7 @@ extension NSManagedObject {
     catch{}
     return nil
   }
+
 }
 
 

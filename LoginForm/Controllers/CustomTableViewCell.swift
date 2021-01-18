@@ -50,12 +50,12 @@ class CustomTableViewCell: UITableViewCell {
         
         var times: [String] = []
         if hours > 0 {
-          times.append("\(hours)Час")
-        }
-        if minutes > 0 {
-          times.append("\(minutes) мин")
-        }
-        times.append("\(seconds) сек")
+            times.append("\(hours) Час")
+          }
+          if minutes > 0 {
+            times.append("\(minutes) мин")
+          }
+          times.append("\(seconds) сек")
         
         labelCount.text = times.joined(separator: " ")
         

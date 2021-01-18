@@ -20,3 +20,6 @@ struct LoginData: Codable {
     let group: Int
     let status: Int
 }
+
+
+
