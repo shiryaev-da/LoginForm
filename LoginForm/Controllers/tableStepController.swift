@@ -25,6 +25,7 @@ struct Record : Encodable {
 
 
 class tableStepController: UITableViewController {
+
     
 
     var TOPIC_NAME: String!
@@ -46,6 +47,7 @@ class tableStepController: UITableViewController {
     var itemTimeArray = [Logtimer]()
     weak var dataStack: DataStack?
     var records = [Record]()
+    var stepManager = StepManager()
     
 
      
@@ -79,7 +81,7 @@ class tableStepController: UITableViewController {
         self.registerTableViewCells()
         contentStepManager.delegate = self
         contentStepManager.performLogin(user: self.idTopic)
-
+        stepManager.delegate = self
 
         
         self.tableView.dataSource = self
@@ -101,6 +103,7 @@ class tableStepController: UITableViewController {
         newItem.typeAction = nameAction
         newItem.topicID = Int16(topicID)
         newItem.stepID = Int16(stepID)
+        newItem.user = user
         idStepIn = stepID
         
         print(newItem)
@@ -131,18 +134,14 @@ class tableStepController: UITableViewController {
             itemTimeArray = try context.fetch(request)
 //            records = try context.fetch(request) as [Record]
 //            let jsonData = try JSONEncoder().encode(records)
-            print(itemTimeArray)
-            let jsonTo = convertToJSONArray(moArray: itemTimeArray)
-//            print(jsonTo)
-//            let jsonString = convertIntoJSONString(arrayObject: array)
-            print(convertIntoJSONString(arrayObject: jsonTo))
+
         } catch {
             print("Error")
         }
     }
 
     
-    //MARK: Попытка сконвертить в json
+    //MARK: CoreData --> array
     func convertToJSONArray(moArray: [NSManagedObject]) -> Any {
         var jsonArray: [[String: Any]] = []
         for item in moArray {
@@ -158,7 +157,7 @@ class tableStepController: UITableViewController {
         return jsonArray
     }
 
-    
+    //MARK: --> array --> json
     func convertIntoJSONString(arrayObject: Any) -> String? {
 
             do {
@@ -331,11 +330,30 @@ class tableStepController: UITableViewController {
     @objc public func someButtonAction() {
         print("Button is tapped")
     }
-    
+    //MARK: Кнопка Стоп
     @objc public func didRunTime() {
         stopUpdateLocal()
 //        stopUpdateLocal()
+        let jsonTo = convertToJSONArray(moArray: itemTimeArray)
+        let jsonString = convertIntoJSONString(arrayObject: jsonTo)!
+        stepManager.performRequest(loginRegLet: user, json: jsonString)
         self.timer.invalidate()
+        
+        let alertController = UIAlertController(title: "Данные на сервере!", message: "", preferredStyle: .alert)
+
+            // Initialize Actions
+
+        let noAction = UIAlertAction(title: "ok", style: .default) { (action) -> Void in
+                print("The user is not okay.")
+            }
+
+            // Add Actions
+        
+            alertController.addAction(noAction)
+
+
+            // Present Alert Controller
+        self.present(alertController, animated: true, completion: nil)
 
         
     }
@@ -525,3 +543,11 @@ extension tableStepController {
     
 }
 
+
+extension tableStepController: StepManagerDelegate {
+    func didPostStep(_ weatherRegister: StepManager, register: StepModel) {
+        
+    }
+    
+    
+}

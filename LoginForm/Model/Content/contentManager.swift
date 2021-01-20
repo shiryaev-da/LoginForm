@@ -68,7 +68,7 @@ struct ContentManager {
     request.httpMethod = "POST"
 
     // HTTP Request Parameters which will be sent in HTTP Request Body
-    let postString : Data = " { \"USER_ID\": \(loginLet), \"USER_GROUP\": \(groupLet), \"TOPIC_NAME\": \"\(nameTopic)\"}".data(using: .utf8)!;
+    let postString : Data = " { \"USER_ID\": \"\(loginLet)\", \"USER_GROUP\": \(groupLet), \"TOPIC_NAME\": \"\(nameTopic)\"}".data(using: .utf8)!;
 
     // Set HTTP Request Body
     request.httpBody = postString;
