@@ -163,6 +163,7 @@ class tableStepController: UITableViewController {
             do {
                 let jsonData: Data = try JSONSerialization.data(withJSONObject: arrayObject, options: [])
                 if  let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) {
+                    print(jsonString)
                     return jsonString as String
                 }
 

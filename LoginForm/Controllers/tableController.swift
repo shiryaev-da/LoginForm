@@ -16,6 +16,7 @@ class tableController: UITableViewController {
     var group: Int!
     var contentManager = ContentManager()
     var content: [Topic] = []
+    var contentCore: [TopicStepCore] = []
     var itemTimeArray = [Logtimer]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -51,9 +52,13 @@ class tableController: UITableViewController {
 //        print(contentManager.performLogin)
         contentManager.delegate = self
         contentManager.performLogin(user: user)
+        contentManager.performStep(loginLet: user)
+
         self.tableView.dataSource = self
         self.tableView.delegate = self
         loadItems()
+        
+
     }
     
     //MARK: CoreDATA
@@ -86,6 +91,24 @@ class tableController: UITableViewController {
         })
         return i
     }
+    
+    
+
+    
+    
+//    func saveSpotsLocation() {
+//      let newUser = NSEntityDescription.insertNewObject(forEntityName: "Model", into: context)
+//      do {
+//        let message1 = contentCore[1]
+////        newUser.setValue(data, forKey: "data")
+////        newUser.setValue(message1.USERNAME, forKey: "user")
+////        newUser.setValue(Int16(message1.TOPICID), forKey: "topicID")
+////        newUser.setValue(Int16(message1.STEPID), forKey: "stepID")
+//        try context.save()
+//      } catch {
+//        print("failure")
+//      }
+//    }
     
     //MARK: Замеры
     private func registerTableViewCells() {
@@ -314,6 +337,49 @@ class tableController: UITableViewController {
 }
 
 extension tableController: ContentManagerDelegate {
+    func didContentStepDataCore(_ Content: ContentManager, content: [TopicStepCore]) {
+        self.contentCore = content
+        func saveContentCore() {
+            
+            self.contentCore.forEach({ item in
+                do {
+                let newItem = Logtimer(context: self.context)
+                newItem.user = item.USERNAME
+                newItem.stepID = Int16(item.STEPID)!
+                newItem.topicID = Int16(item.TOPICID)!
+                newItem.flagActive = Int16(item.FLAGACTIVE)!
+                    newItem.dateTimeStart = castDate(dateOld: item.DATETIMESTART)
+                    newItem.dateTimeEnd = castDate(dateOld: item.DATETIMEEND)
+                    newItem.typeAction = "Finish"
+//                    print(castDate(dateOld: item.DATETIMEEND))
+                try context.save()
+                } catch {
+                    print("failure")
+                  }
+            })
+        }
+        
+        func castDate(dateOld: String) -> Date {
+            let isoDate = dateOld
+            let dateFormatter = ISO8601DateFormatter()
+            let date = dateFormatter.date(from:isoDate)!
+            return date
+        }
+        if (itemTimeArray.count == 0 ) {
+            saveContentCore()
+            loadItems()
+        }
+        
+        DispatchQueue.main.async {
+            self.contentManager.performLogin(user: self.user)
+                self.tableView.reloadData()
+//                let indexPath = IndexPath(row: self.content.count - 1, section: 0)
+////                self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+            
+
+        }
+    }
+    
     func didDelTopic(_ Content: ContentManager, content: AddTopicModel) {
         
     }

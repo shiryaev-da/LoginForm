@@ -51,7 +51,7 @@ struct ContentStepManager {
         do{
             let decoderData = try decoder.decode(ContentDataStep.self, from: responceData)
             let topicname = decoderData.step
-            print(topicname)
+//            print(topicname)
             return topicname
         } catch {
 

@@ -51,6 +51,10 @@ class loginController: UIViewController {
     }
 }
 extension loginController: ContentManagerDelegate {
+    func didContentStepDataCore(_ Content: ContentManager, content: [TopicStepCore]) {
+        
+    }
+    
     func didDelTopic(_ Content: ContentManager, content: AddTopicModel) {
         
     }

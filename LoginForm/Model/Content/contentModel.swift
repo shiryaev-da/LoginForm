@@ -9,9 +9,6 @@ import Foundation
 
 //MARK: MODEL
 
-
-
-
 struct ContentModel {
     let top: [ContentModelTop]
 }
@@ -28,6 +25,21 @@ struct AddTopicData: Codable {
     let statusAddTopic: Int
 }
 
+
+struct StepCoredataData: Codable {
+    let step: [TopicStepCore]
+}
+struct TopicStepCore: Codable {
+    let USERNAME: String
+    let TOPICID: String
+    let STEPID: String
+    let DATETIMESTART: String
+    let DATETIMEEND: String
+    let FLAGACTIVE: String
+}
+
+
+
 //MARK: DATA
 struct ContentData: Codable  {
     let topic:[Topic]
@@ -39,8 +51,6 @@ struct Topic: Codable {
     let COUNT_STEP: Int
 //    let step_topic: [Step_topic]
 }
-
-
 
 
 
