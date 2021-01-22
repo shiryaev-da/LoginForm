@@ -36,6 +36,7 @@ struct TopicStepCore: Codable {
     let DATETIMESTART: String
     let DATETIMEEND: String
     let FLAGACTIVE: String
+    let ACTIVEID: Int
 }
 
 
@@ -51,7 +52,6 @@ struct Topic: Codable {
     let COUNT_STEP: Int
 //    let step_topic: [Step_topic]
 }
-
 
 
 

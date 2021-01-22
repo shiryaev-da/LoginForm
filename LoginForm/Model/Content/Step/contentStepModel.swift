@@ -40,6 +40,15 @@ struct TopicStep: Codable {
 //    let step_topic: [Step_topic]
 }
 
+struct AddActiveModel {
+    let idAddActive: Int
+}
+struct AddActiveData: Codable {
+    let idAddActive: Int
+}
+
+
+
 
 
 

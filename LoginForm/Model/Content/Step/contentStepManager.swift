@@ -12,6 +12,7 @@ protocol ContentStepManagerDelegate {
     func didContentStepData(_ Content: ContentStepManager, content: [TopicStep])
     func didAddTopicStep(_ Content: ContentStepManager, content: AddTopicModelStep)
     func didDelTopicStep(_ Content: ContentStepManager, content: AddTopicModelStep)
+    func didActimeTime(_ Content: ContentStepManager, content: AddActiveModel)
     
 }
 
@@ -103,6 +104,59 @@ struct ContentStepManager {
             print(statusAdd)
             let statusReg  = AddTopicModelStep(statusAddTopic: statusAdd)
 //            print(statusReg.statusUser)
+            return statusReg
+
+        } catch {
+//            let statusReg  = AddTopicModel(statusAddTopic: nil)
+            return nil
+        }
+    }
+    
+    
+    //MARK: POST TIME ACTIVE
+    func performActive (loginLet: String){
+
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/post_active_time/time/")
+    guard let requestUrl = url else { fatalError() }
+
+    // Prepare URL Request Object
+    var request = URLRequest(url: requestUrl)
+    request.httpMethod = "POST"
+
+    // HTTP Request Parameters which will be sent in HTTP Request Body
+    let postString : Data = " { \"user\": \"\(loginLet)\"}".data(using: .utf8)!;
+
+
+    // Set HTTP Request Body
+    request.httpBody = postString;
+    request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+
+    // Perform HTTP Request
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+        if let safeData = data {
+            if let login = self.parseJSONActive(safeData) {
+                self.delegate?.didActimeTime(self, content: login)
+            }
+        }
+
+    }
+    task.resume()
+    }
+
+    func parseJSONActive(_ responceData: Data) -> AddActiveModel? {
+        let decoder = JSONDecoder()
+        do{
+            let decoderData = try decoder.decode(AddActiveData.self, from: responceData)
+    //                print(decoderData.statusUser)
+            let stepCore = decoderData.idAddActive
+//            print(stepCore)
+            let statusReg  = AddActiveModel(idAddActive: stepCore)
             return statusReg
 
         } catch {

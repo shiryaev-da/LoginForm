@@ -19,6 +19,7 @@ class tableController: UITableViewController {
     var contentCore: [TopicStepCore] = []
     var itemTimeArray = [Logtimer]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var contentActive: Int!
     
 
     
@@ -85,7 +86,16 @@ class tableController: UITableViewController {
     func sumFactCell (topicI: Int) -> Int {
         var i = 0
         self.itemTimeArray.forEach({ book in
-            if (book.topicID == topicI && book.flagActive == 0) {
+            if (book.topicID == topicI && book.flagActive == 0 && book.user == user) {
+                i = i + 1
+            }
+        })
+        return i
+    }
+    func sumFactCellUser () -> Int {
+        var i = 0
+        self.itemTimeArray.forEach({ book in
+            if (book.user == user) {
                 i = i + 1
             }
         })
@@ -154,17 +164,22 @@ class tableController: UITableViewController {
     //MARK: Действие по нажатию
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
+
         let message = content[indexPath.row]
         print(message.id)
         print(message.TOPIC_NAME)
-        
-        func openCell() {
+
+        func openCell(flagActive: Bool) {
         if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "TableStep") as? tableStepController {
+
 
             newViewController.TOPIC_NAME = message.TOPIC_NAME
             newViewController.user = self.user
             newViewController.group = self.group
             newViewController.idTopic = message.id
+            newViewController.activeFlag = flagActive
+           
+           
 
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .crossDissolve
@@ -176,7 +191,7 @@ class tableController: UITableViewController {
         func upadteFlagAction () {
             self.itemTimeArray.forEach({ book in
                 print(book.topicID)
-                if (book.topicID == message.id && book.flagActive == 0) {
+                if (book.topicID == message.id && book.flagActive == 0 && book.user == user) {
                     book.flagActive = 1
                     saveItems()
                 }
@@ -190,14 +205,15 @@ class tableController: UITableViewController {
                 // Initialize Actions
             let yesAction = UIAlertAction(title: "Да", style: .default) { (action) -> Void in
                     print("The user is okay.")
-                    openCell()
+                    openCell(flagActive: true)
                     upadteFlagAction ()
+                
 
                 }
 
             let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
                     print("The user is not okay.")
-                    openCell()
+                    openCell(flagActive: false)
                 }
 
                 // Add Actions
@@ -210,7 +226,7 @@ class tableController: UITableViewController {
             self.present(alertController, animated: true, completion: nil)
         }
         else {
-            openCell()
+            openCell(flagActive: true)
         }
 
         
@@ -337,6 +353,9 @@ class tableController: UITableViewController {
 }
 
 extension tableController: ContentManagerDelegate {
+
+    
+    
     func didContentStepDataCore(_ Content: ContentManager, content: [TopicStepCore]) {
         self.contentCore = content
         func saveContentCore() {
@@ -351,6 +370,7 @@ extension tableController: ContentManagerDelegate {
                     newItem.dateTimeStart = castDate(dateOld: item.DATETIMESTART)
                     newItem.dateTimeEnd = castDate(dateOld: item.DATETIMEEND)
                     newItem.typeAction = "Finish"
+                    newItem.activeID = Int16(item.ACTIVEID)
 //                    print(castDate(dateOld: item.DATETIMEEND))
                 try context.save()
                 } catch {
@@ -365,7 +385,7 @@ extension tableController: ContentManagerDelegate {
             let date = dateFormatter.date(from:isoDate)!
             return date
         }
-        if (itemTimeArray.count == 0 ) {
+        if (sumFactCellUser() == 0 ) {
             saveContentCore()
             loadItems()
         }

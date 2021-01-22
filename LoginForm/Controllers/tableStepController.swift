@@ -16,8 +16,7 @@
 import Foundation
 import UIKit
 import CoreData
-import Sync
-import DATASource
+
 
 struct Record : Encodable {
 
@@ -45,9 +44,10 @@ class tableStepController: UITableViewController {
     var localTime = Date()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var itemTimeArray = [Logtimer]()
-    weak var dataStack: DataStack?
     var records = [Record]()
     var stepManager = StepManager()
+    var activeID: Int!
+    var activeFlag: Bool = false
     
 
      
@@ -82,20 +82,25 @@ class tableStepController: UITableViewController {
         contentStepManager.delegate = self
         contentStepManager.performLogin(user: self.idTopic)
         stepManager.delegate = self
-
+        
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
 
         
+        
         loadItems()
 
-        
+        if activeFlag == false {
+            activeID = sercheActive(searchValue: idTopic)
+        } else {
+            contentStepManager.performActive(loginLet: user)
+        }
     }
 
     //MARK: CoreDATA
     
-    func typeAction(nameAction: String, topicID: Int, stepID: Int) {
+    func typeAction(nameAction: String, topicID: Int, stepID: Int, activeID: Int) {
         
         let newItem = Logtimer(context: self.context)
         newItem.dateTimeStart = Date()
@@ -104,7 +109,9 @@ class tableStepController: UITableViewController {
         newItem.topicID = Int16(topicID)
         newItem.stepID = Int16(stepID)
         newItem.user = user
+        newItem.activeID = Int16(activeID)
         idStepIn = stepID
+        
         
         print(newItem)
         // newItem.perentGroupExercise = self.selectidGroup
@@ -178,7 +185,7 @@ class tableStepController: UITableViewController {
     func stopUpdateLocal()
     {
         if (self.idStepIn != nil) {
-            if let i = itemTimeArray.firstIndex(where: { $0.stepID == self.idStepIn && $0.dateTimeEnd == nil }) {
+            if let i = itemTimeArray.firstIndex(where: { $0.stepID == self.idStepIn && $0.dateTimeEnd == nil && $0.user == user }) {
                 print(i)
                 idStepIn = i
                 itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
@@ -189,10 +196,20 @@ class tableStepController: UITableViewController {
         }
     }
     
+    func sercheActive(searchValue: Int) -> Int
+    {
+
+        if let i = itemTimeArray.firstIndex(where: {  $0.flagActive == 0 && $0.user == user && $0.topicID ==  Int16(searchValue)}) {
+                print(i)
+            activeID = Int(itemTimeArray[i].activeID)
+            }
+        return activeID
+    }
+    
     
     func startUpdate(value searchValue: Int)
     {
-            if let i = itemTimeArray.firstIndex(where: { $0.stepID == Int16(searchValue) && $0.dateTimeEnd == nil }) {
+            if let i = itemTimeArray.firstIndex(where: { $0.stepID == Int16(searchValue) && $0.dateTimeEnd == nil && $0.user == user }) {
                 itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
                 itemTimeArray[i].setValue("Finish", forKey: "typeAction")
 //                itemTimeArray[i].setValue(1, forKey: "flagActive")
@@ -202,7 +219,7 @@ class tableStepController: UITableViewController {
     
     func timeDelta(value searchValue: Int) -> Int {
         r = 0
-        if let i = itemTimeArray.firstIndex(where: {$0.flagActive == 0 && $0.stepID == Int16(searchValue) }) {
+        if let i = itemTimeArray.firstIndex(where: {$0.flagActive == 0 && $0.stepID == Int16(searchValue) && $0.user == user }) {
             let dateStartInt = itemTimeArray[i].dateTimeStart?.timeIntervalSince1970
             let dateEndInt = itemTimeArray[i].dateTimeEnd?.timeIntervalSince1970
 //            let timeInterval = someDate.dateStartInt
@@ -218,7 +235,7 @@ class tableStepController: UITableViewController {
     func upadteFlagAction (stepID: Int) {
         self.itemTimeArray.forEach({ book in
 //            print(book.topicID)
-            if (book.stepID == stepID && book.flagActive == 0) {
+            if (book.stepID == stepID && book.flagActive == 0 && book.user == user) {
                 book.flagActive = 1
                 saveItems()
             }
@@ -378,7 +395,7 @@ class tableStepController: UITableViewController {
                 self.startUpdate(value: self.idStepIn)
             }
             self.upadteFlagAction(stepID: step_id)
-            self.typeAction(nameAction: "Start", topicID: topic_id, stepID: step_id )
+            self.typeAction(nameAction: "Start", topicID: topic_id, stepID: step_id, activeID: self.activeID )
             self.timer.invalidate()
   
             self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
@@ -486,6 +503,12 @@ class tableStepController: UITableViewController {
 }
 
 extension tableStepController: ContentStepManagerDelegate {
+    func didActimeTime(_ Content: ContentStepManager, content: AddActiveModel) {
+        
+        activeID = content.idAddActive
+    }
+    
+    
     func didContentStepData(_ Content: ContentStepManager, content: [TopicStep]) {
         self.content = content
         DispatchQueue.main.async {

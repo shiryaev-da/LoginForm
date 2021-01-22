@@ -13,6 +13,8 @@ protocol ContentManagerDelegate {
     func didAddTopic(_ Content: ContentManager, content: AddTopicModel)
     func didDelTopic(_ Content: ContentManager, content: AddTopicModel)
     func didContentStepDataCore(_ Content: ContentManager, content: [TopicStepCore])
+
+    
     
 }
 
@@ -217,7 +219,7 @@ print(" { \"USER\": \"\(loginLet)\"}")
         }
     }
     
-    
+
 
     
     

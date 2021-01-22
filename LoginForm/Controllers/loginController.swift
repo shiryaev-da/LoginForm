@@ -51,6 +51,10 @@ class loginController: UIViewController {
     }
 }
 extension loginController: ContentManagerDelegate {
+    func didActimeTime(_ Content: ContentManager, content: AddActiveModel) {
+        
+    }
+    
     func didContentStepDataCore(_ Content: ContentManager, content: [TopicStepCore]) {
         
     }
@@ -67,7 +71,9 @@ extension loginController: ContentManagerDelegate {
 
     }
     
-    
+    func didContentData(_ Content: ContentManager, content: [AddActiveModel]) {
+
+    }
     
     
 }

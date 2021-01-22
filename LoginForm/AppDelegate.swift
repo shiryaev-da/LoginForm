@@ -7,13 +7,13 @@
 
 import UIKit
 import CoreData
-import Sync
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
-    let dataStack = DataStack(modelName: "Model")
+
 
 
 
