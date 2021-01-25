@@ -185,8 +185,9 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
 
-        let message = content[indexPath.row]
+        let message = filteredData[indexPath.row]
         print(message.id)
+        
         print(message.TOPIC_NAME)
 
         func openCell(flagActive: Bool) {
@@ -269,7 +270,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     //MARK:  Действия на свайп
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let testAction = UIContextualAction(style: .destructive, title: "del") { (_, _, completionHandler) in
-            self.contentManager.performDelTopic(loginLet: self.user, groupLet: self.group, nameTopic: self.content[indexPath.row].TOPIC_NAME)
+            self.contentManager.performDelTopic(loginLet: self.user, groupLet: self.group, nameTopic: self.filteredData[indexPath.row].TOPIC_NAME)
             self.content.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             
@@ -406,21 +407,22 @@ extension tableController: ContentManagerDelegate {
             return date
         }
         
-//        func delStepUser () {
-//            var i = 0
-//            self.itemTimeArray.forEach({ book in
-//                if (book.user == user) {
-//                    self.itemTimeArray.remove(at: i)
-//                    i = i + 1
-//
-//                }
-//            })
-//
-//        }
+        func deleteAllData(entity: String)
+        {
+            let ReqVar = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+            let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: ReqVar)
+            do { try context.execute(DelAllReqVar) }
+            catch { print(error) }
+        }
         
 //        self.content.remove(at: indexPath.row)
         
         if (sumFactCellUser() == 0 ) {
+            saveContentCore()
+            loadItems()
+        }else
+        {
+            deleteAllData(entity: "Logtimer")
             saveContentCore()
             loadItems()
         }
@@ -457,7 +459,4 @@ extension tableController: ContentManagerDelegate {
     }
 }
 
-extension Date {
-    static var now: Date { Date() }
-}
 
