@@ -12,7 +12,7 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    
+    var itemTimeArray = [Logtimer]()
 
 
 
@@ -50,7 +50,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
 //        self.saveContext()
         print("444")
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        loadItems()
+        upadteTimeClose()
+//        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+//        tableStepController.stopUpdateLocal()
       
     }
 
@@ -102,6 +105,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    func upadteTimeClose () {
+        self.itemTimeArray.forEach({ book in
+//            print(book.topicID)
+            if (book.dateTimeEnd == nil) {
+                book.dateTimeEnd = Date()
+                saveContext()
+            }
+        })
+    }
+    
 
+    func loadItems() {
+        let context = persistentContainer.viewContext
+        let request : NSFetchRequest<Logtimer> = Logtimer.fetchRequest()
+        do {
+            itemTimeArray = try context.fetch(request)
+        } catch {
+            print("Error")
+        }
+    }
+    
 }
 

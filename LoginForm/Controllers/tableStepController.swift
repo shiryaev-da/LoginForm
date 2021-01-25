@@ -506,6 +506,9 @@ class tableStepController: UITableViewController {
                 self.startUpdate(value: self.idStepIn)
             }
             self.saveItems()
+            let jsonTo = convertToJSONArray(moArray: itemTimeArray)
+            let jsonString = convertIntoJSONString(arrayObject: jsonTo)!
+            stepManager.performRequest(loginRegLet: user, json: jsonString)
             
             newViewController.user = user
             newViewController.group = group

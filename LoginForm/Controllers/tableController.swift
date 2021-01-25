@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 
-class tableController: UITableViewController {
+class tableController: UITableViewController, UISearchBarDelegate {
     var firstName: String!
     var user: String!
     var group: Int!
@@ -20,8 +20,10 @@ class tableController: UITableViewController {
     var itemTimeArray = [Logtimer]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var contentActive: Int!
+    var filteredData: [Topic]!
     
 
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,11 +56,12 @@ class tableController: UITableViewController {
         contentManager.delegate = self
         contentManager.performLogin(user: user)
         contentManager.performStep(loginLet: user)
-
+        searchBar.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
+       
         loadItems()
-        
+        filteredData = content
 
     }
     
@@ -136,14 +139,14 @@ class tableController: UITableViewController {
        switch tableView {
        case self.tableView:
         
-          return self.content.count
+          return self.filteredData.count
         default:
           return 0
        }
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let message = content[indexPath.row]
+        let message = filteredData[indexPath.row]
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
         
         cell.layer.masksToBounds = true
@@ -164,6 +167,19 @@ class tableController: UITableViewController {
 //        cell.textLabel?.text = "1"
         
 //       return cell
+    }
+    
+    //MARK: Бар для поиска
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
+        
+        if let searchText = searchBar.text {
+               filteredData = searchText.isEmpty ? content : content.filter{ term in
+                return term.TOPIC_NAME.lowercased().contains(searchText.lowercased())
+                }
+        }
+
+        tableView.reloadData()
     }
     //MARK: Действие по нажатию
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -389,6 +405,21 @@ extension tableController: ContentManagerDelegate {
             let date = dateFormatter.date(from:isoDate)!
             return date
         }
+        
+//        func delStepUser () {
+//            var i = 0
+//            self.itemTimeArray.forEach({ book in
+//                if (book.user == user) {
+//                    self.itemTimeArray.remove(at: i)
+//                    i = i + 1
+//
+//                }
+//            })
+//
+//        }
+        
+//        self.content.remove(at: indexPath.row)
+        
         if (sumFactCellUser() == 0 ) {
             saveContentCore()
             loadItems()
@@ -414,6 +445,8 @@ extension tableController: ContentManagerDelegate {
     
     func didContentData(_ Content: ContentManager, content: [Topic]) {
         self.content = content
+        self.filteredData = content
+        
         DispatchQueue.main.async {
                 self.tableView.reloadData()
 //                let indexPath = IndexPath(row: self.content.count - 1, section: 0)
@@ -424,5 +457,7 @@ extension tableController: ContentManagerDelegate {
     }
 }
 
-
+extension Date {
+    static var now: Date { Date() }
+}
 
