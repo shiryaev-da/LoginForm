@@ -5,14 +5,6 @@
 //  Created by Вадим Куйда on 19.11.2020.
 //
 
-
-
-
-
-    
-
-
-
 import Foundation
 import UIKit
 import CoreData
@@ -50,11 +42,56 @@ class tableStepController: UITableViewController {
     var activeFlag: Bool = false
     
 
-     
+    //Градиент пробую добавить
+    class Colors {
+        var gl:CAGradientLayer!
+
+        init() {
+            let colorTop = UIColor(red: 192.0 / 255.0, green: 38.0 / 255.0, blue: 42.0 / 255.0, alpha: 1.0).cgColor
+            let colorBottom = UIColor(red: 35.0 / 255.0, green: 2.0 / 255.0, blue: 2.0 / 255.0, alpha: 1.0).cgColor
+
+            self.gl = CAGradientLayer()
+            self.gl.colors = [colorTop, colorBottom]
+            self.gl.locations = [0.0, 1.0]
+        }
+    }
+    let colors = Colors()
+    
+    
+    func gradient(frame:CGRect) -> CAGradientLayer {
+        let layer = CAGradientLayer()
+        layer.frame = frame
+        layer.startPoint = CGPoint(x: 0.5, y: 0)
+        layer.endPoint = CGPoint(x: 0.5, y: 1)
+        let color1 = UIColor.white
+        let color2 = UIColor.systemGreen
+        layer.colors = [
+                        //UIColor.white.cgColor,
+            color1.cgColor,  //?? UIColor.white.cgColor,
+            color2.cgColor  //?? UIColor.white.cgColor
+                        ]
+        
+        return layer
+    }
+    
+    func refreshColor() {
+        
+//            view.backgroundColor = UIColor.clearColor()
+//            var backgroundLayer = colors.gl
+//            backgroundLayer.frame = view.frame
+//            view.layer.insertSublayer(backgroundLayer, atIndex: 0)
+          }
+
+    
+    //END градиент функции
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        
+
         self.navigationItem.title = TOPIC_NAME
         let rightBackButton = UIBarButtonItem(
     //            title: "Back",
@@ -86,7 +123,7 @@ class tableStepController: UITableViewController {
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
-
+        
         
         
         loadItems()
@@ -264,6 +301,7 @@ class tableStepController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         vw.isHidden = true
+        
         return vw
     }
 
@@ -286,6 +324,11 @@ class tableStepController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
+ //Радиус cell
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 16
+        
+        
         cell.labelNme.text = content[indexPath.row].STEP_NAME
         cell.labelCount.text = String(countSecond)
 //        cell.labelCount.isHidden = true
@@ -385,7 +428,6 @@ class tableStepController: UITableViewController {
             
            
             self.upadteFlagAction(stepID: self.content[indexPath.row].id)
-            
             self.indexRow = -1
             completionHandler(true)
             
@@ -403,12 +445,16 @@ class tableStepController: UITableViewController {
             self.indexRow = indexPath.row
 //            self.tableView.reloadData()
 
+  
+            
         }
         testAction.backgroundColor = .systemGreen
         testAction.image = UIImage(systemName: "forward.fill")
 
         return UISwipeActionsConfiguration(actions: [testAction])
     }
+    
+
     
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -561,6 +607,10 @@ extension tableStepController {
           // 2
           if let cell = tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as? CustomTableViewCell {
             cell.updateTime(localTime: localTime)
+    //Радиус cell
+            cell.layer.masksToBounds = true
+            cell.layer.cornerRadius = 16
+            cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
 //              print(indexPath.row)
           }
         }
@@ -574,4 +624,19 @@ extension tableStepController: StepManagerDelegate {
     }
     
     
+}
+
+//MARK -- Color gradient
+
+extension UIView{
+    func addGradientBackground(firstColor: UIColor, secondColor: UIColor){
+        clipsToBounds = true
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [firstColor.cgColor, secondColor.cgColor]
+        gradientLayer.frame = self.bounds
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        print(gradientLayer.frame)
+        self.layer.insertSublayer(gradientLayer, at: 0)
+    }
 }

@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D0BF7E425BCC19800688A94 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0BF7E325BCC19800688A94 /* K.swift */; };
 		421E7205B3D75BB8C8D84329 /* Pods_LoginForm_LoginFormUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888BEC4DD3DFA9D7DCEF5367 /* Pods_LoginForm_LoginFormUITests.framework */; };
 		65BBAB80A269DD937CB237CD /* Pods_LoginFormTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF16C9B05D8D2C4DD5083BE7 /* Pods_LoginFormTests.framework */; };
 		8F1300A525665BB200AE5DBD /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		0B01BFA1EA3420AC1CF927FA /* Pods_LoginForm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginForm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D0BF7E325BCC19800688A94 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		35E647BDC8CFA365E361AB68 /* Pods-LoginForm-LoginFormUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginForm-LoginFormUITests.release.xcconfig"; path = "Target Support Files/Pods-LoginForm-LoginFormUITests/Pods-LoginForm-LoginFormUITests.release.xcconfig"; sourceTree = "<group>"; };
 		38C6B9050294E62431A9EBA6 /* Pods-LoginForm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginForm.release.xcconfig"; path = "Target Support Files/Pods-LoginForm/Pods-LoginForm.release.xcconfig"; sourceTree = "<group>"; };
 		888BEC4DD3DFA9D7DCEF5367 /* Pods_LoginForm_LoginFormUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginForm_LoginFormUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +131,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D0BF7E825BCC19F00688A94 /* K */ = {
+			isa = PBXGroup;
+			children = (
+				0D0BF7E325BCC19800688A94 /* K.swift */,
+			);
+			path = K;
+			sourceTree = "<group>";
+		};
 		81D9578BB7AB7FEAD614092D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +204,7 @@
 		8F7A415125405529009440C8 /* LoginForm */ = {
 			isa = PBXGroup;
 			children = (
+				0D0BF7E825BCC19F00688A94 /* K */,
 				8FAACDD0254C082700DFB7E9 /* Core */,
 				8FD1C3592548461400242C42 /* Model */,
 				8FA2B0FB25406EAD005401B2 /* Controllers */,
@@ -308,6 +319,7 @@
 				8F7A414B25405529009440C8 /* Sources */,
 				8F7A414C25405529009440C8 /* Frameworks */,
 				8F7A414D25405529009440C8 /* Resources */,
+				3295C649BEC8B3DD5056E592 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -345,6 +357,7 @@
 				8F7A416F2540552B009440C8 /* Sources */,
 				8F7A41702540552B009440C8 /* Frameworks */,
 				8F7A41712540552B009440C8 /* Resources */,
+				2BF1D7F04F270FAA781ED11B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -427,6 +440,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2BF1D7F04F270FAA781ED11B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LoginForm-LoginFormUITests/Pods-LoginForm-LoginFormUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LoginForm-LoginFormUITests/Pods-LoginForm-LoginFormUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LoginForm-LoginFormUITests/Pods-LoginForm-LoginFormUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3295C649BEC8B3DD5056E592 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LoginForm/Pods-LoginForm-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LoginForm/Pods-LoginForm-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LoginForm/Pods-LoginForm-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		40375C96B6EA339D43458FD4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -517,6 +564,7 @@
 				8FB2CDA625B710FB009AB020 /* stepModel.swift in Sources */,
 				8F1300BC256679D200AE5DBD /* tableStepController.swift in Sources */,
 				8FA2B0FD25406EF5005401B2 /* registerController.swift in Sources */,
+				0D0BF7E425BCC19800688A94 /* K.swift in Sources */,
 				8F8546F5256BC5BD00A32F50 /* Task.swift in Sources */,
 				8FD598DC25922018005B7AF9 /* Model.xcdatamodeld in Sources */,
 				8F7A415D25405529009440C8 /* LoginForm.xcdatamodeld in Sources */,
@@ -699,7 +747,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AXG6YGJW76;
+				DEVELOPMENT_TEAM = FGZ7977LN5;
 				INFOPLIST_FILE = LoginForm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -721,7 +769,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AXG6YGJW76;
+				DEVELOPMENT_TEAM = FGZ7977LN5;
 				INFOPLIST_FILE = LoginForm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

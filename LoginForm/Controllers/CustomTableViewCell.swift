@@ -12,7 +12,7 @@ import SwiftUI
 class CustomTableViewCell: UITableViewCell {
     
 
-    
+
 
     
     @IBOutlet weak var labelNme: UILabel!
@@ -22,7 +22,7 @@ class CustomTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+       // self.addGradientBackground(firstColor: .white , secondColor: .blue)
         // Initialization code
     }
 
@@ -31,6 +31,20 @@ class CustomTableViewCell: UITableViewCell {
      
         // Configure the view for the selected state
     }
+    
+//    class Colors {
+//        var gl:CAGradientLayer!
+//
+//        init() {
+//            let colorTop = UIColor(red: 192.0 / 255.0, green: 38.0 / 255.0, blue: 42.0 / 255.0, alpha: 1.0).cgColor
+//            let colorBottom = UIColor(red: 35.0 / 255.0, green: 2.0 / 255.0, blue: 2.0 / 255.0, alpha: 1.0).cgColor
+//
+//            self.gl = CAGradientLayer()
+//            self.gl.colors = [colorTop, colorBottom]
+//            self.gl.locations = [0.0, 1.0]
+//        }
+//    }
+    
     
     
     @objc func updateTime(localTime: Date) {
@@ -58,6 +72,7 @@ class CustomTableViewCell: UITableViewCell {
           times.append("\(seconds) сек")
         
         labelCount.text = times.joined(separator: " ")
+        
         
 //        labelCount.backgroundColor = UIColor.brown
         

@@ -145,7 +145,11 @@ class tableController: UITableViewController {
         
         let message = content[indexPath.row]
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
-            cell.labelNme.text = message.TOPIC_NAME
+        
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 16
+        
+        cell.labelNme.text = message.TOPIC_NAME
             let count = String(message.COUNT_STEP)
         cell.labelComment.isHidden = true
 //        let numStepFact =
