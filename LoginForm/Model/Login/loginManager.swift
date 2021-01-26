@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol LoginManagerDelegate {
     func didUpdateLogin(_ Login: LoginManager, login: LoginModel)
 
@@ -73,3 +72,6 @@ struct LoginManager {
 
 
 }
+
+
+

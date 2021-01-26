@@ -63,8 +63,8 @@ class tableStepController: UITableViewController {
         layer.frame = frame
         layer.startPoint = CGPoint(x: 0.5, y: 0)
         layer.endPoint = CGPoint(x: 0.5, y: 1)
-        let color1 = UIColor.white
-        let color2 = UIColor.systemGreen
+        let color1 = UIColor(hexString: "#dfebfe")
+        let color2 = UIColor(hexString: "#ffffff")
         layer.colors = [
                         //UIColor.white.cgColor,
             color1.cgColor,  //?? UIColor.white.cgColor,
@@ -90,7 +90,7 @@ class tableStepController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        
+        //self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
 
         self.navigationItem.title = TOPIC_NAME
         let rightBackButton = UIBarButtonItem(
@@ -327,7 +327,9 @@ class tableStepController: UITableViewController {
  //Радиус cell
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 16
-        
+        //cell.backgroundView?.addGradientBackground(firstColor: .blue, secondColor: .darkGray)
+        //cell.selectedBackgroundView?.addGradientBackground(firstColor: .blue, secondColor: .darkGray)
+       // cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
         
         cell.labelNme.text = content[indexPath.row].STEP_NAME
         cell.labelCount.text = String(countSecond)
@@ -559,9 +561,9 @@ extension tableStepController: ContentStepManagerDelegate {
     
     
     func didContentStepData(_ Content: ContentStepManager, content: [TopicStep]) {
-        self.content = content
         DispatchQueue.main.async {
-                self.tableView.reloadData()
+            self.content = content
+            self.tableView.reloadData()
 //                let indexPath = IndexPath(row: self.content.count - 1, section: 0)
 ////                self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
             
@@ -631,15 +633,4 @@ extension tableStepController: StepManagerDelegate {
 
 //MARK -- Color gradient
 
-extension UIView{
-    func addGradientBackground(firstColor: UIColor, secondColor: UIColor){
-        clipsToBounds = true
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [firstColor.cgColor, secondColor.cgColor]
-        gradientLayer.frame = self.bounds
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-        print(gradientLayer.frame)
-        self.layer.insertSublayer(gradientLayer, at: 0)
-    }
-}
+
