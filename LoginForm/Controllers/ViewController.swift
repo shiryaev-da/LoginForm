@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     
     var loginManager = LoginManager()
+    let resetCoredata: Bool = true
  
 
     override func viewDidLoad() {
@@ -19,6 +20,7 @@ class ViewController: UIViewController {
         loginManager.delegate = self
         self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
   
+        
     }
 
     @IBAction func goToReg(_ sender: Any) {
@@ -57,6 +59,7 @@ extension ViewController: LoginManagerDelegate {
                     newViewController.firstName = login.firstName
                     newViewController.user = login.login
                     newViewController.group = login.group
+                    newViewController.resetCoredata = true
                     
                     
                     let navController = UINavigationController(rootViewController: newViewController)

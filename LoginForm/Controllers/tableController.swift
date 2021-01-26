@@ -21,6 +21,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var contentActive: Int!
     var filteredData: [Topic]!
+    var resetCoredata: Bool!
     
 
     @IBOutlet weak var searchBar: UISearchBar!
@@ -427,9 +428,9 @@ extension tableController: ContentManagerDelegate {
         
 //        self.content.remove(at: indexPath.row)
         
-        if (sumFactCellUser() == 0 ) {
-            saveContentCore()
-            loadItems()
+        if (resetCoredata == false ) {
+//            saveContentCore()
+//            loadItems()
         }else
         {
             deleteAllData(entity: "Logtimer")
