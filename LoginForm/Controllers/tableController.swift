@@ -160,6 +160,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
         
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 16
+        
+        
         //cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
         
         

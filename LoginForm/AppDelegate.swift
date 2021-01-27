@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreData
-
+import IQKeyboardManagerSwift //1 Pod для смещения объектов под клавиатуру
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
         Thread.sleep(forTimeInterval: 2.0) //Timer Launch screen
+        
+        IQKeyboardManager.shared.enable = true //1 Активация
+        
         return true
      
     }

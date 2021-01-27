@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D0BF7E425BCC19800688A94 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0BF7E325BCC19800688A94 /* K.swift */; };
+		0D0BF81825C1390C00688A94 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0BF81725C1390B00688A94 /* Crypto.swift */; };
 		421E7205B3D75BB8C8D84329 /* Pods_LoginForm_LoginFormUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888BEC4DD3DFA9D7DCEF5367 /* Pods_LoginForm_LoginFormUITests.framework */; };
 		65BBAB80A269DD937CB237CD /* Pods_LoginFormTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF16C9B05D8D2C4DD5083BE7 /* Pods_LoginFormTests.framework */; };
 		8F1300A525665BB200AE5DBD /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		0B01BFA1EA3420AC1CF927FA /* Pods_LoginForm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginForm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D0BF7E325BCC19800688A94 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
+		0D0BF81725C1390B00688A94 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		35E647BDC8CFA365E361AB68 /* Pods-LoginForm-LoginFormUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginForm-LoginFormUITests.release.xcconfig"; path = "Target Support Files/Pods-LoginForm-LoginFormUITests/Pods-LoginForm-LoginFormUITests.release.xcconfig"; sourceTree = "<group>"; };
 		38C6B9050294E62431A9EBA6 /* Pods-LoginForm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginForm.release.xcconfig"; path = "Target Support Files/Pods-LoginForm/Pods-LoginForm.release.xcconfig"; sourceTree = "<group>"; };
 		888BEC4DD3DFA9D7DCEF5367 /* Pods_LoginForm_LoginFormUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginForm_LoginFormUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				0D0BF7E325BCC19800688A94 /* K.swift */,
+				0D0BF81725C1390B00688A94 /* Crypto.swift */,
 			);
 			path = K;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				8F1300C225668E5F00AE5DBD /* contentStepModel.swift in Sources */,
 				8F7A415525405529009440C8 /* SceneDelegate.swift in Sources */,
 				8FA2B10225406F06005401B2 /* loginController.swift in Sources */,
+				0D0BF81825C1390C00688A94 /* Crypto.swift in Sources */,
 				8FAACE04254C355B00DFB7E9 /* contentModel.swift in Sources */,
 				8FB2CDA625B710FB009AB020 /* stepModel.swift in Sources */,
 				8F1300BC256679D200AE5DBD /* tableStepController.swift in Sources */,
