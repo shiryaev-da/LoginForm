@@ -24,7 +24,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.2718613446" green="0.27687585349999999" blue="0.36080017689999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.043138146400000001" green="0.043136134739999998" blue="0.043136522169999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="jqi-mz-x63" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="173" id="I3h-Uy-YpC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jqi-mz-x63" secondAttribute="trailing" constant="87" id="Lng-SS-Tke"/>
@@ -38,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="1100" height="1662"/>
+        <image name="Image" width="1036" height="476"/>
     </resources>
 </document>
