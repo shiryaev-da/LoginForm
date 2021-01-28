@@ -167,7 +167,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
         
         cell.labelNme.text = message.TOPIC_NAME
             let count = String(message.COUNT_STEP)
-        cell.labelComment.isHidden = true
+        //cell.labelComment.isHidden = true
+        cell.labelComment.text = message.TOPIC_NAME
 //        let numStepFact =
         cell.labelCount.text = "Шаги: \(String(sumFactCell(topicI: message.id))) из \(count)"
     

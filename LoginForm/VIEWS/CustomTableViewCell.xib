@@ -17,46 +17,46 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment of step" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="aAt-2T-Yre">
-                        <rect key="frame" x="16" y="48" width="148" height="23"/>
+                        <rect key="frame" x="26" y="48" width="284" height="29"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="148" id="9er-RM-OY2"/>
-                            <constraint firstAttribute="height" constant="23" id="rgy-ns-Ae0"/>
+                            <constraint firstAttribute="width" constant="284" id="9er-RM-OY2"/>
+                            <constraint firstAttribute="height" constant="29" id="rgy-ns-Ae0"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.49411764705882355" green="0.49411764705882355" blue="0.49411764705882355" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name step" lineBreakMode="middleTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NXf-j5-Tm1">
-                        <rect key="frame" x="16" y="5" width="294" height="28"/>
+                        <rect key="frame" x="16" y="5" width="294" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="294" id="0wC-gY-d28"/>
-                            <constraint firstAttribute="height" constant="28" id="QQz-Vw-RAN"/>
+                            <constraint firstAttribute="height" constant="43" id="QQz-Vw-RAN"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="92a-ea-cXI">
-                        <rect key="frame" x="201" y="33" width="109" height="22"/>
+                        <rect key="frame" x="210" y="77" width="100" height="12"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="109" id="ihI-ST-cga"/>
+                            <constraint firstAttribute="width" constant="100" id="ihI-ST-cga"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="aAt-2T-Yre" secondAttribute="bottom" constant="29" id="5xk-k6-GJn"/>
+                    <constraint firstAttribute="bottom" secondItem="aAt-2T-Yre" secondAttribute="bottom" constant="23" id="5xk-k6-GJn"/>
                     <constraint firstItem="NXf-j5-Tm1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="9q7-gF-hCC"/>
                     <constraint firstItem="NXf-j5-Tm1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="BJ4-Xa-8Il"/>
-                    <constraint firstItem="92a-ea-cXI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="33" id="J7m-da-Q5f"/>
+                    <constraint firstItem="92a-ea-cXI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="77" id="J7m-da-Q5f"/>
                     <constraint firstAttribute="trailing" secondItem="92a-ea-cXI" secondAttribute="trailing" constant="10" id="K9n-PB-lin"/>
-                    <constraint firstAttribute="bottom" secondItem="92a-ea-cXI" secondAttribute="bottom" constant="45" id="Sny-FR-avz"/>
+                    <constraint firstAttribute="bottom" secondItem="92a-ea-cXI" secondAttribute="bottom" constant="11" id="Sny-FR-avz"/>
                     <constraint firstAttribute="trailing" secondItem="92a-ea-cXI" secondAttribute="trailing" constant="10" id="ZRN-Sh-rtE"/>
-                    <constraint firstItem="aAt-2T-Yre" firstAttribute="top" secondItem="NXf-j5-Tm1" secondAttribute="bottom" constant="15" id="ab6-1y-u68"/>
-                    <constraint firstItem="aAt-2T-Yre" firstAttribute="top" secondItem="NXf-j5-Tm1" secondAttribute="bottom" constant="15" id="jE5-xs-yHR"/>
-                    <constraint firstItem="aAt-2T-Yre" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="lLh-Dw-0fJ"/>
+                    <constraint firstItem="aAt-2T-Yre" firstAttribute="top" secondItem="NXf-j5-Tm1" secondAttribute="bottom" id="ab6-1y-u68"/>
+                    <constraint firstItem="aAt-2T-Yre" firstAttribute="top" secondItem="NXf-j5-Tm1" secondAttribute="bottom" id="jE5-xs-yHR"/>
+                    <constraint firstItem="aAt-2T-Yre" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="26" id="lLh-Dw-0fJ"/>
                     <constraint firstItem="NXf-j5-Tm1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="tt2-cn-8Fj"/>
                 </constraints>
             </tableViewCellContentView>
@@ -67,7 +67,7 @@
                 <outlet property="labelCount" destination="92a-ea-cXI" id="kgx-Ih-Cls"/>
                 <outlet property="labelNme" destination="NXf-j5-Tm1" id="Cyl-nT-7yF"/>
             </connections>
-            <point key="canvasLocation" x="5.7971014492753632" y="120.53571428571428"/>
+            <point key="canvasLocation" x="-62.318840579710148" y="3.3482142857142856"/>
         </tableViewCell>
     </objects>
 </document>
