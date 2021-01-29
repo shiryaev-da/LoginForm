@@ -156,22 +156,44 @@ class tableController: UITableViewController, UISearchBarDelegate {
         cell.layer.cornerRadius = 16
         cell.labelNme.text = message.TOPIC_NAME
         let count = String(message.COUNT_STEP)
-        cell.labelComment.text = message.TOPIC_NAME
+        cell.labelComment.text = message.FLD_COMMENT
         cell.labelCount.text = "Шаги: \(String(sumFactCell(topicI: message.id))) из \(count)"
-
         return cell
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return figuresByLetter.count
     }
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return figuresByLetter[section].key
-    }
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return figuresByLetter[section].key
+//    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return figuresByLetter[section].value.count
     }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var popup:UIView!
+//
 
+        popup = UIView()
+
+        let lb = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
+        lb.text = figuresByLetter[section].key
+        lb.font = lb.font.withSize(20)
+        lb.textAlignment = .center
+        popup.backgroundColor = UIColor.white
+
+        // show on screen
+        self.view.addSubview(popup)
+        popup.addSubview(lb)
+        
+        
+        
+        return popup
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
     
     //MARK: Бар для поиска
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
