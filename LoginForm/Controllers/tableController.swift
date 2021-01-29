@@ -22,6 +22,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     var contentActive: Int!
     var filteredData: [Topic]!
     var resetCoredata: Bool!
+    var figuresByLetter = [(key: String, value: [Topic])]()
     
 
     @IBOutlet weak var searchBar: UISearchBar!
@@ -65,6 +66,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
        
         loadItems()
         filteredData = content
+
 
     }
     
@@ -138,15 +140,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 //        return true
 //    }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       switch tableView {
-       case self.tableView:
-        //self.tableView.backgroundColor = UIColor.white// addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
-          return self.filteredData.count
-        default:
-          return 0
-       }
-    }
+
 //    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 //        self.tableView.backgroundColor = UIColor.systemGreen
 //               }
@@ -154,34 +148,30 @@ class tableController: UITableViewController, UISearchBarDelegate {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let message = filteredData[indexPath.row]
+     
+       
+        let message = figuresByLetter[indexPath.section].value[indexPath.row]
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
-        
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 16
-        
-        
-        //cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
-        
-        
         cell.labelNme.text = message.TOPIC_NAME
-            let count = String(message.COUNT_STEP)
-        //cell.labelComment.isHidden = true
+        let count = String(message.COUNT_STEP)
         cell.labelComment.text = message.TOPIC_NAME
-//        let numStepFact =
         cell.labelCount.text = "Шаги: \(String(sumFactCell(topicI: message.id))) из \(count)"
-    
-//            cell.labelId.text = String(message.id)
-        
-            return cell
 
-//        cell.labelNameTopic.text = message.TOPIC_NAME
-//        cell.textLabel?.text = message.TOPIC_NAME
-//        cell.textLabel?.text = "1"
-        
-//       return cell
+        return cell
     }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return figuresByLetter.count
+    }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return figuresByLetter[section].key
+    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return figuresByLetter[section].value.count
+    }
+
     
     //MARK: Бар для поиска
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -191,6 +181,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
                filteredData = searchText.isEmpty ? content : content.filter{ term in
                 return term.TOPIC_NAME.lowercased().contains(searchText.lowercased())
                 }
+            figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
         }
 
         tableView.reloadData()
@@ -199,7 +190,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
 
-        let message = filteredData[indexPath.row]
+        let message = figuresByLetter[indexPath.section].value[indexPath.row]
         print(message.id)
         
         print(message.TOPIC_NAME)
@@ -462,6 +453,8 @@ extension tableController: ContentManagerDelegate {
     func didContentData(_ Content: ContentManager, content: [Topic]) {
         self.content = content
         self.filteredData = content
+        figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
+//        print(figuresByLetter)
         
         DispatchQueue.main.async {
                 self.tableView.reloadData()

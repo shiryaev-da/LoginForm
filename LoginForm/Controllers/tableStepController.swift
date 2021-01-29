@@ -41,6 +41,7 @@ class tableStepController: UITableViewController {
     var activeID: Int!
     var activeFlag: Bool = false
     
+    
 
     //Градиент пробую добавить
     class Colors {
@@ -123,7 +124,6 @@ class tableStepController: UITableViewController {
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        
         
         
         loadItems()
@@ -389,6 +389,10 @@ class tableStepController: UITableViewController {
 //        vw.addSubview(btn)
 
     }
+    
+
+    
+
     
     @objc public func someButtonAction() {
         print("Button is tapped")
