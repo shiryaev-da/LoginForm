@@ -9,6 +9,53 @@ import Foundation
 import UIKit
 import CoreData
 
+//class FirstViewController: UITableViewController, UISearchBarDelegate {
+//    var firstName: String!
+//    var user: String!
+//    var group: Int!
+//    var resetCoredata: Bool!
+//
+//    @IBOutlet weak var searchBar: UISearchBar!
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        addButton = UIBarButtonItem(title: "test", style: .done, target: self, action: #selector(addButtonAction(_:)))
+//         self.navigationItem.rightBarButtonItem = self.addButton
+//        didTapButton()
+//
+//
+//    }
+//
+//    @objc public func didTapButton() {
+//
+//        let tabBarVC = UITabBarController()
+//
+//        let vc1 = tableController()
+//        let vc2 = SeccondViewController()
+//        vc1.user = user
+//        vc1.firstName = firstName
+//        vc1.group = group
+//
+////        let tableControllerTopic = vc1.tableController
+////        let vc2 = SecondViewController()
+//        tabBarVC.setViewControllers([vc1, vc2], animated: true)
+//        tabBarVC.modalPresentationStyle = .fullScreen
+//        present(tabBarVC, animated: true)
+//
+//    }
+//}
+
+
+
+class SeccondViewController: UITableViewController, UISearchBarDelegate {
+    @IBOutlet weak var searchBar: UISearchBar!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .red
+        title = "Статистика"
+
+    }
+}
+
 
 class tableController: UITableViewController, UISearchBarDelegate {
     var firstName: String!
@@ -21,7 +68,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var contentActive: Int!
     var filteredData: [Topic]!
-    var resetCoredata: Bool!
+    var resetCoredata = true
     var figuresByLetter = [(key: String, value: [Topic])]()
     
 
@@ -30,7 +77,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        
+        title = "Активные замеры"
         //self.tableView.backgroundColor = addGradientBackground(UIColor.white, UIColor.black)
         
         self.navigationItem.title = "Активные замеры"
@@ -63,12 +110,33 @@ class tableController: UITableViewController, UISearchBarDelegate {
         searchBar.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
-       
+
         loadItems()
         filteredData = content
-
+//        showSearchBar()
 
     }
+        
+//        func showSearchBar() {
+//            let searchController = UISearchController(searchResultsController: nil)
+//            searchController.searchBar.delegate = self
+//            searchController.dimsBackgroundDuringPresentation = false
+//            searchController.hidesNavigationBarDuringPresentation = true
+//            navigationItem.hidesSearchBarWhenScrolling = true
+//            //true for hiding, false for keep showing while scrolling
+//            searchController.searchBar.sizeToFit()
+//            searchController.searchBar.returnKeyType = UIReturnKeyType.search
+//            searchController.searchBar.placeholder = "Поиск"
+//            navigationItem.searchController = searchController
+//        }
+    
+    
+    //MARK: TabBar
+
+    
+    
+    
+    
     
     //MARK: CoreDATA
  
@@ -206,7 +274,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
             figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
         }
 
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     //MARK: Действие по нажатию
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -298,8 +366,11 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let testAction = UIContextualAction(style: .destructive, title: "del") { (_, _, completionHandler) in
             self.contentManager.performDelTopic(loginLet: self.user, groupLet: self.group, nameTopic: self.filteredData[indexPath.row].TOPIC_NAME)
-            self.content.remove(at: indexPath.row)
+            self.figuresByLetter[indexPath.section].value.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
+//            figuresByLetter[indexPath.section].value[indexPath.row]
+
             
 //            completionHandler(true)
         }
@@ -311,7 +382,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
         }
         testAction2.backgroundColor = .clear
         testAction2.image = UIImage(systemName: "pencil")
-        return UISwipeActionsConfiguration(actions: [testAction2,testAction])
+        return UISwipeActionsConfiguration(actions: [testAction])
     }
     
 
@@ -456,7 +527,7 @@ extension tableController: ContentManagerDelegate {
         
         DispatchQueue.main.async {
             self.contentManager.performLogin(user: self.user)
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
 //                let indexPath = IndexPath(row: self.content.count - 1, section: 0)
 ////                self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
             
@@ -561,3 +632,7 @@ extension UIColor {
         return String(format:"#%06x", rgb)
     }
 }
+
+
+
+

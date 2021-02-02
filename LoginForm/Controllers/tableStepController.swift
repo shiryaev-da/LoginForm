@@ -40,6 +40,7 @@ class tableStepController: UITableViewController {
     var stepManager = StepManager()
     var activeID: Int!
     var activeFlag: Bool = false
+    let resetCoredata: Bool = false
     
     
 
@@ -518,6 +519,7 @@ class tableStepController: UITableViewController {
             
             newViewController.user = user
             newViewController.group = group
+            newViewController.resetCoredata = resetCoredata
             
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .crossDissolve

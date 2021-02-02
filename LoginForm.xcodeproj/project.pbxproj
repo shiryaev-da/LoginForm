@@ -18,6 +18,7 @@
 		8F1300C725668EA200AE5DBD /* contentStepManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1300C625668EA200AE5DBD /* contentStepManager.swift */; };
 		8F16C6F6254AEE8B000B0424 /* loginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F16C6F5254AEE8B000B0424 /* loginModel.swift */; };
 		8F30740E254952F500EB36BE /* loginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30740D254952F500EB36BE /* loginManager.swift */; };
+		8F6F92EF25C99371009A2467 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6F92EE25C99371009A2467 /* FirstViewController.swift */; };
 		8F7A415325405529009440C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A415225405529009440C8 /* AppDelegate.swift */; };
 		8F7A415525405529009440C8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A415425405529009440C8 /* SceneDelegate.swift */; };
 		8F7A415725405529009440C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A415625405529009440C8 /* ViewController.swift */; };
@@ -72,6 +73,7 @@
 		8F1300C625668EA200AE5DBD /* contentStepManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contentStepManager.swift; sourceTree = "<group>"; };
 		8F16C6F5254AEE8B000B0424 /* loginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginModel.swift; sourceTree = "<group>"; };
 		8F30740D254952F500EB36BE /* loginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginManager.swift; sourceTree = "<group>"; };
+		8F6F92EE25C99371009A2467 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		8F7A414F25405529009440C8 /* LoginForm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoginForm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7A415225405529009440C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F7A415425405529009440C8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				8FA2B0FC25406EF5005401B2 /* registerController.swift */,
 				8F1300BB256679D200AE5DBD /* tableStepController.swift */,
 				8F9083B2255136C700FB2ACC /* tableController.swift */,
+				8F6F92EE25C99371009A2467 /* FirstViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				8FD1C3602548479200242C42 /* registerManager.swift in Sources */,
 				8F9083B3255136C700FB2ACC /* tableController.swift in Sources */,
 				8FAACE0C254C36F400DFB7E9 /* contentManager.swift in Sources */,
+				8F6F92EF25C99371009A2467 /* FirstViewController.swift in Sources */,
 				8F7A415725405529009440C8 /* ViewController.swift in Sources */,
 				8F30740E254952F500EB36BE /* loginManager.swift in Sources */,
 				8FD1C35B2548464A00242C42 /* registerModel.swift in Sources */,
@@ -757,7 +761,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Interval;
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = V52MMHXS5G.com.Interval;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -779,7 +784,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Interval;
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = V52MMHXS5G.com.Interval;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
