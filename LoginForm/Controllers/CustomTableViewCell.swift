@@ -18,6 +18,11 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var labelNme: UILabel!
     @IBOutlet weak var labelCount: UILabel!
     @IBOutlet weak var labelComment: UILabel!
+    @IBOutlet weak var labelCountAct: UILabel!
+    @IBOutlet weak var labelCountStep: UILabel!
+    @IBOutlet weak var labelTimeAVDAct: UILabel!
+    @IBOutlet weak var labelTimeAVDStep: UILabel!
+    
     var countSecond = 0
     
     override func awakeFromNib() {

@@ -213,7 +213,41 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //        self.tableView.backgroundColor = UIColor.systemGreen
 //               }
 
+    func isColorRow (numTag: Float) -> UIColor {
+
+        switch numTag {
+        case 0, 0.33:
+            return UIColor(hexString: "#cd3011")
+        case 0.34..<0.66:
+            return UIColor(hexString: "#ff8b05")
+        case 0.66..<100:
+            return UIColor(hexString: "#20ab00")
+        default:
+            return UIColor(hexString: "#cd3011")
+        }
+    }
     
+
+    
+
+    
+    
+    func castTime (localTimeDelta: Int) -> String {
+    let hours = Int(localTimeDelta) / 3600
+    let minutes = Int(localTimeDelta) / 60 % 60
+    let seconds = Int(localTimeDelta) % 60
+    
+        var times: [String] = []
+        if hours > 0 {
+          times.append("\(hours):")
+        }
+        if minutes > 0 {
+          times.append("\(minutes):")
+        }
+        times.append("\(seconds) с")
+    
+    return times.joined(separator: "")
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
      
@@ -224,8 +258,14 @@ class tableController: UITableViewController, UISearchBarDelegate {
         cell.layer.cornerRadius = 16
         cell.labelNme.text = message.TOPIC_NAME
         let count = String(message.COUNT_STEP)
-        cell.labelComment.text = message.FLD_COMMENT
-        cell.labelCount.text = "Шаги: \(String(sumFactCell(topicI: message.id))) из \(count)"
+//        cell.labelComment.text = message.FLD_COMMENT
+        cell.labelCount.text = "Текущие шаги: \(String(sumFactCell(topicI: message.id))) из \(count)"
+        cell.labelCountAct.text = "Замеров: \(String(message.COUNT_ACTIVE_F)) из \(message.PLAN_COUNT)"
+        cell.labelCountAct.textColor = isColorRow(numTag: Float(Float(message.COUNT_ACTIVE_F)/Float(message.PLAN_COUNT)))
+        cell.labelCountStep.text = "Шагов: \(String(message.COUNT_STEP_F))"
+        cell.labelTimeAVDAct.text = "Ср. замеров: \(castTime(localTimeDelta: Int(message.AVG_TIME_TOPIC)))"
+        cell.labelTimeAVDStep.text = "Ср. шагов: \(castTime(localTimeDelta: Int(message.AVG_TIME_STEP)))"
+        
         return cell
     }
     
@@ -262,6 +302,12 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 130
+    }
+       
+    
     
     //MARK: Бар для поиска
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -527,7 +573,7 @@ extension tableController: ContentManagerDelegate {
         
         DispatchQueue.main.async {
             self.contentManager.performLogin(user: self.user)
-//                self.tableView.reloadData()
+                self.tableView.reloadData()
 //                let indexPath = IndexPath(row: self.content.count - 1, section: 0)
 ////                self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
             

@@ -52,8 +52,15 @@ struct Topic: Codable {
     let COUNT_STEP: Int
     let NAME_SECTOR: String
     let FLD_COMMENT: String
+    let COUNT_ACTIVE_F: Int
+    let COUNT_STEP_F: Int
+    let TOTAL_TIME: Int
+    let AVG_TIME_TOPIC: Float
+    let AVG_TIME_STEP: Float
+    let PLAN_COUNT: Int
+    
+    
 //    let step_topic: [Step_topic]
 }
-
 
 

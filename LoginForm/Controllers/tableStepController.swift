@@ -309,6 +309,10 @@ class tableStepController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 150
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 130
+    }
 
 
     private func registerTableViewCells() {
@@ -335,7 +339,11 @@ class tableStepController: UITableViewController {
         cell.labelNme.text = content[indexPath.row].STEP_NAME
         cell.labelCount.text = String(countSecond)
 //        cell.labelCount.isHidden = true
-        cell.labelComment.isHidden = true
+//        cell.labelComment.isHidden = true
+        cell.labelTimeAVDStep.isHidden = true
+        cell.labelTimeAVDAct.isHidden = true
+        cell.labelCountStep.isHidden = true
+        cell.labelCountAct.isHidden = true
         var idStepViz = content[indexPath.row].id
          let data = timeDelta(value: idStepViz)
         cell.labelCount.text =  castTime(localTimeDelta: data)
