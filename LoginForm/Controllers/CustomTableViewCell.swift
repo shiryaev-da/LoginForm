@@ -22,6 +22,7 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var labelCountStep: UILabel!
     @IBOutlet weak var labelTimeAVDAct: UILabel!
     @IBOutlet weak var labelTimeAVDStep: UILabel!
+    @IBOutlet weak var buttonInfo: UIButton!
     
     var countSecond = 0
     

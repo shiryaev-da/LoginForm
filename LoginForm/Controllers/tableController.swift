@@ -265,8 +265,28 @@ class tableController: UITableViewController, UISearchBarDelegate {
         cell.labelCountStep.text = "Шагов: \(String(message.COUNT_STEP_F))"
         cell.labelTimeAVDAct.text = "Ср. замеров: \(castTime(localTimeDelta: Int(message.AVG_TIME_TOPIC)))"
         cell.labelTimeAVDStep.text = "Ср. шагов: \(castTime(localTimeDelta: Int(message.AVG_TIME_STEP)))"
+        cell.buttonInfo.tag = indexPath.row
+        
+        
+//        cell.buttonInfo.titleLabel?.isHidden = true
+//        cell.buttonInfo.setImage(UIImage(systemName: "info"), for: .normal)
+//        cell.buttonInfo.setImage(UIImage(systemName: "info"), for: .highlighted)
+//        cell.buttonInfo.image(for: "pencil")
+//        cell.buttonInfo.tag1 = indexPath.section
+        cell.buttonInfo.addTarget(self, action: #selector(connected), for: .touchUpInside)
+        
+
         
         return cell
+    }
+
+    @objc func connected(){
+        
+
+        let buttonTag = "1"
+//        print(figuresByLetter[section].value[buttonTag].TOPIC_NAME)
+        
+        print(buttonTag)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -320,7 +340,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
             figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
         }
 
-//        tableView.reloadData()
+        tableView.reloadData()
     }
     //MARK: Действие по нажатию
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
