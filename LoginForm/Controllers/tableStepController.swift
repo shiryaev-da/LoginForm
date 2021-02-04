@@ -344,6 +344,7 @@ class tableStepController: UITableViewController {
         cell.labelTimeAVDAct.isHidden = true
         cell.labelCountStep.isHidden = true
         cell.labelCountAct.isHidden = true
+        cell.buttonInfo.isHidden = true
         var idStepViz = content[indexPath.row].id
          let data = timeDelta(value: idStepViz)
         cell.labelCount.text =  castTime(localTimeDelta: data)
@@ -368,35 +369,7 @@ class tableStepController: UITableViewController {
         titleLabel.textAlignment = NSTextAlignment.center
         titleLabel.font = UIFont(name: "Montserrat-Regular", size: 12)
         titleLabel.text = content[indexPath.row].STEP_NAME
-        
-
-      
-//        let index = find(value: "Eddie", in: itemTimeArray)
-//        print(index)
-       
-//        self.saveItems()
-        
-//        itemTimeArray[0].setValue("43", forKey: "stepID")
-        
-//        self.saveItems()
-        
-//        let btn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: tableView.bounds.width/3, height: 44))
-//        self.view.addSubview(btn)
-//        btn.setTitle("My button", for: .normal)
-////        btn.backgroundColor = UIColor.blue
-//        btn.setImage(UIImage(systemName: "checkmark.circle.fill"),
-//                        for: [.highlighted, .selected])
-     
-//        btn.layer.cornerRadius = 44/2
-        
-
-
-
-
-
         vw.addSubview(titleLabel)
-//        vw.addSubview(btn)
-
     }
     
 

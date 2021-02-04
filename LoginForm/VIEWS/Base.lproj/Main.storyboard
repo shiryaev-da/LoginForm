@@ -406,7 +406,78 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IEi-aA-eVD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4346.376811594203" y="328.79464285714283"/>
+            <point key="canvasLocation" x="4326" y="329"/>
+        </scene>
+        <!--myVC-->
+        <scene sceneID="1Rf-ch-Pjd">
+            <objects>
+                <tableViewController storyboardIdentifier="TableDetal" title="myVC" id="KaN-BA-0BM" customClass="tableDetailController" customModule="LoginForm" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="s31-3F-asd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <label key="tableFooterView" hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ix5-XN-VvJ">
+                            <rect key="frame" x="0.0" y="198" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" textLabel="qSX-LL-t6b" detailTextLabel="Ptb-Py-Hh3" rowHeight="142" style="IBUITableViewCellStyleValue1" id="aJg-MR-xOV">
+                                <rect key="frame" x="0.0" y="28" width="414" height="142"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aJg-MR-xOV" id="xqQ-72-64v">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="142"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qSX-LL-t6b">
+                                            <rect key="frame" x="20" y="61" width="33" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ptb-Py-Hh3">
+                                            <rect key="frame" x="350" y="61" width="44" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="KaN-BA-0BM" id="Hcz-xS-KGp"/>
+                            <outlet property="delegate" destination="KaN-BA-0BM" id="XlX-Md-hvV"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Yw4-ih-ksI"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="l2y-JH-9cQ">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content="Обновление...">
+                                <attributes>
+                                    <font key="NSFont" metaFont="smallSystem"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </refreshControl>
+                    <connections>
+                        <outlet property="labelAlarm" destination="ix5-XN-VvJ" id="bJN-UQ-5Kk"/>
+                        <outlet property="tableView" destination="s31-3F-asd" id="1LR-aA-E5p"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oe1-QN-I6v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5181" y="329"/>
         </scene>
     </scenes>
     <resources>

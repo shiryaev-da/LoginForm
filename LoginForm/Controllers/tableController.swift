@@ -265,7 +265,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
         cell.labelCountStep.text = "Шагов: \(String(message.COUNT_STEP_F))"
         cell.labelTimeAVDAct.text = "Ср. замеров: \(castTime(localTimeDelta: Int(message.AVG_TIME_TOPIC)))"
         cell.labelTimeAVDStep.text = "Ср. шагов: \(castTime(localTimeDelta: Int(message.AVG_TIME_STEP)))"
-        cell.buttonInfo.tag = indexPath.row
+        cell.buttonInfo.tag = message.id
         
         
 //        cell.buttonInfo.titleLabel?.isHidden = true
@@ -273,24 +273,39 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //        cell.buttonInfo.setImage(UIImage(systemName: "info"), for: .highlighted)
 //        cell.buttonInfo.image(for: "pencil")
 //        cell.buttonInfo.tag1 = indexPath.section
-        cell.buttonInfo.addTarget(self, action: #selector(connected), for: .touchUpInside)
+        cell.buttonInfo.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
+        cell.buttonInfo.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         
 
         
         return cell
     }
 
-    @objc func connected(){
+    @objc func connected(sender: UIButton){
         
 
-        let buttonTag = "1"
-//        print(figuresByLetter[section].value[buttonTag].TOPIC_NAME)
+        let buttonTag = sender.tag
+        
+        if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "TableDetal") as? tableDetailController {
+        newViewController.TOPIC_NAME = "Детализация"
+            newViewController.user = user
+            newViewController.group = group
+            newViewController.TOPIC_ID = buttonTag
+       
+       
+
+        let navController = UINavigationController(rootViewController: newViewController)
+        navController.modalTransitionStyle = .crossDissolve
+        navController.modalPresentationStyle = .overFullScreen
+        self.present(navController, animated: true, completion: nil)
+        }
         
         print(buttonTag)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return figuresByLetter.count
+   
     }
 //    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        return figuresByLetter[section].key

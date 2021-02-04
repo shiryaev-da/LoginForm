@@ -56,10 +56,9 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FDZ-oU-w4J">
-                        <rect key="frame" x="29" y="59" width="46" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="Button"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FDZ-oU-w4J">
+                        <rect key="frame" x="20" y="58" width="20" height="22"/>
+                        <state key="normal" image="info.circle" catalog="system"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -74,9 +73,11 @@
                     <constraint firstItem="cPX-Hk-Ru6" firstAttribute="top" secondItem="t8f-ZD-Cxi" secondAttribute="bottom" constant="2" id="Fl5-yG-A5p"/>
                     <constraint firstAttribute="trailing" secondItem="vOQ-dl-nHU" secondAttribute="trailing" constant="10" id="I9S-Qm-SQa"/>
                     <constraint firstAttribute="trailing" secondItem="cPX-Hk-Ru6" secondAttribute="trailing" constant="10" id="Ofv-ZP-s8s"/>
+                    <constraint firstAttribute="bottom" secondItem="FDZ-oU-w4J" secondAttribute="bottom" constant="20" id="T8x-32-eUe"/>
                     <constraint firstAttribute="trailing" secondItem="fxL-Ag-zMI" secondAttribute="trailing" constant="10" id="gNd-pb-jyU"/>
                     <constraint firstItem="NXf-j5-Tm1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="tt2-cn-8Fj"/>
                     <constraint firstItem="t8f-ZD-Cxi" firstAttribute="top" secondItem="fxL-Ag-zMI" secondAttribute="bottom" constant="10" id="vqY-nr-h5N"/>
+                    <constraint firstItem="FDZ-oU-w4J" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="xBj-lf-4RV"/>
                     <constraint firstItem="fxL-Ag-zMI" firstAttribute="top" secondItem="vOQ-dl-nHU" secondAttribute="bottom" constant="2" id="yKX-SG-2nu"/>
                 </constraints>
             </tableViewCellContentView>
@@ -94,4 +95,7 @@
             <point key="canvasLocation" x="60.869565217391312" y="-3.3482142857142856"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
+    </resources>
 </document>
