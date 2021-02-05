@@ -80,7 +80,7 @@ class registerController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     //MARK: Piker
     
     var selectedCountry: String?
-    var countryList = ["1", "2", "3", "4", "5"]
+    var countryList = ["1", "2", "3", "4", "5", "10"]
     
     
     func createPickerView() {

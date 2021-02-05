@@ -129,6 +129,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="5tu-oV-3l6"/>
                     <connections>
+                        <outlet property="buttonLogin" destination="mjp-Ha-OJ5" id="2XI-il-Cml"/>
                         <outlet property="fieldLogin" destination="TEP-Lb-aOe" id="akc-Tn-qSp"/>
                         <outlet property="fieldPass" destination="tFt-xJ-87O" id="pIp-Vc-LRU"/>
                     </connections>
@@ -152,6 +153,11 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="raP-Gj-erp">
+                            <rect key="frame" x="0.0" y="923" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" textLabel="zT3-tj-wXY" detailTextLabel="lJH-hu-nob" rowHeight="149" style="IBUITableViewCellStyleValue1" id="EOw-at-eyO">
                                 <rect key="frame" x="0.0" y="72" width="414" height="149"/>
