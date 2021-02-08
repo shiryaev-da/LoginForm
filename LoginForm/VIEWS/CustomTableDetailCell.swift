@@ -17,6 +17,8 @@ class CustomTableDetailCell: UITableViewCell {
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var imageValid: UIImageView!
     
+    let spinner = UIActivityIndicatorView()
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,5 +31,19 @@ class CustomTableDetailCell: UITableViewCell {
      
         // Configure the view for the selected state
     }
+    
+    
+    @objc func updateFlag() {
+//        imageValid.isHidden = false
+        imageValid.image = UIImage(systemName: "")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+        spinner.style = .gray
+        spinner.frame = CGRect(x: 0, y: 0, width: 48, height: 20)
+        spinner.startAnimating()
+
+        // Adds text and spinner to the view
+        imageValid.addSubview(spinner)
+  
+    }
+    
     
 }

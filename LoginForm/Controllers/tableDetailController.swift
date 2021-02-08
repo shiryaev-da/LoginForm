@@ -25,7 +25,7 @@ class tableDetailController: UITableViewController {
     var detailManager = ContentDetailManager()
     var content: [Detail] = []
     var filteredData: [Detail] = []
-    
+    var indexRow = 0
     let loadingView = UIView()
     /// Spinner shown during load the TableView
     let spinner = UIActivityIndicatorView()
@@ -69,7 +69,7 @@ class tableDetailController: UITableViewController {
         loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
 
         // Sets spinner
-       spinner.style = .gray
+        spinner.style = .gray
         spinner.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         spinner.startAnimating()
 
@@ -80,6 +80,8 @@ class tableDetailController: UITableViewController {
         tableView.addSubview(loadingView)
 
     }
+    
+
 
     // Remove the activity indicator from the main view
     private func removeLoadingScreen() {
@@ -88,6 +90,7 @@ class tableDetailController: UITableViewController {
         spinner.stopAnimating()
         spinner.isHidden = true
         loadingLabel.isHidden = true
+
 
     }
     
@@ -153,8 +156,14 @@ class tableDetailController: UITableViewController {
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let testAction = UIContextualAction(style: .destructive, title: "Хороший") { (_, _, completionHandler) in
             let message = self.filteredData[indexPath.row]
-            self.detailManager.performValidAcctive(activeID: message.ID_ART, flag: 1)
+            
             completionHandler(true)
+            self.indexRow = indexPath.row
+            self.updateFlags()
+            self.detailManager.performValidAcctive(activeID: message.ID_ART, flag: 1)
+//            self.setLoadingScreen()
+
+            
             self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
 //            sleep(1)
 //            self.tableView.reloadData()
@@ -171,12 +180,17 @@ class tableDetailController: UITableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let stopAction = UIContextualAction(style: .destructive, title: "Плохой") { (_, _, completionHandler) in
             let message = self.filteredData[indexPath.row]
-            self.detailManager.performValidAcctive(activeID: message.ID_ART, flag: -1)
-            completionHandler(true)
-            self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
-//            sleep(1)
-//            self.tableView.reloadData()
+
             
+                completionHandler(true)
+                self.indexRow = indexPath.row
+                self.updateFlags()
+                self.detailManager.performValidAcctive(activeID: message.ID_ART, flag: -1)
+                
+                self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
+  
+//            self.tableView.reloadData()
+
 
 
 
@@ -257,9 +271,7 @@ class tableDetailController: UITableViewController {
             navController.modalTransitionStyle = .crossDissolve
             navController.modalPresentationStyle = .overFullScreen
             self.present(navController, animated: true, completion: nil)
-
            }
-
     }
     
 }
@@ -267,27 +279,29 @@ class tableDetailController: UITableViewController {
 
 extension tableDetailController: DetailManagerDelegate {
     func didValidActiv(_ Content: ContentDetailManager, content: ValidAct) {
-//        self.tableView.reloadData()
-       
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            self.updateFlags()
+        }
     }
     
     func didShowDetail(_ Content: ContentDetailManager, content: [Detail]) {
         self.content = content
         self.filteredData = content
-
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(20)) {
-
-                self.tableView.reloadData()
-            self.labelAlert(flag: content.count)
-                self.tableView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
+                self.labelAlert(flag: content.count)
                 self.tableView.separatorStyle = .singleLine
                 self.removeLoadingScreen()
-
+                self.tableView.reloadData()
         }
-            
-
-        
     }
-    
+}
+
+
+// MARK: - Timer
+extension tableDetailController {
+    @objc func updateFlags() {
+          if let cell = tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as? CustomTableDetailCell {
+            cell.updateFlag()
+          }
+    }
 }
