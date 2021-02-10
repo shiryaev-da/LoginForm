@@ -111,6 +111,9 @@ extension ViewController: LoginManagerDelegate {
                     newViewController.user = login.login
                     newViewController.group = login.group
                     newViewController.resetCoredata = true
+//                    newViewController.numberOfSections = 0
+//                    newViewController.numberOfRows = 0
+                    newViewController.flagScroll = false
                     
                     
                     let navController = UINavigationController(rootViewController: newViewController)

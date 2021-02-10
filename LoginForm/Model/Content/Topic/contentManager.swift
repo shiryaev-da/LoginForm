@@ -208,7 +208,7 @@ print(" { \"USER\": \"\(loginLet)\"}")
             let decoderData = try decoder.decode(StepCoredataData.self, from: responceData)
     //                print(decoderData.statusUser)
             let stepCore = decoderData.step
-            print(stepCore)
+//            print(stepCore)
 //            let statusReg  = StepCoredataModel(user: statusAdd)
 //            print(statusReg.statusUser)
             return stepCore

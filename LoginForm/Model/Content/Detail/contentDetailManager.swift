@@ -62,7 +62,7 @@ struct ContentDetailManager {
         do{
             let decoderData = try decoder.decode(DetailData.self, from: responceData)
             let topicname = decoderData.detail
-            print(topicname)
+//            print(topicname)
             return topicname
         } catch {
 

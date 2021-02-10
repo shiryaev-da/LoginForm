@@ -279,7 +279,7 @@ class tableDetailController: UITableViewController {
 
 extension tableDetailController: DetailManagerDelegate {
     func didValidActiv(_ Content: ContentDetailManager, content: ValidAct) {
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(20)) {
             self.updateFlags()
         }
     }

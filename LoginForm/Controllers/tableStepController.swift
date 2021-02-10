@@ -42,11 +42,15 @@ class tableStepController: UITableViewController {
     var activeFlag: Bool = false
     let resetCoredata: Bool = false
     
+    var numberOfSectionsMain: Int!
+    var numberOfRowsMain: Int!
+    
     let loadingView = UIView()
     /// Spinner shown during load the TableView
     let spinner = UIActivityIndicatorView()
     /// Text shown during load the TableView
     let loadingLabel = UILabel()
+    
     
     
 
@@ -550,15 +554,20 @@ class tableStepController: UITableViewController {
             let jsonString = convertIntoJSONString(arrayObject: jsonTo)!
             stepManager.performRequest(loginRegLet: user, json: jsonString)
             
+            
+            
             newViewController.user = user
             newViewController.group = group
             newViewController.resetCoredata = resetCoredata
+            newViewController.numberOfSections = Int(numberOfSectionsMain)
+            newViewController.numberOfRows = Int(numberOfRowsMain)
+            newViewController.flagScroll = true
             
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .crossDissolve
             navController.modalPresentationStyle = .overFullScreen
             self.present(navController, animated: true, completion: nil)
-
+//            print(numberOfSectionsMain, numberOfRowsMain)
            }
         self.timer.invalidate()
     }

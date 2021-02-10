@@ -70,7 +70,9 @@ class tableController: UITableViewController, UISearchBarDelegate {
     var filteredData: [Topic]!
     var resetCoredata = true
     var figuresByLetter = [(key: String, value: [Topic])]()
-    
+    var numberOfSections: Int!
+    var numberOfRows: Int!
+    var flagScroll: Bool!
     
     let loadingView = UIView()
 
@@ -120,6 +122,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         setLoadingScreen()
+
 
 
         loadItems()
@@ -301,11 +304,33 @@ class tableController: UITableViewController, UISearchBarDelegate {
     return times.joined(separator: "")
     }
     
+
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
      
-       
+    
         let message = figuresByLetter[indexPath.section].value[indexPath.row]
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
+        
+        
+
+        
+//MARK: Принудильтельный скролл
+
+        
+        if (flagScroll == true) {
+
+        let indexPath = IndexPath(row: self.numberOfRows, section: self.numberOfSections)
+     
+        self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+        
+        }
+        
+        if (indexPath.row == self.numberOfRows && indexPath.section ==  self.numberOfSections) {
+            flagScroll = false
+        }
+        
+       
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 16
         cell.labelNme.text = message.TOPIC_NAME
@@ -329,9 +354,11 @@ class tableController: UITableViewController, UISearchBarDelegate {
         cell.buttonInfo.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         
 
-        
+//        print(cell)
         return cell
     }
+    
+
 
     @objc func connected(sender: UIButton){
         
@@ -420,9 +447,10 @@ class tableController: UITableViewController, UISearchBarDelegate {
         print(indexPath.row)
 
         let message = figuresByLetter[indexPath.section].value[indexPath.row]
-        print(message.id)
-        
-        print(message.TOPIC_NAME)
+//        print(message.id)
+//
+//        print(message.TOPIC_NAME)
+
 
         func openCell(flagActive: Bool) {
         if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "TableStep") as? tableStepController {
@@ -433,7 +461,10 @@ class tableController: UITableViewController, UISearchBarDelegate {
             newViewController.group = self.group
             newViewController.idTopic = message.id
             newViewController.activeFlag = flagActive
-           
+            newViewController.numberOfRowsMain = indexPath.row
+            newViewController.numberOfSectionsMain = indexPath.section
+            print(indexPath.section)
+            print(indexPath.row)
            
 
             let navController = UINavigationController(rootViewController: newViewController)
