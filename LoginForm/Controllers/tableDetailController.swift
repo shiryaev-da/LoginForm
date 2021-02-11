@@ -36,12 +36,12 @@ class tableDetailController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = TOPIC_NAME
-        let leftBackButton = UIBarButtonItem(
-            image: UIImage(systemName: "arrow.backward.circle.fill"),
-            style: .plain,
-            target: self,
-            action: #selector(didTapMenuButton))
-        self.navigationItem.leftBarButtonItem = leftBackButton
+//        let leftBackButton = UIBarButtonItem(
+//            image: UIImage(systemName: "arrow.backward.circle.fill"),
+//            style: .plain,
+//            target: self,
+//            action: #selector(didTapMenuButton))
+//        self.navigationItem.leftBarButtonItem = leftBackButton
         self.registerTableViewCells()
         detailManager.delegate = self
         setLoadingScreen()
@@ -265,7 +265,7 @@ class tableDetailController: UITableViewController {
 
             newViewController.user = user
             newViewController.group = group
-            newViewController.resetCoredata = resetCoredata
+//            newViewController.resetCoredata = resetCoredata
             
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .crossDissolve

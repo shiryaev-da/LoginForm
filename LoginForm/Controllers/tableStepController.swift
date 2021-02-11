@@ -42,8 +42,7 @@ class tableStepController: UITableViewController {
     var activeFlag: Bool = false
     let resetCoredata: Bool = false
     
-    var numberOfSectionsMain: Int!
-    var numberOfRowsMain: Int!
+    var numberOfRowsMain: [IndexPath] = []
     
     let loadingView = UIView()
     /// Spinner shown during load the TableView
@@ -544,32 +543,62 @@ class tableStepController: UITableViewController {
 
     //MARK: Кнопка Выход
     @objc public func didTapMenuButton() {
-        if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
+
+        
+        
+        
+        let alertController = UIAlertController(title: "Выход", message: "Выйти из замера?", preferredStyle: .alert)
+
+            // Initialize Actions
+        let yesAction = UIAlertAction(title: "Да", style: .destructive) { (action) -> Void in
+                print("The user is okay.")
             
-            if (self.idStepIn != nil) {
-                self.startUpdate(value: self.idStepIn)
+            if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
+                
+                if (self.idStepIn != nil) {
+                    self.startUpdate(value: self.idStepIn)
+                }
+                self.saveItems()
+                let jsonTo = self.convertToJSONArray(moArray: self.itemTimeArray)
+                let jsonString = self.convertIntoJSONString(arrayObject: jsonTo)!
+                self.stepManager.performRequest(loginRegLet: self.user, json: jsonString)
+                
+                
+                
+                newViewController.user = self.user
+                newViewController.group = self.group
+                newViewController.resetCoredata = self.resetCoredata
+                newViewController.numberOfRows = self.numberOfRowsMain
+          
+                
+                let navController = UINavigationController(rootViewController: newViewController)
+                navController.modalTransitionStyle = .crossDissolve
+                navController.modalPresentationStyle = .overFullScreen
+                self.present(navController, animated: true, completion: nil)
+    //            print(numberOfSectionsMain, numberOfRowsMain)
+               }
+            self.timer.invalidate()
+            
             }
-            self.saveItems()
-            let jsonTo = convertToJSONArray(moArray: itemTimeArray)
-            let jsonString = convertIntoJSONString(arrayObject: jsonTo)!
-            stepManager.performRequest(loginRegLet: user, json: jsonString)
-            
-            
-            
-            newViewController.user = user
-            newViewController.group = group
-            newViewController.resetCoredata = resetCoredata
-            newViewController.numberOfSections = Int(numberOfSectionsMain)
-            newViewController.numberOfRows = Int(numberOfRowsMain)
-            newViewController.flagScroll = true
-            
-            let navController = UINavigationController(rootViewController: newViewController)
-            navController.modalTransitionStyle = .crossDissolve
-            navController.modalPresentationStyle = .overFullScreen
-            self.present(navController, animated: true, completion: nil)
-//            print(numberOfSectionsMain, numberOfRowsMain)
-           }
-        self.timer.invalidate()
+
+        let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
+                print("The user is not okay.")
+            }
+
+            // Add Actions
+            alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+
+
+            // Present Alert Controller
+        self.present(alertController, animated: true, completion: nil)
+        
+        
+        
+        
+        
+        
+        
     }
     
     //MARK: Кнопка Добавления

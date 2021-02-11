@@ -70,9 +70,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     var filteredData: [Topic]!
     var resetCoredata = true
     var figuresByLetter = [(key: String, value: [Topic])]()
-    var numberOfSections: Int!
-    var numberOfRows: Int!
-    var flagScroll: Bool!
+    var numberOfRows: [IndexPath] = []
     
     let loadingView = UIView()
 
@@ -118,9 +116,12 @@ class tableController: UITableViewController, UISearchBarDelegate {
         contentManager.delegate = self
         contentManager.performLogin(user: user)
         contentManager.performStep(loginLet: user)
-        searchBar.delegate = self
+
         self.tableView.dataSource = self
         self.tableView.delegate = self
+//        self.searchBar.text = "Сам"
+//        self.searchBar.isFirstResponder
+        searchBar.delegate = self
         setLoadingScreen()
 
 
@@ -131,18 +132,6 @@ class tableController: UITableViewController, UISearchBarDelegate {
 
     }
         
-//        func showSearchBar() {
-//            let searchController = UISearchController(searchResultsController: nil)
-//            searchController.searchBar.delegate = self
-//            searchController.dimsBackgroundDuringPresentation = false
-//            searchController.hidesNavigationBarDuringPresentation = true
-//            navigationItem.hidesSearchBarWhenScrolling = true
-//            //true for hiding, false for keep showing while scrolling
-//            searchController.searchBar.sizeToFit()
-//            searchController.searchBar.returnKeyType = UIReturnKeyType.search
-//            searchController.searchBar.placeholder = "Поиск"
-//            navigationItem.searchController = searchController
-//        }
     
     
     // MARK: Ожидание загрузки
@@ -318,18 +307,11 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //MARK: Принудильтельный скролл
 
         
-        if (flagScroll == true) {
 
-        let indexPath = IndexPath(row: self.numberOfRows, section: self.numberOfSections)
-     
-        self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
         
-        }
         
-        if (indexPath.row == self.numberOfRows && indexPath.section ==  self.numberOfSections) {
-            flagScroll = false
-        }
-        
+
+ 
        
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 16
@@ -350,7 +332,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //        cell.buttonInfo.setImage(UIImage(systemName: "info"), for: .highlighted)
 //        cell.buttonInfo.image(for: "pencil")
 //        cell.buttonInfo.tag1 = indexPath.section
-        cell.buttonInfo.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
+        cell.buttonInfo.addTarget(self, action: #selector(connected(sender:)), for: .allTouchEvents)
         cell.buttonInfo.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         
 
@@ -374,8 +356,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
        
 
         let navController = UINavigationController(rootViewController: newViewController)
-        navController.modalTransitionStyle = .crossDissolve
-        navController.modalPresentationStyle = .overFullScreen
+//        navController.modalTransitionStyle = .crossDissolve
+//        navController.modalPresentationStyle = .overFullScreen
         self.present(navController, animated: true, completion: nil)
         }
         
@@ -432,8 +414,10 @@ class tableController: UITableViewController, UISearchBarDelegate {
     //MARK: Бар для поиска
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
+ 
         
         if let searchText = searchBar.text {
+         
                filteredData = searchText.isEmpty ? content : content.filter{ term in
                 return term.TOPIC_NAME.lowercased().contains(searchText.lowercased())
                 }
@@ -455,17 +439,14 @@ class tableController: UITableViewController, UISearchBarDelegate {
         func openCell(flagActive: Bool) {
         if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "TableStep") as? tableStepController {
 
-
+//            let selectedRows = tableView.indexPathsForSelectedRows
+//            print(selectedRows)
             newViewController.TOPIC_NAME = message.TOPIC_NAME
             newViewController.user = self.user
             newViewController.group = self.group
             newViewController.idTopic = message.id
             newViewController.activeFlag = flagActive
-            newViewController.numberOfRowsMain = indexPath.row
-            newViewController.numberOfSectionsMain = indexPath.section
-            print(indexPath.section)
-            print(indexPath.row)
-           
+            newViewController.numberOfRowsMain = tableView.indexPathsForSelectedRows!
 
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .crossDissolve
@@ -719,11 +700,19 @@ extension tableController: ContentManagerDelegate {
         figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
 //        print(figuresByLetter)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(20)) {
+      
+        DispatchQueue.main.async {
+
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
 
 //            self.rows = ["Row 1", "Row 2", "Row 3", "Row 4", "Row 5"]
-
             self.tableView.reloadData()
+            self.numberOfRows.forEach { numberOfRows in
+                self.tableView.selectRow(at: numberOfRows, animated: false, scrollPosition: .middle)
+            }
+
+
             self.tableView.separatorStyle = .singleLine
             self.removeLoadingScreen()
         }
