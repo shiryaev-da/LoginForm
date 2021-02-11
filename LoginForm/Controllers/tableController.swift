@@ -71,6 +71,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     var resetCoredata = true
     var figuresByLetter = [(key: String, value: [Topic])]()
     var numberOfRows: [IndexPath] = []
+    var valueSearch: String = ""
     
     let loadingView = UIView()
 
@@ -119,8 +120,9 @@ class tableController: UITableViewController, UISearchBarDelegate {
 
         self.tableView.dataSource = self
         self.tableView.delegate = self
-//        self.searchBar.text = "Сам"
-//        self.searchBar.isFirstResponder
+        self.searchBar.text = valueSearch
+
+//        self.searchBar.isFocused
         searchBar.delegate = self
         setLoadingScreen()
 
@@ -128,6 +130,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
 
         loadItems()
         filteredData = content
+
 //        showSearchBar()
 
     }
@@ -417,12 +420,13 @@ class tableController: UITableViewController, UISearchBarDelegate {
  
         
         if let searchText = searchBar.text {
-         
+ 
                filteredData = searchText.isEmpty ? content : content.filter{ term in
                 return term.TOPIC_NAME.lowercased().contains(searchText.lowercased())
                 }
             figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
         }
+        self.valueSearch = searchText
 
         tableView.reloadData()
     }
@@ -447,6 +451,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
             newViewController.idTopic = message.id
             newViewController.activeFlag = flagActive
             newViewController.numberOfRowsMain = tableView.indexPathsForSelectedRows!
+            newViewController.valueSearchStep = valueSearch
 
             let navController = UINavigationController(rootViewController: newViewController)
             navController.modalTransitionStyle = .crossDissolve
@@ -708,6 +713,7 @@ extension tableController: ContentManagerDelegate {
 
 //            self.rows = ["Row 1", "Row 2", "Row 3", "Row 4", "Row 5"]
             self.tableView.reloadData()
+            self.searchBar(self.searchBar, textDidChange: self.valueSearch)
             self.numberOfRows.forEach { numberOfRows in
                 self.tableView.selectRow(at: numberOfRows, animated: false, scrollPosition: .middle)
             }

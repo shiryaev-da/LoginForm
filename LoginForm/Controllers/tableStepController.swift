@@ -41,6 +41,7 @@ class tableStepController: UITableViewController {
     var activeID: Int!
     var activeFlag: Bool = false
     let resetCoredata: Bool = false
+    var valueSearchStep: String!
     
     var numberOfRowsMain: [IndexPath] = []
     
@@ -569,6 +570,7 @@ class tableStepController: UITableViewController {
                 newViewController.group = self.group
                 newViewController.resetCoredata = self.resetCoredata
                 newViewController.numberOfRows = self.numberOfRowsMain
+                newViewController.valueSearch = self.valueSearchStep
           
                 
                 let navController = UINavigationController(rootViewController: newViewController)
