@@ -125,6 +125,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //        self.searchBar.isFocused
         searchBar.delegate = self
         setLoadingScreen()
+        self.tableView.keyboardDismissMode = .onDrag
 
 
 
