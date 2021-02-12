@@ -706,22 +706,16 @@ extension tableController: ContentManagerDelegate {
         figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
 //        print(figuresByLetter)
         
-      
-        DispatchQueue.main.async {
 
-        }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
-
-//            self.rows = ["Row 1", "Row 2", "Row 3", "Row 4", "Row 5"]
             self.tableView.reloadData()
             self.searchBar(self.searchBar, textDidChange: self.valueSearch)
+            self.tableView.separatorStyle = .singleLine
+            self.removeLoadingScreen()
             self.numberOfRows.forEach { numberOfRows in
                 self.tableView.selectRow(at: numberOfRows, animated: false, scrollPosition: .middle)
             }
-
-
-            self.tableView.separatorStyle = .singleLine
-            self.removeLoadingScreen()
         }
     }
 }
