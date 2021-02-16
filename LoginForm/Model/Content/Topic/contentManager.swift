@@ -13,6 +13,7 @@ protocol ContentManagerDelegate {
     func didAddTopic(_ Content: ContentManager, content: AddTopicModel)
     func didDelTopic(_ Content: ContentManager, content: AddTopicModel)
     func didContentStepDataCore(_ Content: ContentManager, content: [TopicStepCore])
+    func didSendMail(_ Content: ContentManager, content: SendMail)
 
     
     
@@ -220,7 +221,59 @@ print(" { \"USER\": \"\(loginLet)\"}")
     }
     
 
+    //MARK: send mail
+    func performSendMail (loginLet: String, keyName: String){
 
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/report_user_start/user/")
+    guard let requestUrl = url else { fatalError() }
+
+    // Prepare URL Request Object
+    var request = URLRequest(url: requestUrl)
+    request.httpMethod = "POST"
+
+    // HTTP Request Parameters which will be sent in HTTP Request Body
+    let postString : Data = "{\"USERNAME\": \"\(loginLet)\", \"KEY\": \"\(keyName).csv\"}".data(using: .utf8)!;
+        
+        print("{\"USERNAME\": \"\(loginLet)\", \"KEY\": \"\(keyName).csv\"}")
+
+    // Set HTTP Request Body
+    request.httpBody = postString;
+    request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+
+    // Perform HTTP Request
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+        if let safeData = data {
+            if let login = self.parseJSONSendMail(safeData) {
+                self.delegate?.didSendMail(self, content: login)
+            }
+        }
+
+    }
+    task.resume()
+    }
+
+    func parseJSONSendMail(_ responceData: Data) -> SendMail? {
+        let decoder = JSONDecoder()
+        do{
+            let decoderData = try decoder.decode(SendMail.self, from: responceData)
+    //                print(decoderData.statusUser)
+            let statusAdd = decoderData.mail
+//            print(statusAdd)
+            let statusReg  = SendMail(mail: statusAdd)
+//            print(statusReg.mail)
+            return statusReg
+
+        } catch {
+//            let statusReg  = AddTopicModel(statusAddTopic: nil)
+            return nil
+        }
+    }
     
     
 }

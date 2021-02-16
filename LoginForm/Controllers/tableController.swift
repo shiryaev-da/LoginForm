@@ -99,13 +99,20 @@ class tableController: UITableViewController, UISearchBarDelegate {
             target: self,
             action: #selector(didTapMenuButtonAdd)
         )
+        let rightBackButton1 = UIBarButtonItem(
+    //            title: "Back",
+            image: UIImage(systemName: "square.and.arrow.up"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapMenuButtonSendMail)
+        )
         let leftBackButton = UIBarButtonItem(
     //            title: "Back",
             image: UIImage(systemName: "arrow.backward.circle.fill"),
             style: .plain,
             target: self,
             action: #selector(didTapMenuButton))
-        self.navigationItem.rightBarButtonItem = rightBackButton
+        self.navigationItem.rightBarButtonItems = [rightBackButton, rightBackButton1]
         self.navigationItem.leftBarButtonItem = leftBackButton
         self.navigationController?.navigationBar.prefersLargeTitles = true
 //        labelHello.text =  "Привет \(String(firstName))!!!"
@@ -126,6 +133,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
         searchBar.delegate = self
         setLoadingScreen()
         self.tableView.keyboardDismissMode = .onDrag
+        self.tableView.scrollsToTop = true
 
 
 
@@ -616,19 +624,77 @@ class tableController: UITableViewController, UISearchBarDelegate {
                     self.tableView.reloadData()
                     self.present(alert, animated: true, completion: nil)
   
-
-
-//
-//            let indexPath = IndexPath(row: self.content.count - 1, section: 0)
-//            self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
-//
         }
+
+    }
+    
+    //MARK: Кнопка Отправки отчета
+    @objc public func didTapMenuButtonSendMail() {
+
+
+        
+        
+        let alertController = UIAlertController(title: "Информация", message: "Вы хотите отправить отчет на e-Mail?", preferredStyle: .alert)
+
+        
+        // Initialize Actions
+        
+        let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
+                print("The user is not okay.")
+            }
+
+        let yesAction = UIAlertAction(title: "Да", style: .cancel) { (action) -> Void in
+                print("The user is okay.")
+            
+            let today = Date()
+            let formatter1 = DateFormatter()
+            formatter1.dateFormat = "yMMd_Hmmss"
+
+            
+            
+                self.contentManager.performSendMail(loginLet: self.user, keyName: self.user + "_" + formatter1.string(from: today))
+                
+            }
+
+
+            // Add Actions
+            alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+
+
+
+
+            // Present Alert Controller
+        self.present(alertController, animated: true, completion: nil)
+        
+        
+        
+        
+        
 
     }
     
 }
 
 extension tableController: ContentManagerDelegate {
+    func didSendMail(_ Content: ContentManager, content: SendMail) {
+        DispatchQueue.main.async {
+        print(content.mail)
+        
+        
+        
+        let alert = UIAlertController(title: "Информация", message: "Сообщение отправлено на \(content.mail)", preferredStyle: UIAlertController.Style.alert)
+
+        // add an action (button)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
+        }
+        
+    }
+    
 
     
     

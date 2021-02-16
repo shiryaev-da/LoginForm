@@ -51,6 +51,10 @@ class loginController: UIViewController {
     }
 }
 extension loginController: ContentManagerDelegate {
+    func didSendMail(_ Content: ContentManager, content: SendMail) {
+        
+    }
+    
     func didActimeTime(_ Content: ContentManager, content: AddActiveModel) {
         
     }

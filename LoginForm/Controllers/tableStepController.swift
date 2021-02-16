@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 import CoreData
-
+import CoreLocation
+import UserNotifications
 
 struct Record : Encodable {
 
@@ -16,9 +17,6 @@ struct Record : Encodable {
 
 
 class tableStepController: UITableViewController {
-
-    
-
     var TOPIC_NAME: String!
     var idTopic: Int!
     var user: String!
@@ -42,6 +40,7 @@ class tableStepController: UITableViewController {
     var activeFlag: Bool = false
     let resetCoredata: Bool = false
     var valueSearchStep: String!
+
     
     var numberOfRowsMain: [IndexPath] = []
     

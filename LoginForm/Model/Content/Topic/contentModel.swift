@@ -25,6 +25,10 @@ struct AddTopicData: Codable {
     let statusAddTopic: Int
 }
 
+struct SendMail: Codable {
+    let mail: String
+}
+
 
 struct StepCoredataData: Codable {
     let step: [TopicStepCore]
