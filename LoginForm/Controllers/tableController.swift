@@ -62,14 +62,15 @@ class tableController: UITableViewController, UISearchBarDelegate {
     var user: String!
     var group: Int!
     var contentManager = ContentManager()
-    var content: [Topic] = []
+    var content: [Sector] = []
     var contentCore: [TopicStepCore] = []
     var itemTimeArray = [Logtimer]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var contentActive: Int!
-    var filteredData: [Topic]!
+    var filteredData: [Sector]!
+    var topicVar: [Topic]!
     var resetCoredata = true
-    var figuresByLetter = [(key: String, value: [Topic])]()
+//    var figuresByLetter = [(key: String, value: [Topic])]()
     var numberOfRows: [IndexPath] = []
     var valueSearch: String = ""
     
@@ -238,19 +239,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
 
     
     
-//    func saveSpotsLocation() {
-//      let newUser = NSEntityDescription.insertNewObject(forEntityName: "Model", into: context)
-//      do {
-//        let message1 = contentCore[1]
-////        newUser.setValue(data, forKey: "data")
-////        newUser.setValue(message1.USERNAME, forKey: "user")
-////        newUser.setValue(Int16(message1.TOPICID), forKey: "topicID")
-////        newUser.setValue(Int16(message1.STEPID), forKey: "stepID")
-//        try context.save()
-//      } catch {
-//        print("failure")
-//      }
-//    }
+
     
     //MARK: Замеры
     private func registerTableViewCells() {
@@ -261,13 +250,6 @@ class tableController: UITableViewController, UISearchBarDelegate {
     }
 
     
-//    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-
-//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        self.tableView.backgroundColor = UIColor.systemGreen
-//               }
 
     func isColorRow (numTag: Float) -> UIColor {
 
@@ -310,7 +292,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
      
     
-        let message = figuresByLetter[indexPath.section].value[indexPath.row]
+        let message = filteredData[indexPath.section].topic[indexPath.row]
          let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
         
         
@@ -378,39 +360,88 @@ class tableController: UITableViewController, UISearchBarDelegate {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         
-//        if (figuresByLetter.count > 0) {
-//            self.removeLoadingScreen()
-//        }
-        
-        return figuresByLetter.count
+        return filteredData.count
         
    
     }
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return figuresByLetter[section].key
-//    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return figuresByLetter[section].value.count
+        if !filteredData[section].isExt {
+            return 0
+        }
+        return filteredData[section].topic.count
     }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var popup:UIView!
 //
 
         popup = UIView()
-
-        let lb = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
-        lb.text = figuresByLetter[section].key
-        lb.font = lb.font.withSize(20)
-        lb.textAlignment = .center
         popup.backgroundColor = UIColor.white
 
+        let lb = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
+        lb.text = filteredData[section].name
+        lb.font = lb.font.withSize(20)
+        lb.textAlignment = .center
+       
+        
+
         // show on screen
-        self.view.addSubview(popup)
+
         popup.addSubview(lb)
         
         
+        let imageOpen = UIImage(systemName: "chevron.down") as UIImage?
+        let imageClose = UIImage(systemName: "chevron.backward") as UIImage?
+        let button   = UIButton(type: UIButton.ButtonType.custom) as UIButton
         
+        let isExpanded = filteredData[section].isExt
+        button.frame = CGRect(x: 0, y: 10, width: view.frame.size.width * 1.9, height: 20)
+        button.setImage(isExpanded ? imageClose : imageOpen, for: .normal)
+//        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+//        button .setBackgroundImage(image, forState: UIControlState.Normal)
+//        let botton = UIButton(type: .system )
+
+//        botton.frame = CGRect(x: 0, y: 0, width: 60, height: 20)
+//        botton.title(for: .selected)
+//        botton.setTitleColor(.black, for: .normal)
+//        botton.setTitle("Close", for: .normal)
+//        botton.setImage(UIImage(systemName: "search"), for: .normal)
+//        botton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.addTarget(self, action: #selector(handleOpenClose), for: .touchUpInside)
+        button.tag = section
+        popup.addSubview(button)
+        self.view.addSubview(popup)
         return popup
+    }
+    
+    
+    //MARK: Сворачивание
+    @objc func handleOpenClose(button: UIButton) {
+        
+        let section = button.tag
+        
+        var indexPaths = [IndexPath]()
+        for row in filteredData[section].topic.indices {
+            let indexPath = IndexPath(row: row, section: section)
+            indexPaths.append(indexPath)
+        }
+        
+        
+        let isExpanded = filteredData[section].isExt
+        filteredData[section].isExt = !isExpanded
+        
+        let imageOpen = UIImage(systemName: "chevron.down") as UIImage?
+        let imageClose = UIImage(systemName: "chevron.backward") as UIImage?
+        
+        button.setImage(isExpanded ? imageOpen : imageClose, for: .normal)
+
+
+        
+        if  isExpanded {
+            tableView.deleteRows(at: indexPaths, with: .fade)
+        } else {
+            tableView.insertRows(at: indexPaths, with: .fade)
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -427,14 +458,34 @@ class tableController: UITableViewController, UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
  
-        
-        if let searchText = searchBar.text {
- 
-               filteredData = searchText.isEmpty ? content : content.filter{ term in
-                return term.TOPIC_NAME.lowercased().contains(searchText.lowercased())
+
+            if let searchText = searchBar.text {
+
+                if searchText == "" {
+
+                    filteredData = content
+                
+            }
+             else {
+                topicVar = []
+                filteredData = []
+                for item in content {
+                    
+//                    filteredData.append(item)
+                    for x in item.topic {
+                        
+                        if x.TOPIC_NAME.lowercased().contains(searchText.lowercased()) {
+                            topicVar.append(x)
+                        }
+                        
+                    }
+
+                    filteredData  = [Sector(name: "Поиск", isExt: true, topic: topicVar)]
                 }
-            figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
-        }
+            }
+            }
+
+        
         self.valueSearch = searchText
 
         tableView.reloadData()
@@ -443,7 +494,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
 
-        let message = figuresByLetter[indexPath.section].value[indexPath.row]
+        let message = filteredData[indexPath.section].topic[indexPath.row]
 //        print(message.id)
 //
 //        print(message.TOPIC_NAME)
@@ -528,27 +579,27 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //
 
     //MARK:  Действия на свайп
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let testAction = UIContextualAction(style: .destructive, title: "del") { (_, _, completionHandler) in
-            self.contentManager.performDelTopic(loginLet: self.user, groupLet: self.group, nameTopic: self.filteredData[indexPath.row].TOPIC_NAME)
-            self.figuresByLetter[indexPath.section].value.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
-//            figuresByLetter[indexPath.section].value[indexPath.row]
-
-            
+//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let testAction = UIContextualAction(style: .destructive, title: "del") { (_, _, completionHandler) in
+//            self.contentManager.performDelTopic(loginLet: self.user, groupLet: self.group, nameTopic: self.filteredData[indexPath.row].TOPIC_NAME)
+//            self.filteredData[indexPath.section].topic.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//
+////            figuresByLetter[indexPath.section].value[indexPath.row]
+//
+//
+////            completionHandler(true)
+//        }
+//        testAction.backgroundColor = .red
+//        testAction.image = UIImage(systemName: "trash")
+//        let testAction2 = UIContextualAction(style: .destructive, title: "Edit") { (_, _, completionHandler) in
+//            print("test")
 //            completionHandler(true)
-        }
-        testAction.backgroundColor = .red
-        testAction.image = UIImage(systemName: "trash")
-        let testAction2 = UIContextualAction(style: .destructive, title: "Edit") { (_, _, completionHandler) in
-            print("test")
-            completionHandler(true)
-        }
-        testAction2.backgroundColor = .clear
-        testAction2.image = UIImage(systemName: "pencil")
-        return UISwipeActionsConfiguration(actions: [testAction])
-    }
+//        }
+//        testAction2.backgroundColor = .clear
+//        testAction2.image = UIImage(systemName: "pencil")
+//        return UISwipeActionsConfiguration(actions: [testAction])
+//    }
     
 
     
@@ -766,13 +817,12 @@ extension tableController: ContentManagerDelegate {
         
     }
     
-    func didContentData(_ Content: ContentManager, content: [Topic]) {
+    func didContentData(_ Content: ContentManager, content: [Sector]) {
         self.content = content
         self.filteredData = content
-        figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
-//        print(figuresByLetter)
-        
+//        figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
 
+    
 
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
             self.tableView.reloadData()

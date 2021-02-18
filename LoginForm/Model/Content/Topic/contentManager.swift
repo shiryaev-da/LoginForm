@@ -9,7 +9,7 @@ import Foundation
 
 
 protocol ContentManagerDelegate {
-    func didContentData(_ Content: ContentManager, content: [Topic])
+    func didContentData(_ Content: ContentManager, content: [Sector])
     func didAddTopic(_ Content: ContentManager, content: AddTopicModel)
     func didDelTopic(_ Content: ContentManager, content: AddTopicModel)
     func didContentStepDataCore(_ Content: ContentManager, content: [TopicStepCore])
@@ -25,7 +25,7 @@ struct ContentManager {
     
     //MARK: VIEW TOPIC
     func performLogin(user: String) {
-    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/mod_interval_topc_user/get_topic/\(user)")
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/mod_interval_topc_user_g/get_user/\(user)")
     guard let requestUrl = url else { fatalError() }
 
     // Prepare URL Request Object
@@ -49,11 +49,12 @@ struct ContentManager {
     task.resume()
     }
 
-    func parseJSONGet(_ responceData: Data) -> [Topic]?  {
+    func parseJSONGet(_ responceData: Data) -> [Sector]?  {
         let decoder = JSONDecoder()
         do{
             let decoderData = try decoder.decode(ContentData.self, from: responceData)
-            let topicname = decoderData.topic
+            let topicname = decoderData.sector
+//            print(topicname)
             return topicname
         } catch {
 
@@ -234,7 +235,7 @@ print(" { \"USER\": \"\(loginLet)\"}")
     // HTTP Request Parameters which will be sent in HTTP Request Body
     let postString : Data = "{\"USERNAME\": \"\(loginLet)\", \"KEY\": \"\(keyName).csv\"}".data(using: .utf8)!;
         
-        print("{\"USERNAME\": \"\(loginLet)\", \"KEY\": \"\(keyName).csv\"}")
+//        print("{\"USERNAME\": \"\(loginLet)\", \"KEY\": \"\(keyName).xlsx\"}")
 
     // Set HTTP Request Body
     request.httpBody = postString;

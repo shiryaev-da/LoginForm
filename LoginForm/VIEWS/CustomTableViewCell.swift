@@ -58,10 +58,6 @@ class CustomTableViewCell: UITableViewCell {
         let localTimeInt =  localTime.timeIntervalSince1970
        
         let localTimeDelta = Int(Date().timeIntervalSince1970) - Int(localTimeInt)
-        print(localTimeDelta)
-//        self.tableView.reloadData()
-        
-        
    
         
         let hours = Int(localTimeDelta) / 3600
@@ -77,7 +73,7 @@ class CustomTableViewCell: UITableViewCell {
           }
           times.append("\(seconds) сек")
         
-        labelCount.text = times.joined(separator: " ")
+        labelTimeAVDAct.text = times.joined(separator: " ")
         
         
 //        labelCount.backgroundColor = UIColor.brown
@@ -85,6 +81,35 @@ class CustomTableViewCell: UITableViewCell {
         
 //        labelCount.text = String(localTimeDelta)
       }
+    
+    
+    @objc func updateTimeAll(deltaTime: Int, localTime: Date) {
+        
+        let localTimeInt =  localTime.timeIntervalSince1970
+       
+        let localTimeDelta = Int(Date().timeIntervalSince1970) - Int(localTimeInt)
+        
+    
+        let hours = Int(deltaTime + localTimeDelta) / 3600
+        let minutes = Int(deltaTime + localTimeDelta) / 60 % 60
+        let seconds = Int(deltaTime + localTimeDelta) % 60
+        
+        var times: [String] = []
+        if hours > 0 {
+            times.append("\(hours) Час")
+          }
+          if minutes > 0 {
+            times.append("\(minutes) мин")
+          }
+          times.append("\(seconds) сек")
+        
+        labelTimeAVDStep.text = times.joined(separator: " ")
+    }
+    
+    
+    @objc func updateCountStep(count: Int) {
+        labelCount.text = "Кол-во: \(String(count+1))"
+    }
     
 
     

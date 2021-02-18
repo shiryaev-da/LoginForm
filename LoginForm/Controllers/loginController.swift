@@ -71,7 +71,7 @@ extension loginController: ContentManagerDelegate {
         
     }
     
-    func didContentData(_ Content: ContentManager, content: [Topic]) {
+    func didContentData(_ Content: ContentManager, content: [Sector]) {
 
     }
     

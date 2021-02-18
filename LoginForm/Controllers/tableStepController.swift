@@ -40,6 +40,9 @@ class tableStepController: UITableViewController {
     var activeFlag: Bool = false
     let resetCoredata: Bool = false
     var valueSearchStep: String!
+    var timeDeltaSumVar: Int = 0
+    var countStepSumVar: Int!
+    var idStepPlay: Int!
 
     
     var numberOfRowsMain: [IndexPath] = []
@@ -130,7 +133,8 @@ class tableStepController: UITableViewController {
         contentStepManager.delegate = self
         contentStepManager.performLogin(user: self.idTopic)
         stepManager.delegate = self
-        
+//        content.append(contentsOf: [TopicStep(id: 216, TOPIC_ID: 296, STEP_NAME: "Презентация по продукту ")])
+
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -143,6 +147,8 @@ class tableStepController: UITableViewController {
         } else {
             contentStepManager.performActive(loginLet: user)
         }
+        
+       
     }
     
     
@@ -170,6 +176,7 @@ class tableStepController: UITableViewController {
         // Adds text and spinner to the view
         loadingView.addSubview(spinner)
         loadingView.addSubview(loadingLabel)
+        
 
         tableView.addSubview(loadingView)
 
@@ -306,7 +313,7 @@ class tableStepController: UITableViewController {
     
     func timeDelta(value searchValue: Int) -> Int {
         r = 0
-        if let i = itemTimeArray.firstIndex(where: {$0.flagActive == 0 && $0.stepID == Int16(searchValue) && $0.user == user }) {
+        if let i = itemTimeArray.lastIndex(where: {$0.flagActive == 0 && $0.stepID == Int16(searchValue) && $0.user == user }) {
             let dateStartInt = itemTimeArray[i].dateTimeStart?.timeIntervalSince1970
             let dateEndInt = itemTimeArray[i].dateTimeEnd?.timeIntervalSince1970
 //            let timeInterval = someDate.dateStartInt
@@ -319,11 +326,54 @@ class tableStepController: UITableViewController {
         }
     }
     
+    
+    func timeDeltaSum(value searchValue: Int) -> Int {
+//
+        self.timeDeltaSumVar = 0
+        
+        self.itemTimeArray.forEach({ book in
+//            print(book.topicID)
+            if (book.stepID == searchValue && book.flagActive == 0 && book.typeAction == "Finish") {
+                let dateStartInt = book.dateTimeStart?.timeIntervalSince1970
+                let dateEndInt = book.dateTimeEnd?.timeIntervalSince1970
+                self.timeDeltaSumVar = self.timeDeltaSumVar + (Int(dateEndInt ?? 0) - Int(dateStartInt ?? 0))
+            }
+        })
+//        print (self.timeDeltaSumVar)
+        return self.timeDeltaSumVar
+        
+    }
+    
+    
+    func countStepSum(value searchValue: Int) -> Int {
+//
+        
+        self.countStepSumVar = 0
+        
+        self.itemTimeArray.forEach({ book in
+//            print(book.topicID)
+            if (book.stepID == searchValue && book.flagActive == 0 && book.typeAction == "Finish") {
+
+                self.countStepSumVar = self.countStepSumVar + 1
+//                self.content.append(contentsOf: [TopicStep(id: 217, TOPIC_ID: 296, STEP_NAME: "Заполнение анкеты")])
+                
+//                print(content)
+                
+            }
+        })
+
+//        self.tableView.reloadData()
+
+        return self.countStepSumVar
+        
+    }
+    
+    
     func upadteFlagAction (stepID: Int) {
         self.itemTimeArray.forEach({ book in
 //            print(book.topicID)
             if (book.stepID == stepID && book.flagActive == 0 && book.user == user) {
-                book.flagActive = 1
+//                book.flagActive = 1
                 saveItems()
             }
         })
@@ -395,14 +445,21 @@ class tableStepController: UITableViewController {
         cell.labelCount.text = String(countSecond)
 //        cell.labelCount.isHidden = true
 //        cell.labelComment.isHidden = true
-        cell.labelTimeAVDStep.isHidden = true
-        cell.labelTimeAVDAct.isHidden = true
+//        cell.labelTimeAVDStep.isHidden = true
+//        cell.labelTimeAVDAct.isHidden = true
         cell.labelCountStep.isHidden = true
         cell.labelCountAct.isHidden = true
         cell.buttonInfo.isHidden = true
         var idStepViz = content[indexPath.row].id
          let data = timeDelta(value: idStepViz)
-        cell.labelCount.text =  castTime(localTimeDelta: data)
+        
+        let dataSum = timeDeltaSum(value: idStepViz)
+        let dataCount = String(countStepSum(value: idStepViz))
+        
+        cell.labelTimeAVDAct.text =  "Посл. шаг: \(castTime(localTimeDelta: data))"
+        cell.labelTimeAVDStep.text = "Всего: \(castTime(localTimeDelta: dataSum))"
+        cell.labelCount.text = "Кол-во: \(dataCount)"
+        
         idStepViz = 0
 //        let str = String(decoding: data, as: UTF8.self)
   
@@ -467,7 +524,7 @@ class tableStepController: UITableViewController {
 
     //MARK:  Действия на свайп
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let testAction = UIContextualAction(style: .destructive, title: "Старт") { (_, _, completionHandler) in
+        let testAction = UIContextualAction(style: .destructive, title: "") { [self] (_, _, completionHandler) in
             
            
             self.upadteFlagAction(stepID: self.content[indexPath.row].id)
@@ -484,10 +541,13 @@ class tableStepController: UITableViewController {
             self.timer.invalidate()
   
             self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
-
+//            timeDeltaSum(value: indexPath.row)
+            self.idStepPlay = self.content[indexPath.row].id
             self.indexRow = indexPath.row
 //            self.tableView.reloadData()
-
+//            content.append(contentsOf: [TopicStep(id: 216, TOPIC_ID: 296, STEP_NAME: "Презентация по продукту ")])
+//            print(content)
+//            self.tableView.reloadData()
   
             
         }
@@ -501,7 +561,7 @@ class tableStepController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let stopAction = UIContextualAction(style: .destructive, title: "Стоп") { (_, _, completionHandler) in
+        let stopAction = UIContextualAction(style: .destructive, title: "") { (_, _, completionHandler) in
 
             
             completionHandler(true)
@@ -511,14 +571,14 @@ class tableStepController: UITableViewController {
             self.timer.invalidate()
             self.stopUpdateLocal()
             self.saveItems()
-            self.tableView.reloadData()
+//            self.tableView.reloadData()
            
 //            self.typeAction(nameAction: "Stop", topicID: topic_id, stepID: step_id )
 
 
         }
-        stopAction.backgroundColor = .darkGray
-        stopAction.image = UIImage(systemName: "stop")
+        stopAction.backgroundColor = .systemYellow
+        stopAction.image = UIImage(systemName: "pause")
         
         let editAction = UIContextualAction(style: .destructive, title: "edit") { (_, _, completionHandler) in
 
@@ -544,9 +604,7 @@ class tableStepController: UITableViewController {
     //MARK: Кнопка Выход
     @objc public func didTapMenuButton() {
 
-        
-        
-        
+    
         let alertController = UIAlertController(title: "Выход", message: "Выйти из замера?", preferredStyle: .alert)
 
             // Initialize Actions
@@ -643,6 +701,8 @@ extension tableStepController: ContentStepManagerDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(20)) {
 
             self.content = content
+        
+            print(content)
             self.tableView.reloadData()
             self.tableView.separatorStyle = .singleLine
             self.removeLoadingScreen()
@@ -691,7 +751,12 @@ extension tableStepController {
 //        for indexPath in visibleRowsIndexPaths {
           // 2
           if let cell = tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as? CustomTableViewCell {
+     
+       
+        
             cell.updateTime(localTime: localTime)
+            cell.updateTimeAll(deltaTime: timeDeltaSum(value: self.idStepIn) , localTime: localTime)
+            cell.updateCountStep(count: countStepSum(value: self.idStepIn))
     //Радиус cell
             cell.layer.masksToBounds = true
             cell.layer.cornerRadius = 16

@@ -45,9 +45,27 @@ struct TopicStepCore: Codable {
 
 
 
+
+
+
 //MARK: DATA
+
+
+
+//struct ContentData: Codable  {
+//   let sector: [Sector]
+//
+//}
+
+
 struct ContentData: Codable  {
-    let topic:[Topic]
+    let sector: [Sector]
+}
+
+struct Sector: Codable  {
+    var name: String
+    var isExt: Bool
+    var topic:[Topic]
 }
 
 struct Topic: Codable {
@@ -62,9 +80,16 @@ struct Topic: Codable {
     let AVG_TIME_TOPIC: Float
     let AVG_TIME_STEP: Float
     let PLAN_COUNT: Int
+//    var isExt: Bool  = true
     
     
 //    let step_topic: [Step_topic]
 }
 
-
+struct ExpandableNames{
+    
+    var isExpanded: Bool
+    let names: [String]
+    
+    
+}
