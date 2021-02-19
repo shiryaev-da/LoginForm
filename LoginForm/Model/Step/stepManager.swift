@@ -27,11 +27,11 @@ struct StepManager {
     // Prepare URL Request Object
     var request = URLRequest(url: requestUrl)
     request.httpMethod = "POST"
-     
+//     print(json)
     // HTTP Request Parameters which will be sent in HTTP Request Body
     let postString : Data = "{\"name\": \"\(loginRegLet)\",data:{ \"json\": \(json)}}".data(using: .utf8)!;
 //        let postString : Data = "{}".data(using: .utf8)!;
-    print(postString)
+
         
 //        print(postString)
     // Set HTTP Request Body

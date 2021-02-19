@@ -41,6 +41,7 @@ struct TopicStepCore: Codable {
     let DATETIMEEND: String
     let FLAGACTIVE: String
     let ACTIVEID: Int
+    let COMMENT: Int
 }
 
 
