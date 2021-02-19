@@ -33,7 +33,7 @@ class CustomTableDetailCell: UITableViewCell {
     }
     
     
-    @objc func updateFlag() {
+    @objc func updateFlag(flag: UIImage) {
 //        imageValid.isHidden = false
         imageValid.image = UIImage(systemName: "")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
         spinner.style = .gray
@@ -44,6 +44,9 @@ class CustomTableDetailCell: UITableViewCell {
         imageValid.addSubview(spinner)
   
     }
+    
+    
+    
     
     
 }

@@ -23,6 +23,7 @@ class tableStepController: UITableViewController {
     var group: Int!
     var contentStepManager = ContentStepManager()
     var content: [TopicStep] = []
+    var contentFix: [TopicStep] = []
     var taskList: [Task] = []
     var textCell: String!
     let vw = UIView()
@@ -43,7 +44,10 @@ class tableStepController: UITableViewController {
     var timeDeltaSumVar: Int = 0
     var countStepSumVar: Int!
     var idStepPlay: Int!
-
+    var delRow: Int = 0
+    var countSubRow: Int!
+    var numberOfRows: [IndexPath] = []
+    
     
     var numberOfRowsMain: [IndexPath] = []
     
@@ -134,7 +138,9 @@ class tableStepController: UITableViewController {
         contentStepManager.performLogin(user: self.idTopic)
         stepManager.delegate = self
 //        content.append(contentsOf: [TopicStep(id: 216, TOPIC_ID: 296, STEP_NAME: "Презентация по продукту ")])
-
+//        let notificationCenter = NotificationCenter.default
+//        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -165,11 +171,11 @@ class tableStepController: UITableViewController {
         // Sets loading text
         loadingLabel.textColor = .gray
         loadingLabel.textAlignment = .center
-        loadingLabel.text = "Loading..."
+        loadingLabel.text = "Загрузка..."
         loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
 
         // Sets spinner
-           spinner.style = .gray
+        spinner.style = .gray
         spinner.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         spinner.startAnimating()
 
@@ -181,6 +187,7 @@ class tableStepController: UITableViewController {
         tableView.addSubview(loadingView)
 
     }
+    
 
     // Remove the activity indicator from the main view
     private func removeLoadingScreen() {
@@ -224,10 +231,8 @@ class tableStepController: UITableViewController {
               } catch {
                 print("Ошибка сохранения нового элемента замера\(error)")
               }
-        //  self.tableView.reloadData()
-          }
+    }
     
-    let array = [["typeAction": "Finish", "stepID": 63, "dateTimeEnd": "2021-01-18 10:49:00 +0000", "dateTimeStart": "2021-01-18 10:48:56 +0000", "flagActive": 0, "topicID": 201]]
     //Загрузка в массив
     func loadItems() {
         let request : NSFetchRequest<Logtimer> = Logtimer.fetchRequest()
@@ -352,7 +357,7 @@ class tableStepController: UITableViewController {
         
         self.itemTimeArray.forEach({ book in
 //            print(book.topicID)
-            if (book.stepID == searchValue && book.flagActive == 0 && book.typeAction == "Finish") {
+            if (book.stepID == searchValue && book.flagActive == 0) {
 
                 self.countStepSumVar = self.countStepSumVar + 1
 //                self.content.append(contentsOf: [TopicStep(id: 217, TOPIC_ID: 296, STEP_NAME: "Заполнение анкеты")])
@@ -404,13 +409,19 @@ class tableStepController: UITableViewController {
         
         return vw
     }
+    
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 40
+//    }
+    
+
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 150
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
+        return 100
     }
 
 
@@ -423,13 +434,62 @@ class tableStepController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        if (content.count > 0) {
+        if (contentFix.count > 0) {
             self.removeLoadingScreen()
         }
         
+//        if !contentFix[section].isExp {
+//            return contentFix.count - self.delRow
+//        } else {
+//            return contentFix.count + self.delRow
+//        }
+
+        return contentFix.count + self.delRow
         
-        return content.count
     }
+
+    
+    
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//
+//        return content.count
+//
+//
+//    }
+//
+//
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        var popup:UIView!
+//        popup = UIView()
+//        popup.backgroundColor = UIColor.white
+//        let lb = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
+//        lb.text = content[section].STEP_NAME
+//        lb.font = lb.font.withSize(20)
+//        lb.textAlignment = .cente
+//        popup.addSubview(lb)
+//        let imageOpen = UIImage(systemName: "chevron.down") as UIImage?
+//        let imageClose = UIImage(systemName: "chevron.backward") as UIImage?
+//        let button   = UIButton(type: UIButton.ButtonType.custom) as UIButton
+////        let isExpanded = filteredData[section].isExt
+//        button.frame = CGRect(x: 0, y: 10, width: view.frame.size.width * 1.9, height: 20)
+//        button.setImage(/*isExpanded ? imageClose : */imageOpen, for: .normal)
+////        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+////        button .setBackgroundImage(image, forState: UIControlState.Normal)
+////        let botton = UIButton(type: .system )
+//
+////        botton.frame = CGRect(x: 0, y: 0, width: 60, height: 20)
+////        botton.title(for: .selected)
+////        botton.setTitleColor(.black, for: .normal)
+////        botton.setTitle("Close", for: .normal)
+////        botton.setImage(UIImage(systemName: "search"), for: .normal)
+////        botton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+//        button.addTarget(self, action: #selector(handleOpenClose), for: .touchUpInside)
+//        button.tag = section
+//        popup.addSubview(button)
+//        self.view.addSubview(popup)
+//        return popup
+//    }
+    
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -441,7 +501,7 @@ class tableStepController: UITableViewController {
         //cell.selectedBackgroundView?.addGradientBackground(firstColor: .blue, secondColor: .darkGray)
        // cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
         
-        cell.labelNme.text = content[indexPath.row].STEP_NAME
+        cell.labelNme.text = contentFix[indexPath.row].STEP_NAME
         cell.labelCount.text = String(countSecond)
 //        cell.labelCount.isHidden = true
 //        cell.labelComment.isHidden = true
@@ -450,47 +510,147 @@ class tableStepController: UITableViewController {
         cell.labelCountStep.isHidden = true
         cell.labelCountAct.isHidden = true
         cell.buttonInfo.isHidden = true
-        var idStepViz = content[indexPath.row].id
+        var idStepViz = contentFix[indexPath.row].id
          let data = timeDelta(value: idStepViz)
-        
         let dataSum = timeDeltaSum(value: idStepViz)
         let dataCount = String(countStepSum(value: idStepViz))
-        
         cell.labelTimeAVDAct.text =  "Посл. шаг: \(castTime(localTimeDelta: data))"
         cell.labelTimeAVDStep.text = "Всего: \(castTime(localTimeDelta: dataSum))"
         cell.labelCount.text = "Кол-во: \(dataCount)"
-        
-        idStepViz = 0
-//        let str = String(decoding: data, as: UTF8.self)
-  
-        
-//        cell.runTimeButton.isHidden = true
+//        idStepViz = 0
+//        var popup:UIView!
+//        popup = UIView()
+//        let imageOpen = UIImage(systemName: "chevron.down") as UIImage?
+//        let imageClose = UIImage(systemName: "chevron.backward") as UIImage?
+//        let button   = UIButton(type: UIButton.ButtonType.custom) as UIButton
+//        button.frame = CGRect(x: 0, y: 10, width: view.frame.size.width * 1.9, height: 20)
+//        button.setImage(imageOpen, for: .normal)
+//        button.addTarget(self, action: #selector(), for: .touchUpInside)
+//        button.tag = 0
+//        print(indexPath)
+//        cell.addSubview(button)
         return cell
-        
     }
+//
+//    @objc func handleOpenClose(button: UIButton) {
+//        print(button.tag)
+//
+//        let idStepViz = contentFix[button.tag].id
+//        self.delRow = 0
+//        let dataCount = countStepSum(value: idStepViz)
+//        var indexPaths = [IndexPath]()
+//        for int in button.tag...dataCount-1 {
+////            var indexPaths = [IndexPath]()
+////        for row in content.indices {
+////            var x = x + 1
+//            print(button.tag)
+//            let indexPath = IndexPath(row: button.tag+int+1, section: 0)
+//            print(indexPath)
+//            indexPaths.append(indexPath)
+//            self.delRow = self.delRow + 1
+////        }
+//        }
+//
+////        let isExpanded = contentFix[button.tag].isExp
+//        contentFix[button.tag].isExp = !isExpanded
+//        print(indexPaths)
+//        print(self.delRow)
+////        print(indexPaths)
+//
+//        if  isExpanded {
+//            self.delRow = self.delRow * -1
+//            tableView.deleteRows(at: indexPaths, with: .fade)
+//
+//        } else {
+//            self.delRow = 0
+//            tableView.insertRows(at: indexPaths, with: .fade)
+//
+//        }
+//
+//
+////
+//    }
+    
+//    @objc func adjustForKeyboard(notification: Notification) {
+//        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+//
+//        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+//        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+//
+//        if notification.name == UIResponder.keyboardWillHideNotification {
+//            tableView.contentInset = .zero
+//        } else {
+//            tableView.contentInset = UIEdgeInsets(top: keyboardViewEndFrame.maxX, left: 0, bottom: tableView.bounds.width, right: 0)
+//        }
+//
+//        tableView.scrollIndicatorInsets = tableView.contentInset
+//
+////        let selectedRange = tableView.selectedRange
+////        tableView.scrollRangeToVisible(selectedRange)
+//    }
+    
+    
    //MARK: Действие на нажатие
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)  {
-//        print(indexPath.row)
-        tableView.tableFooterView?.isHidden = false
-        vw.isHidden = false
-        let titleLabel = UILabel(frame: CGRect(x:0, y: 0 ,width: tableView.bounds.width ,height:150))
-        titleLabel.numberOfLines = 0;
-        titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.backgroundColor = .brown
-        titleLabel.baselineAdjustment = .alignCenters
-        titleLabel.textAlignment = NSTextAlignment.center
-        titleLabel.font = UIFont(name: "Montserrat-Regular", size: 12)
-        titleLabel.text = content[indexPath.row].STEP_NAME
-        vw.addSubview(titleLabel)
+        
+        let message = content[indexPath.row]
+
+        let dataCount = countStepSum(value: message.id)
+        
+        
+        
+
+        if dataCount == 0 {
+            let alertController = UIAlertController(title: "Информация", message: "Нет ни одного замера", preferredStyle: .alert)
+
+                // Initialize Actions
+            let yesAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
+                    print("The user is okay.")
+
+                
+
+                }
+
+            let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
+                    print("The user is not okay.")
+
+                }
+
+                // Add Actions
+            
+                alertController.addAction(yesAction)
+//                alertController.addAction(noAction)
+     
+
+                // Present Alert Controller
+            self.present(alertController, animated: true, completion: nil)
+        }
+        else {
+            let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "commentStepId") as! commentStep
+
+            newViewController.stepId = message.id
+                    self.present(newViewController, animated: true, completion: nil)
+        }
+        
+        
+        
+        
     }
     
 
-    
+    @objc public func textFieldDidChange() {
+        self.numberOfRows = tableView.indexPathsForSelectedRows!
+        self.numberOfRows.forEach { numberOfRows in
+            self.tableView.selectRow(at: numberOfRows, animated: true, scrollPosition: .top)
+        }
+    }
 
     
     @objc public func someButtonAction() {
         print("Button is tapped")
     }
+    
+    
     //MARK: Кнопка Стоп
     @objc public func didRunTime() {
         stopUpdateLocal()
@@ -527,12 +687,12 @@ class tableStepController: UITableViewController {
         let testAction = UIContextualAction(style: .destructive, title: "") { [self] (_, _, completionHandler) in
             
            
-            self.upadteFlagAction(stepID: self.content[indexPath.row].id)
+            self.upadteFlagAction(stepID: self.contentFix[indexPath.row].id)
             self.indexRow = -1
             completionHandler(true)
             
-            let topic_id = self.content[indexPath.row].TOPIC_ID
-            let step_id = self.content[indexPath.row].id
+            let topic_id = self.contentFix[indexPath.row].TOPIC_ID
+            let step_id = self.contentFix[indexPath.row].id
             if (self.idStepIn != nil) {
                 self.startUpdate(value: self.idStepIn)
             }
@@ -542,7 +702,7 @@ class tableStepController: UITableViewController {
   
             self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
 //            timeDeltaSum(value: indexPath.row)
-            self.idStepPlay = self.content[indexPath.row].id
+            self.idStepPlay = self.contentFix[indexPath.row].id
             self.indexRow = indexPath.row
 //            self.tableView.reloadData()
 //            content.append(contentsOf: [TopicStep(id: 216, TOPIC_ID: 296, STEP_NAME: "Презентация по продукту ")])
@@ -701,8 +861,27 @@ extension tableStepController: ContentStepManagerDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(20)) {
 
             self.content = content
+            self.contentFix = content
+
+//            for x in 0...content.count-1 {
+//                self.countSubRow = 1
+//                print(content[x].id)
+//                self.contentFix.append(contentsOf: [TopicStepFix(id: content[x].id, TOPIC_ID: content[x].TOPIC_ID , STEP_NAME: content[x].STEP_NAME, isExp: true)])
+
+//                self.itemTimeArray.forEach({ book in
+//        //            print(book.topicID)
+//
+//                    if (book.stepID == content[x].id && book.flagActive == 0 && book.typeAction == "Finish") {
+//
+//                        self.contentFix.append(contentsOf: [TopicStepFix(id: content[x].id, TOPIC_ID: content[x].TOPIC_ID , STEP_NAME: String(self.countSubRow)  + content[x].STEP_NAME, isExp: true)])
+//                        self.countSubRow = self.countSubRow + 1
+////                        self.countStepSumVar = self.countStepSumVar + 1
+//        //                self.content.append(contentsOf: [TopicStep(id: 217, TOPIC_ID: 296, STEP_NAME: "Заполнение анкеты")])
+//                    }
+//                })
+//
+//            }
         
-            print(content)
             self.tableView.reloadData()
             self.tableView.separatorStyle = .singleLine
             self.removeLoadingScreen()

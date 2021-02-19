@@ -65,7 +65,7 @@ class tableDetailController: UITableViewController {
         // Sets loading text
         loadingLabel.textColor = .gray
         loadingLabel.textAlignment = .center
-        loadingLabel.text = "Loading..."
+        loadingLabel.text = "Загрузка..."
         loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
 
         // Sets spinner
@@ -80,6 +80,10 @@ class tableDetailController: UITableViewController {
         tableView.addSubview(loadingView)
 
     }
+    
+    
+
+
     
 
 
@@ -151,6 +155,9 @@ class tableDetailController: UITableViewController {
         
     }
     
+//    let imageIconVal = (UIImage(systemName: "checkmark.circle")?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal))!
+
+    
     
     //MARK:  Действия на свайп
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -159,10 +166,11 @@ class tableDetailController: UITableViewController {
             
             completionHandler(true)
             self.indexRow = indexPath.row
-            self.updateFlags()
+            let imageIconVal = (UIImage(systemName: "checkmark.circle")?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal))!
+            self.updateFlags(flag: imageIconVal)
             self.detailManager.performValidAcctive(activeID: message.ID_ART, flag: 1)
 //            self.setLoadingScreen()
-
+            
             
             self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
 //            sleep(1)
@@ -184,7 +192,8 @@ class tableDetailController: UITableViewController {
             
                 completionHandler(true)
                 self.indexRow = indexPath.row
-                self.updateFlags()
+                let imageIconFail = UIImage(systemName: "xmark.circle")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+                self.updateFlags(flag: imageIconFail!)
                 self.detailManager.performValidAcctive(activeID: message.ID_ART, flag: -1)
                 
                 self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
@@ -280,7 +289,8 @@ class tableDetailController: UITableViewController {
 extension tableDetailController: DetailManagerDelegate {
     func didValidActiv(_ Content: ContentDetailManager, content: ValidAct) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(20)) {
-            self.updateFlags()
+            let imageIcon = UIImage(systemName: "questionmark.circle")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+            self.updateFlags(flag: imageIcon!)
         }
     }
     
@@ -299,9 +309,9 @@ extension tableDetailController: DetailManagerDelegate {
 
 // MARK: - Timer
 extension tableDetailController {
-    @objc func updateFlags() {
+    @objc func updateFlags(flag: UIImage) {
           if let cell = tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as? CustomTableDetailCell {
-            cell.updateFlag()
+            cell.updateFlag(flag: flag)
           }
     }
 }

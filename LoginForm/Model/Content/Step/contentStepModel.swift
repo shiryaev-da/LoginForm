@@ -37,6 +37,7 @@ struct TopicStep: Codable {
     let id: Int
     let TOPIC_ID: Int
     let STEP_NAME: String
+//    let time: Date
 //    let step_topic: [Step_topic]
 }
 
@@ -47,7 +48,14 @@ struct AddActiveData: Codable {
     let idAddActive: Int
 }
 
-
+struct TopicStepFix: Codable {
+    let id: Int
+    let TOPIC_ID: Int
+    let STEP_NAME: String
+    var isExp:  Bool
+//    let time: Date
+//    let step_topic: [Step_topic]
+}
 
 
 

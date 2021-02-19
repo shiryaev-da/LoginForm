@@ -9,42 +9,6 @@ import Foundation
 import UIKit
 import CoreData
 
-//class FirstViewController: UITableViewController, UISearchBarDelegate {
-//    var firstName: String!
-//    var user: String!
-//    var group: Int!
-//    var resetCoredata: Bool!
-//
-//    @IBOutlet weak var searchBar: UISearchBar!
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        addButton = UIBarButtonItem(title: "test", style: .done, target: self, action: #selector(addButtonAction(_:)))
-//         self.navigationItem.rightBarButtonItem = self.addButton
-//        didTapButton()
-//
-//
-//    }
-//
-//    @objc public func didTapButton() {
-//
-//        let tabBarVC = UITabBarController()
-//
-//        let vc1 = tableController()
-//        let vc2 = SeccondViewController()
-//        vc1.user = user
-//        vc1.firstName = firstName
-//        vc1.group = group
-//
-////        let tableControllerTopic = vc1.tableController
-////        let vc2 = SecondViewController()
-//        tabBarVC.setViewControllers([vc1, vc2], animated: true)
-//        tabBarVC.modalPresentationStyle = .fullScreen
-//        present(tabBarVC, animated: true)
-//
-//    }
-//}
-
-
 
 class SeccondViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
@@ -135,10 +99,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
         setLoadingScreen()
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.scrollsToTop = true
-
-
-
-        loadItems()
+       loadItems()
         filteredData = content
 
 //        showSearchBar()
@@ -164,7 +125,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
          // Sets loading text
          loadingLabel.textColor = .gray
          loadingLabel.textAlignment = .center
-         loadingLabel.text = "Loading..."
+         loadingLabel.text = "Загрузка..."
          loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
 
          // Sets spinner
@@ -300,13 +261,6 @@ class tableController: UITableViewController, UISearchBarDelegate {
         
 //MARK: Принудильтельный скролл
 
-        
-
-        
-        
-
- 
-       
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 16
         cell.labelNme.text = message.TOPIC_NAME
@@ -335,6 +289,26 @@ class tableController: UITableViewController, UISearchBarDelegate {
     }
     
 
+    
+//    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source _: UIViewController) -> UIPresentationController? {
+//            let presentationController = CustomPresentationController(presentedViewController: presented, presenting: presenting, presentedViewHeight: 100)
+//            return presentationController
+//        }
+//    
+//    class CustomPresentationController: UIPresentationController {
+//      var presentedViewHeight: CGFloat
+//      init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, presentedViewHeight: CGFloat) {
+//            self.presentedViewHeight = presentedViewHeight
+//            super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+//        }
+//
+//      override var frameOfPresentedViewInContainerView: CGRect {
+//            var frame: CGRect = .zero
+//            frame.size = CGSize(width: containerView!.bounds.width, height: presentedViewHeight)
+//            frame.origin.y = containerView!.frame.height - presentedViewHeight
+//            return frame
+//        }
+//    }
 
     @objc func connected(sender: UIButton){
         
@@ -382,31 +356,13 @@ class tableController: UITableViewController, UISearchBarDelegate {
         lb.text = filteredData[section].name
         lb.font = lb.font.withSize(20)
         lb.textAlignment = .center
-       
-        
-
-        // show on screen
-
         popup.addSubview(lb)
-        
-        
         let imageOpen = UIImage(systemName: "chevron.down") as UIImage?
         let imageClose = UIImage(systemName: "chevron.backward") as UIImage?
         let button   = UIButton(type: UIButton.ButtonType.custom) as UIButton
-        
         let isExpanded = filteredData[section].isExt
         button.frame = CGRect(x: 0, y: 10, width: view.frame.size.width * 1.9, height: 20)
         button.setImage(isExpanded ? imageClose : imageOpen, for: .normal)
-//        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-//        button .setBackgroundImage(image, forState: UIControlState.Normal)
-//        let botton = UIButton(type: .system )
-
-//        botton.frame = CGRect(x: 0, y: 0, width: 60, height: 20)
-//        botton.title(for: .selected)
-//        botton.setTitleColor(.black, for: .normal)
-//        botton.setTitle("Close", for: .normal)
-//        botton.setImage(UIImage(systemName: "search"), for: .normal)
-//        botton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.addTarget(self, action: #selector(handleOpenClose), for: .touchUpInside)
         button.tag = section
         popup.addSubview(button)
@@ -414,12 +370,12 @@ class tableController: UITableViewController, UISearchBarDelegate {
         return popup
     }
     
+
+    
     
     //MARK: Сворачивание
     @objc func handleOpenClose(button: UIButton) {
-        
         let section = button.tag
-        
         var indexPaths = [IndexPath]()
         for row in filteredData[section].topic.indices {
             let indexPath = IndexPath(row: row, section: section)
