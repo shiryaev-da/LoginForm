@@ -63,7 +63,7 @@ struct StepManager {
     //                print(decoderData.statusUser)
             let flag = decoderData.statusAddStep
             let statusReg  = StepModel(statusAddStep: flag)
-            print(statusReg.statusAddStep)
+//            print(statusReg.statusAddStep)
             return statusReg
 
         } catch {

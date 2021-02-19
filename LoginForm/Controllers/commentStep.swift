@@ -37,7 +37,6 @@ class commentStep: UIViewController {
 
 
         
-        
                 titleLabel.frame = CGRect(x:0, y: 500 ,width: self.view.frame.width ,height:380)
         //        titleLabel.numberOfLines = 0;
         //        titleLabel.lineBreakMode = .byWordWrapping
@@ -64,6 +63,8 @@ class commentStep: UIViewController {
         self.view.addGestureRecognizer(tap)
    
     }
+    
+    
     
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -141,4 +142,3 @@ class commentStep: UIViewController {
 
 
 }
-

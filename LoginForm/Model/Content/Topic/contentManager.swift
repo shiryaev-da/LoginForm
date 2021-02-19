@@ -180,7 +180,7 @@ print(" { \"USER_ID\": \(loginLet), \"USER_GROUP\": \(groupLet), \"TOPIC_NAME\":
 
     // HTTP Request Parameters which will be sent in HTTP Request Body
     let postString : Data = " { \"USER\": \"\(loginLet)\"}".data(using: .utf8)!;
-print(" { \"USER\": \"\(loginLet)\"}")
+//print(" { \"USER\": \"\(loginLet)\"}")
 
     // Set HTTP Request Body
     request.httpBody = postString;

@@ -146,6 +146,7 @@ class ViewController: UIViewController {
         self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
 
   
+     
         
     }
 
@@ -219,3 +220,4 @@ extension ViewController: LoginManagerDelegate {
     
 
 }
+

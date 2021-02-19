@@ -269,7 +269,7 @@ class tableStepController: UITableViewController {
             do {
                 let jsonData: Data = try JSONSerialization.data(withJSONObject: arrayObject, options: [])
                 if  let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) {
-                    print(jsonString)
+//                    print(jsonString)
                     return jsonString as String
                 }
 
@@ -588,7 +588,8 @@ class tableStepController: UITableViewController {
 ////        let selectedRange = tableView.selectedRange
 ////        tableView.scrollRangeToVisible(selectedRange)
 //    }
-    
+
+
     
    //MARK: Действие на нажатие
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)  {
@@ -601,29 +602,16 @@ class tableStepController: UITableViewController {
         
 
         if dataCount == 0 {
-            let alertController = UIAlertController(title: "Информация", message: "Нет ни одного замера", preferredStyle: .alert)
-
-                // Initialize Actions
-            let yesAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
-                    print("The user is okay.")
-
-                
-
-                }
-
-            let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
-                    print("The user is not okay.")
-
-                }
-
-                // Add Actions
-            
-                alertController.addAction(yesAction)
-//                alertController.addAction(noAction)
-     
-
-                // Present Alert Controller
-            self.present(alertController, animated: true, completion: nil)
+//            let alertController = UIAlertController(title: "Информация", message: "Нет ни одного замера", preferredStyle: .alert)
+//            let yesAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
+//                    print("The user is okay.")
+//                }
+//            let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
+//                    print("The user is not okay.")
+//                }
+//                alertController.addAction(yesAction)
+//            self.present(alertController, animated: true, completion: nil)
+            self.showToast(message: "Нет ни одного замера", font: .systemFont(ofSize: 17.0))
         }
         else {
             let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "commentStepId") as! commentStep
@@ -958,3 +946,25 @@ extension tableStepController: StepManagerDelegate {
 //MARK -- Color gradient
 
 
+extension UIViewController {
+
+func showToast(message : String, font: UIFont) {
+
+    
+    
+    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 105, y: self.view.bounds.maxY-70, width: 210, height: 35))
+    toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+    toastLabel.textColor = UIColor.white
+    toastLabel.font = font
+    toastLabel.textAlignment = .center;
+    toastLabel.text = message
+    toastLabel.alpha = 1.0
+    toastLabel.layer.cornerRadius = 10;
+    toastLabel.clipsToBounds  =  true
+    self.view.addSubview(toastLabel)
+    UIView.animate(withDuration: 1.1, delay: 0.1, options: .curveEaseOut, animations: {
+         toastLabel.alpha = 0.0
+    }, completion: {(isCompleted) in
+        toastLabel.removeFromSuperview()
+    })
+} }
