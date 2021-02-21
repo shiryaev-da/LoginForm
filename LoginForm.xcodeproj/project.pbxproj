@@ -64,6 +64,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8FE855FF25E101B1007B21C8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0B01BFA1EA3420AC1CF927FA /* Pods_LoginForm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginForm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D0BF7E325BCC19800688A94 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
@@ -110,6 +123,12 @@
 		8FD1C35A2548464A00242C42 /* registerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerModel.swift; sourceTree = "<group>"; };
 		8FD1C35F2548479200242C42 /* registerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerManager.swift; sourceTree = "<group>"; };
 		8FD598DB25922018005B7AF9 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		8FE855F125E101B1007B21C8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		8FE855F325E101B1007B21C8 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		8FE855F625E101B1007B21C8 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		8FE855F925E101B1007B21C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		8FE855FB25E101B1007B21C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8FE8560725E10231007B21C8 /* LoginForm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LoginForm.entitlements; sourceTree = "<group>"; };
 		A021EEC4046A81ECB102D0A2 /* Pods-LoginFormTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginFormTests.release.xcconfig"; path = "Target Support Files/Pods-LoginFormTests/Pods-LoginFormTests.release.xcconfig"; sourceTree = "<group>"; };
 		ACA6AFFE1E02D8DF00B69005 /* Pods-LoginForm-LoginFormUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginForm-LoginFormUITests.debug.xcconfig"; path = "Target Support Files/Pods-LoginForm-LoginFormUITests/Pods-LoginForm-LoginFormUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C017BBDCDA590C7062164170 /* Pods-LoginFormTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginFormTests.debug.xcconfig"; path = "Target Support Files/Pods-LoginFormTests/Pods-LoginFormTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -200,6 +219,7 @@
 				8F7A415125405529009440C8 /* LoginForm */,
 				8F7A416B2540552B009440C8 /* LoginFormTests */,
 				8F7A41762540552B009440C8 /* LoginFormUITests */,
+				8FE855F525E101B1007B21C8 /* Interval */,
 				8F7A415025405529009440C8 /* Products */,
 				81D9578BB7AB7FEAD614092D /* Pods */,
 				E2097E14AEDB115BB5887992 /* Frameworks */,
@@ -219,6 +239,7 @@
 		8F7A415125405529009440C8 /* LoginForm */ = {
 			isa = PBXGroup;
 			children = (
+				8FE8560725E10231007B21C8 /* LoginForm.entitlements */,
 				0D0BF7E825BCC19F00688A94 /* K */,
 				8FAACDD0254C082700DFB7E9 /* Core */,
 				8FD1C3592548461400242C42 /* Model */,
@@ -335,12 +356,24 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8FE855F525E101B1007B21C8 /* Interval */ = {
+			isa = PBXGroup;
+			children = (
+				8FE855F625E101B1007B21C8 /* NotificationViewController.swift */,
+				8FE855F825E101B1007B21C8 /* MainInterface.storyboard */,
+				8FE855FB25E101B1007B21C8 /* Info.plist */,
+			);
+			path = Interval;
+			sourceTree = "<group>";
+		};
 		E2097E14AEDB115BB5887992 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				0B01BFA1EA3420AC1CF927FA /* Pods_LoginForm.framework */,
 				888BEC4DD3DFA9D7DCEF5367 /* Pods_LoginForm_LoginFormUITests.framework */,
 				CF16C9B05D8D2C4DD5083BE7 /* Pods_LoginFormTests.framework */,
+				8FE855F125E101B1007B21C8 /* UserNotifications.framework */,
+				8FE855F325E101B1007B21C8 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -357,6 +390,7 @@
 				8F7A414C25405529009440C8 /* Frameworks */,
 				8F7A414D25405529009440C8 /* Resources */,
 				FD707F96DC6F4A2B7CECE163 /* [CP] Embed Pods Frameworks */,
+				8FE855FF25E101B1007B21C8 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -412,7 +446,7 @@
 		8F7A414725405529009440C8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					8F7A414E25405529009440C8 = {
@@ -664,6 +698,14 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		8FE855F825E101B1007B21C8 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8FE855F925E101B1007B21C8 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -787,8 +829,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FE93CFE4F39D774D9C85431E /* Pods-LoginForm.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LoginForm/LoginForm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FGZ7977LN5;
@@ -810,8 +854,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 38C6B9050294E62431A9EBA6 /* Pods-LoginForm.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LoginForm/LoginForm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FGZ7977LN5;

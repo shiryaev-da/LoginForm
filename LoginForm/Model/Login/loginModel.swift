@@ -21,5 +21,7 @@ struct LoginData: Codable {
     let status: Int
 }
 
-
+struct FlagAdd: Codable {
+    let username: String
+}
 

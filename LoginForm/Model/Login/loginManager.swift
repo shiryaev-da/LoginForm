@@ -9,6 +9,7 @@ import Foundation
 
 protocol LoginManagerDelegate {
     func didUpdateLogin(_ Login: LoginManager, login: LoginModel)
+    func didAddDev(_ Login: LoginManager, login: FlagAdd)
 
 }
 
@@ -71,6 +72,59 @@ struct LoginManager {
     }
 
 
+    func performAddDev (loginLet: String, id: String){
+
+    let url = URL(string: "https://shi-ku.ru:8443/ords/interval/add_user_dev/user/")
+    guard let requestUrl = url else { fatalError() }
+
+    // Prepare URL Request Object
+    var request = URLRequest(url: requestUrl)
+    request.httpMethod = "POST"
+
+    // HTTP Request Parameters which will be sent in HTTP Request Body
+    let postString : Data = " { \"USER\": \"\(loginLet)\", \"ID\": \"\(id)\"}".data(using: .utf8)!;
+
+    // Set HTTP Request Body
+    request.httpBody = postString;
+    request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+
+    // Perform HTTP Request
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+        if let safeData = data {
+            if let login = self.parseJSONAdd(safeData) {
+                self.delegate?.didAddDev(self, login: login)
+            }
+        }
+
+    }
+    task.resume()
+    }
+
+    func parseJSONAdd(_ responceData: Data) -> FlagAdd? {
+        let decoder = JSONDecoder()
+        do{
+            let decoderData = try decoder.decode(FlagAdd.self, from: responceData)
+    //                print(decoderData.statusUser)
+            let statusAdd = decoderData.username
+            print(statusAdd)
+            let statusReg  = FlagAdd(username: statusAdd)
+//            print(statusReg.statusUser)
+            return statusReg
+
+        } catch {
+//            let statusReg  = AddTopicModel(statusAddTopic: nil)
+            return nil
+        }
+    }
+    
+    
+    
 }
 
 

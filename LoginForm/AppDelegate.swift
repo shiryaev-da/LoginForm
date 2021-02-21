@@ -8,11 +8,13 @@
 import UIKit
 import CoreData
 import IQKeyboardManagerSwift //1 Pod для смещения объектов под клавиатуру
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var itemTimeArray = [Logtimer]()
+    var divToken: String!
 
 
 
@@ -20,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
         Thread.sleep(forTimeInterval: 2.0) //Timer Launch screen
-        
+        registerForPushNotifications()
+
         IQKeyboardManager.shared.enable = true //1 Активация
         
         return true
@@ -128,6 +131,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print("Error")
         }
+    }
+    
+    func registerForPushNotifications() {
+      //1
+        UNUserNotificationCenter.current()
+          .requestAuthorization(
+            options: [.alert, .sound, .badge]) { [weak self] granted, _ in
+            print("Permission granted: \(granted)")
+            guard granted else { return }
+            self?.getNotificationSettings()
+          }
+    }
+    
+    func getNotificationSettings() {
+      UNUserNotificationCenter.current().getNotificationSettings { settings in
+        print("Notification settings: \(settings)")
+        guard settings.authorizationStatus == .authorized else { return }
+        DispatchQueue.main.async {
+          UIApplication.shared.registerForRemoteNotifications()
+        }
+      }
+        
+    }
+    
+    func application(
+      _ application: UIApplication,
+      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+      let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+      let token = tokenParts.joined()
+        
+        self.divToken = token
+//      print("Device Token: \(token)")
+    }
+    
+    func application(
+      _ application: UIApplication,
+      didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
+      print("Failed to register: \(error)")
     }
     
 }

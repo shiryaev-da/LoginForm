@@ -23,7 +23,9 @@ class ViewController: UIViewController {
     let spinner = UIActivityIndicatorView()
     /// Text shown during load the TableView
     let loadingLabel = UILabel()
-    
+    let delegateApp = UIApplication.shared.delegate as! AppDelegate
+//    let deviceToken = delegateApp.divToken
+
     let context = LAContext()
     
     class BiometricIDAuth {
@@ -55,6 +57,9 @@ class ViewController: UIViewController {
         return .faceID
       }
     }
+    
+    
+    
     
     var loginReason = "Logging in with Touch ID"
     
@@ -168,12 +173,17 @@ class ViewController: UIViewController {
         
         let loginRegLet = fieldLogin.text!
         let passRegLet = fieldPass.text!
-        
+//        print(delegateApp.divToken)
+        loginManager.performAddDev(loginLet: loginRegLet, id: delegateApp.divToken)
         loginManager.performLogin(loginRegLet: loginRegLet, passRegLet: passRegLet)
     }
 }
 
 extension ViewController: LoginManagerDelegate {
+    func didAddDev(_ Login: LoginManager, login: FlagAdd) {
+        
+    }
+    
     func didUpdateLogin(_ Login: LoginManager, login: LoginModel) {
         DispatchQueue.main.async {
             self.removeLoadingScreen()

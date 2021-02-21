@@ -108,7 +108,8 @@ class CustomTableViewCell: UITableViewCell {
     
     
     @objc func updateCountStep(count: Int) {
-        labelCount.text = "Кол-во: \(String(count+1))"
+        print(count)
+        labelCount.text = "Кол-во: \(String(count ))"
     }
     
 
