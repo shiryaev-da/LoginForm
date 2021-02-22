@@ -69,7 +69,7 @@ class tableDetailController: UITableViewController {
         loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
 
         // Sets spinner
-        spinner.style = .gray
+        spinner.style = UIActivityIndicatorView.Style.medium
         spinner.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         spinner.startAnimating()
 
@@ -137,19 +137,38 @@ class tableDetailController: UITableViewController {
         return filteredData.count
         
     }
-
-
+//функция прописана в кажом файле. нужно перенести в отдельный файл и убрать тут
+    func gradient(frame:CGRect) -> CAGradientLayer {
+        let layer = CAGradientLayer()
+        layer.frame = frame
+        layer.startPoint = CGPoint(x: 0.5, y: 0)
+        layer.endPoint = CGPoint(x: 0.5, y: 1)
+        let color1 = UIColor(hexString: "#dfebfe")
+        let color2 = UIColor(hexString: "#ffffff")
+        layer.colors = [
+                        //UIColor.white.cgColor,
+            color1.cgColor,  //?? UIColor.white.cgColor,
+            color2.cgColor  //?? UIColor.white.cgColor
+                        ]
+        
+        return layer
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = filteredData[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableDetailCell", for: indexPath) as! CustomTableDetailCell
-        cell.labelName.text = "Дата замера: \(message.DATE)"
-        cell.labelStep.text = "Шагов: \(String(message.STEPFACT)) из \(message.STEPPLAN)"
+        cell.labelName.text = "Дата проведения: \(message.DATE)"
+        cell.labelStep.text = "Замеров шагов: \(String(message.STEPFACT)) из \(message.STEPPLAN)"
         cell.labelTime.text = "Общее время: \(String(castTime(localTimeDelta: message.TIMEALL)))"
 
           
         cell.imageValid.image = colorValid(flag: message.FLAG)
-
+        
+        //Радиус cell
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 16
+        cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
 
         return cell
         

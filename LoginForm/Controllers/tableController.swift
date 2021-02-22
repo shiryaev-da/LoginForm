@@ -129,7 +129,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
          loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
 
          // Sets spinner
-        spinner.style = .gray
+        spinner.style = UIActivityIndicatorView.Style.medium  //.gray
          spinner.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
          spinner.startAnimating()
 
@@ -241,9 +241,9 @@ class tableController: UITableViewController, UISearchBarDelegate {
           times.append("\(hours):")
         }
         if minutes > 0 {
-          times.append("\(minutes):")
+          times.append("\(minutes) мин ")
         }
-        times.append("\(seconds) с")
+        times.append("\(seconds) сек")
     
     return times.joined(separator: "")
     }
@@ -270,8 +270,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
         cell.labelCountAct.text = "Замеров: \(String(message.COUNT_ACTIVE_F)) из \(message.PLAN_COUNT)"
         cell.labelCountAct.textColor = isColorRow(numTag: Float(Float(message.COUNT_ACTIVE_F)/Float(message.PLAN_COUNT)))
         cell.labelCountStep.text = "Шагов: \(String(message.COUNT_STEP_F))"
-        cell.labelTimeAVDAct.text = "Ср. замеров: \(castTime(localTimeDelta: Int(message.AVG_TIME_TOPIC)))"
-        cell.labelTimeAVDStep.text = "Ср. шагов: \(castTime(localTimeDelta: Int(message.AVG_TIME_STEP)))"
+        cell.labelTimeAVDAct.text = "Сред. время: \(castTime(localTimeDelta: Int(message.AVG_TIME_TOPIC)))"
+        cell.labelTimeAVDStep.text = "Сред. время шага: \(castTime(localTimeDelta: Int(message.AVG_TIME_STEP)))"
         cell.buttonInfo.tag = message.id
         
         

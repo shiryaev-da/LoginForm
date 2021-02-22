@@ -66,14 +66,14 @@ class CustomTableViewCell: UITableViewCell {
         
         var times: [String] = []
         if hours > 0 {
-            times.append("\(hours) Час")
+            times.append("\(hours) час")
           }
           if minutes > 0 {
             times.append("\(minutes) мин")
           }
           times.append("\(seconds) сек")
         
-        labelTimeAVDAct.text = times.joined(separator: " ")
+        labelTimeAVDStep.text = times.joined(separator: " ")
         
         
 //        labelCount.backgroundColor = UIColor.brown
@@ -96,14 +96,14 @@ class CustomTableViewCell: UITableViewCell {
         
         var times: [String] = []
         if hours > 0 {
-            times.append("\(hours) Час")
+            times.append("\(hours) час")
           }
           if minutes > 0 {
             times.append("\(minutes) мин")
           }
           times.append("\(seconds) сек")
         
-        labelTimeAVDStep.text = times.joined(separator: " ")
+        labelTimeAVDAct.text = times.joined(separator: " ")
     }
     
     

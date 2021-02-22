@@ -175,7 +175,7 @@ class tableStepController: UITableViewController {
         loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
 
         // Sets spinner
-        spinner.style = .gray
+        spinner.style = UIActivityIndicatorView.Style.medium
         spinner.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         spinner.startAnimating()
 
@@ -514,8 +514,9 @@ class tableStepController: UITableViewController {
          let data = timeDelta(value: idStepViz)
         let dataSum = timeDeltaSum(value: idStepViz)
         let dataCount = String(countStepSum(value: idStepViz))
-        cell.labelTimeAVDAct.text =  "Посл. шаг: \(castTime(localTimeDelta: data))"
-        cell.labelTimeAVDStep.text = "Всего: \(castTime(localTimeDelta: dataSum))"
+        cell.labelTimeAVDAct.text =  "Время: \(castTime(localTimeDelta: dataSum))"
+        //  cell.labelTimeAVDAct.text =  "Посл. шаг: \(castTime(localTimeDelta: data))"
+        cell.labelTimeAVDStep.text = "Посл. шаг: \(castTime(localTimeDelta: data))"
         cell.labelCount.text = "Кол-во: \(dataCount)"
 //        idStepViz = 0
 //        var popup:UIView!
@@ -611,7 +612,7 @@ class tableStepController: UITableViewController {
 //                }
 //                alertController.addAction(yesAction)
 //            self.present(alertController, animated: true, completion: nil)
-            self.showToast(message: "Нет ни одного замера", font: .systemFont(ofSize: 17.0))
+            self.showToast(message: "Комментарий недоступен", font: .systemFont(ofSize: 17.0))
         }
         else {
             let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "commentStepId") as! commentStep
@@ -699,7 +700,7 @@ class tableStepController: UITableViewController {
   
             
         }
-        testAction.backgroundColor = .systemGreen
+        testAction.backgroundColor = UIColor(red: 109.0 / 255.0, green: 220.0 / 255.0, blue: 207.0 / 255.0, alpha: 1.0)
         testAction.image = UIImage(systemName: "forward.fill")
 
         return UISwipeActionsConfiguration(actions: [testAction])
@@ -725,7 +726,7 @@ class tableStepController: UITableViewController {
 
 
         }
-        stopAction.backgroundColor = .systemYellow
+        stopAction.backgroundColor = UIColor(red: 231.0 / 255.0, green: 230.0 / 255.0, blue: 225.0 / 255.0, alpha: 1.0)
         stopAction.image = UIImage(systemName: "pause")
         
         let editAction = UIContextualAction(style: .destructive, title: "edit") { (_, _, completionHandler) in

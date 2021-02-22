@@ -55,6 +55,8 @@ class ViewController: UIViewController {
         return .touchID
       case .faceID:
         return .faceID
+      @unknown default:
+        fatalError()
       }
     }
     
@@ -121,7 +123,7 @@ class ViewController: UIViewController {
         loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
 
         // Sets spinner
-        spinner.style = .white
+        spinner.style = UIActivityIndicatorView.Style.medium
         spinner.frame = CGRect(x: x, y: y, width: 0, height: 0)
         spinner.startAnimating()
         buttonLogin.setTitle("", for: .normal)

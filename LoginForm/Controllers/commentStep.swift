@@ -29,21 +29,22 @@ class commentStep: UIViewController {
  
                 let labelTitil = UILabel(frame: CGRect(x:0, y: 450 ,width: self.view.frame.width ,height:50))
                 labelTitil.layer.cornerRadius = 20
-                labelTitil.backgroundColor = .white
-                labelTitil.text = "Комментарий к замеру"
+                labelTitil.backgroundColor = UIColor.init(red: 234.0/255.0, green: 191.0/255.0, blue: 159.0/255.0, alpha: 1)
+                labelTitil.text = "Комментарий к выбранному действию"
                 labelTitil.baselineAdjustment = .alignCenters
                 labelTitil.textAlignment = NSTextAlignment.center
-                labelTitil.font = UIFont(name: "Montserrat-Regular", size: 12)
+                labelTitil.font = UIFont(name: "Montserrat-Regular", size: 14)
 
 
         
                 titleLabel.frame = CGRect(x:0, y: 500 ,width: self.view.frame.width ,height:380)
         //        titleLabel.numberOfLines = 0;
         //        titleLabel.lineBreakMode = .byWordWrapping
-                titleLabel.backgroundColor = .red
-        //        titleLabel.baselineAdjustment = .alignCenters
+        titleLabel.backgroundColor = UIColor.init(red: 250.0/255.0, green: 243.0/255.0, blue: 224.0/255.0, alpha: 1)
+                titleLabel.insertTextPlaceholder(with: CGSize(width: 100, height: 20))
+        //        titleLabel.baselineAdjustment = .alignCenters§
                 titleLabel.textAlignment = NSTextAlignment.left
-                titleLabel.font = .systemFont(ofSize: 16)
+                titleLabel.font = .systemFont(ofSize: 15)
         
         loadItems()
         
@@ -114,7 +115,7 @@ class commentStep: UIViewController {
         if let i = itemTimeArray.lastIndex(where: { $0.stepID == Int16(searchValue)}) {
 //                itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
                 
-                commentTextCore =  itemTimeArray[i].comment != nil ? itemTimeArray[i].comment as! String : ""
+            commentTextCore =  itemTimeArray[i].comment != nil ? itemTimeArray[i].comment! : ""
 //                print(itemTimeArray[i].comment)
 //                itemTimeArray[i].setValue(1, forKey: "flagActive")
 //                self.saveItems()
