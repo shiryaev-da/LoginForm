@@ -35,13 +35,14 @@ class CustomTableDetailCell: UITableViewCell {
     
     @objc func updateFlag(flag: UIImage) {
 //        imageValid.isHidden = false
-        imageValid.image = UIImage(systemName: "")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+   
         spinner.style = UIActivityIndicatorView.Style.medium
         spinner.frame = CGRect(x: 0, y: 0, width: 48, height: 20)
-        spinner.startAnimating()
+//        spinner.startAnimating()
 
         // Adds text and spinner to the view
         imageValid.addSubview(spinner)
+        imageValid.image = flag
   
     }
     

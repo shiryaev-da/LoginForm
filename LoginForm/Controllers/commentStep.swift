@@ -17,6 +17,7 @@ class commentStep: UIViewController {
     var commentText: String!
     var commentTextCore: String = ""
     let titleLabel = UITextView()
+    var stepName: String!
     
 
     override func viewDidLoad() {
@@ -30,18 +31,18 @@ class commentStep: UIViewController {
                 let labelTitil = UILabel(frame: CGRect(x:0, y: 450 ,width: self.view.frame.width ,height:50))
                 labelTitil.layer.cornerRadius = 20
                 labelTitil.backgroundColor = UIColor.init(red: 234.0/255.0, green: 191.0/255.0, blue: 159.0/255.0, alpha: 1)
-                labelTitil.text = "Комментарий к выбранному действию"
+                labelTitil.text = "Комментарий: \(String(stepName))"
                 labelTitil.baselineAdjustment = .alignCenters
-                labelTitil.textAlignment = NSTextAlignment.center
-                labelTitil.font = UIFont(name: "Montserrat-Regular", size: 14)
+                labelTitil.textAlignment = NSTextAlignment.left
+                labelTitil.font = .systemFont(ofSize: 15)
 
 
         
                 titleLabel.frame = CGRect(x:0, y: 500 ,width: self.view.frame.width ,height:380)
         //        titleLabel.numberOfLines = 0;
         //        titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.backgroundColor = UIColor.init(red: 250.0/255.0, green: 243.0/255.0, blue: 224.0/255.0, alpha: 1)
-                titleLabel.insertTextPlaceholder(with: CGSize(width: 100, height: 20))
+                titleLabel.backgroundColor = UIColor.init(red: 250.0/255.0, green: 243.0/255.0, blue: 224.0/255.0, alpha: 1)
+                titleLabel.insertTextPlaceholder(with: CGSize(width: 130, height: 20))
         //        titleLabel.baselineAdjustment = .alignCenters§
                 titleLabel.textAlignment = NSTextAlignment.left
                 titleLabel.font = .systemFont(ofSize: 15)

@@ -175,8 +175,10 @@ class ViewController: UIViewController {
         
         let loginRegLet = fieldLogin.text!
         let passRegLet = fieldPass.text!
-//        print(delegateApp.divToken)
+        print(delegateApp.divToken)
+        if (delegateApp.divToken != nil) {
         loginManager.performAddDev(loginLet: loginRegLet, id: delegateApp.divToken)
+        }
         loginManager.performLogin(loginRegLet: loginRegLet, passRegLet: passRegLet)
     }
 }

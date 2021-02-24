@@ -191,7 +191,7 @@ class tableDetailController: UITableViewController {
 //            self.setLoadingScreen()
             
             
-            self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
+//            self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
 //            sleep(1)
 //            self.tableView.reloadData()
         }
@@ -215,7 +215,7 @@ class tableDetailController: UITableViewController {
                 self.updateFlags(flag: imageIconFail!)
                 self.detailManager.performValidAcctive(activeID: message.ID_ART, flag: -1)
                 
-                self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
+//                self.detailManager.performShowDetail(loginLet: self.user, topicID: self.TOPIC_ID)
   
 //            self.tableView.reloadData()
 

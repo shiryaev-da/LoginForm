@@ -618,7 +618,9 @@ class tableStepController: UITableViewController {
             let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "commentStepId") as! commentStep
 
             newViewController.stepId = message.id
+            newViewController.stepName = message.STEP_NAME
                     self.present(newViewController, animated: true, completion: nil)
+            
         }
         
         
@@ -700,7 +702,8 @@ class tableStepController: UITableViewController {
   
             
         }
-        testAction.backgroundColor = UIColor(red: 109.0 / 255.0, green: 220.0 / 255.0, blue: 207.0 / 255.0, alpha: 1.0)
+//        testAction.backgroundColor = UIColor(red: 109.0 / 255.0, green: 220.0 / 255.0, blue: 207.0 / 255.0, alpha: 1.0)
+        testAction.backgroundColor = .systemGreen
         testAction.image = UIImage(systemName: "forward.fill")
 
         return UISwipeActionsConfiguration(actions: [testAction])
@@ -726,7 +729,8 @@ class tableStepController: UITableViewController {
 
 
         }
-        stopAction.backgroundColor = UIColor(red: 231.0 / 255.0, green: 230.0 / 255.0, blue: 225.0 / 255.0, alpha: 1.0)
+//        stopAction.backgroundColor = UIColor(red: 231.0 / 255.0, green: 230.0 / 255.0, blue: 225.0 / 255.0, alpha: 1.0)
+        stopAction.backgroundColor = .systemYellow
         stopAction.image = UIImage(systemName: "pause")
         
         let editAction = UIContextualAction(style: .destructive, title: "edit") { (_, _, completionHandler) in
@@ -951,9 +955,7 @@ extension UIViewController {
 
 func showToast(message : String, font: UIFont) {
 
-    
-    
-    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 105, y: self.view.bounds.maxY-70, width: 210, height: 35))
+    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 105, y: self.view.bounds.maxY-70, width: 250, height: 35))
     toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
     toastLabel.textColor = UIColor.white
     toastLabel.font = font
