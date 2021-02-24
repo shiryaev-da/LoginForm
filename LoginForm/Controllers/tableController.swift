@@ -89,7 +89,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
         contentManager.delegate = self
         contentManager.performLogin(user: user)
         contentManager.performStep(loginLet: user)
-
+        filteredData = content
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.searchBar.text = valueSearch
@@ -97,10 +97,11 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //        self.searchBar.isFocused
         searchBar.delegate = self
         setLoadingScreen()
+        self.tableView.reloadData()
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.scrollsToTop = true
        loadItems()
-        filteredData = content
+
 
 //        showSearchBar()
 
@@ -412,15 +413,9 @@ class tableController: UITableViewController, UISearchBarDelegate {
     
     //MARK: Бар для поиска
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
- 
-
             if let searchText = searchBar.text {
-
                 if searchText == "" {
-
                     filteredData = content
-                
             }
              else {
                 topicVar = []
@@ -448,7 +443,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     }
     //MARK: Действие по нажатию
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+//        print(indexPath.row)
 
         let message = filteredData[indexPath.section].topic[indexPath.row]
 //        print(message.id)
@@ -466,7 +461,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
             newViewController.group = self.group
             newViewController.idTopic = message.id
             newViewController.activeFlag = flagActive
-            newViewController.numberOfRowsMain = tableView.indexPathsForSelectedRows!
+            newViewController.numberOfRowsMain = self.tableView.indexPathsForSelectedRows!
             newViewController.valueSearchStep = valueSearch
 
             let navController = UINavigationController(rootViewController: newViewController)
@@ -776,11 +771,13 @@ extension tableController: ContentManagerDelegate {
     func didContentData(_ Content: ContentManager, content: [Sector]) {
         self.content = content
         self.filteredData = content
+//        print(self.filteredData)
 //        figuresByLetter = Dictionary(grouping: filteredData, by: { String($0.NAME_SECTOR) }).sorted(by: { $0.0 < $1.0 })
 
     
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
+//        if (self.filteredData.count > 0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(20)) {
+            
             self.tableView.reloadData()
             self.searchBar(self.searchBar, textDidChange: self.valueSearch)
             self.tableView.separatorStyle = .singleLine
@@ -788,7 +785,9 @@ extension tableController: ContentManagerDelegate {
             self.numberOfRows.forEach { numberOfRows in
                 self.tableView.selectRow(at: numberOfRows, animated: false, scrollPosition: .middle)
             }
+            
         }
+//        }
     }
 }
 

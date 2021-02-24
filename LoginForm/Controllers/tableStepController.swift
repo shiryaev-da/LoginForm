@@ -196,7 +196,7 @@ class tableStepController: UITableViewController {
         spinner.stopAnimating()
         spinner.isHidden = true
         loadingLabel.isHidden = true
-
+    
     }
 
     //MARK: CoreDATA
@@ -214,7 +214,7 @@ class tableStepController: UITableViewController {
         idStepIn = stepID
         
         
-        print(newItem)
+//        print(newItem)
         // newItem.perentGroupExercise = self.selectidGroup
         //  print("Добалвен элемент\(self.selectidGroup!)")
         self.itemTimeArray.append(newItem)
@@ -764,31 +764,13 @@ class tableStepController: UITableViewController {
         let yesAction = UIAlertAction(title: "Да", style: .destructive) { (action) -> Void in
                 print("The user is okay.")
             
-            if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
-                
-                if (self.idStepIn != nil) {
-                    self.startUpdate(value: self.idStepIn)
-                }
-                self.saveItems()
-                let jsonTo = self.convertToJSONArray(moArray: self.itemTimeArray)
-                let jsonString = self.convertIntoJSONString(arrayObject: jsonTo)!
-                self.stepManager.performRequest(loginRegLet: self.user, json: jsonString)
-                
-                
-                
-                newViewController.user = self.user
-                newViewController.group = self.group
-                newViewController.resetCoredata = self.resetCoredata
-                newViewController.numberOfRows = self.numberOfRowsMain
-                newViewController.valueSearch = self.valueSearchStep
-          
-                
-                let navController = UINavigationController(rootViewController: newViewController)
-                navController.modalTransitionStyle = .crossDissolve
-                navController.modalPresentationStyle = .overFullScreen
-                self.present(navController, animated: true, completion: nil)
-    //            print(numberOfSectionsMain, numberOfRowsMain)
-               }
+            if (self.idStepIn != nil) {
+                self.startUpdate(value: self.idStepIn)
+            }
+            self.saveItems()
+            let jsonTo = self.convertToJSONArray(moArray: self.itemTimeArray)
+            let jsonString = self.convertIntoJSONString(arrayObject: jsonTo)!
+            self.stepManager.performRequest(loginRegLet: self.user, json: jsonString)
             self.timer.invalidate()
             
             }
@@ -942,6 +924,22 @@ extension tableStepController {
 
 extension tableStepController: StepManagerDelegate {
     func didPostStep(_ weatherRegister: StepManager, register: StepModel) {
+        DispatchQueue.main.async {
+            
+            
+            if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
+                newViewController.user = self.user
+                newViewController.group = self.group
+                newViewController.resetCoredata = self.resetCoredata
+                newViewController.numberOfRows = self.numberOfRowsMain
+                newViewController.valueSearch = self.valueSearchStep
+                let navController = UINavigationController(rootViewController: newViewController)
+                navController.modalTransitionStyle = .crossDissolve
+                navController.modalPresentationStyle = .overFullScreen
+                self.present(navController, animated: true, completion: nil)
+               }
+        }
+        
         
     }
     

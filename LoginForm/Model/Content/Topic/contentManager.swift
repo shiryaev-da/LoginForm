@@ -103,7 +103,7 @@ struct ContentManager {
             let decoderData = try decoder.decode(AddTopicData.self, from: responceData)
     //                print(decoderData.statusUser)
             let statusAdd = decoderData.statusAddTopic
-            print(statusAdd)
+//            print(statusAdd)
             let statusReg  = AddTopicModel(statusAddTopic: statusAdd)
 //            print(statusReg.statusUser)
             return statusReg
@@ -156,7 +156,7 @@ print(" { \"USER_ID\": \(loginLet), \"USER_GROUP\": \(groupLet), \"TOPIC_NAME\":
             let decoderData = try decoder.decode(AddTopicData.self, from: responceData)
     //                print(decoderData.statusUser)
             let statusAdd = decoderData.statusAddTopic
-            print(statusAdd)
+//            print(statusAdd)
             let statusReg  = AddTopicModel(statusAddTopic: statusAdd)
 //            print(statusReg.statusUser)
             return statusReg
