@@ -28,6 +28,18 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    func biometricType() -> String {
+      let _ = contextIdent.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+      switch contextIdent.biometryType {
+      case .none:
+        return "textformat.123"
+      case .touchID:
+        return "touchid"
+      case .faceID:
+        return "faceid"
+      }
+    }
 
     @IBOutlet weak var buttonLogin: UIButton!
     var loginManager = LoginManager()
@@ -70,10 +82,19 @@ class ViewController: UIViewController {
                 print("Ошибка сохранения нового элемента замера\(error)")
               }
     }
-    @objc func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+    
+    
+    func deleteAllData(entity: String)
+    {
+        let ReqVar = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: ReqVar)
+        do { try context.execute(DelAllReqVar) }
+        catch { print(error) }
     }
+    
+
+    
+
     
     // Set the activity indicator into the main view
     private func setLoadingScreen() {
@@ -109,7 +130,7 @@ class ViewController: UIViewController {
         spinner.stopAnimating()
         spinner.isHidden = true
         loadingLabel.isHidden = true
-        buttonLogin.setTitle("Вход", for: .normal)
+//        buttonLogin.setTitle("Вход", for: .normal)
 
     }
  
@@ -122,11 +143,18 @@ class ViewController: UIViewController {
         loadItems()
         // Set the initial app state. This impacts the initial state of the UI as well.
         print(itemTimeArray.count)
-        dismissKeyboard()
         if itemTimeArray.count == 0  {
             state = .loggedout
+            buttonLogin.setTitle("Вход", for: .normal)
         } else {
             state = .loggedYes
+            let icon = UIImage(systemName: biometricType())!
+
+//            buttonLogin.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            buttonLogin.setTitle("", for: .normal)
+            buttonLogin.setImage(icon, for: .normal)
+            buttonLogin.tintColor = .white
+//            buttonLogin.image(for: )
             loginManager.performLogin(loginRegLet: itemTimeArray[0].user!, passRegLet: itemTimeArray[0].pass!)
         }
         
@@ -158,7 +186,16 @@ class ViewController: UIViewController {
         if (delegateApp.divToken != nil) {
         loginManager.performAddDev(loginLet: loginRegLet, id: delegateApp.divToken)
         }
-        loginManager.performLogin(loginRegLet: loginRegLet, passRegLet: passRegLet)
+        
+        if itemTimeArray.count == 0  {
+            state = .loggedout
+            loginManager.performLogin(loginRegLet: loginRegLet, passRegLet: passRegLet)
+        } else {
+            state = .loggedYes
+            loginManager.performLogin(loginRegLet: itemTimeArray[0].user!, passRegLet: itemTimeArray[0].pass!)
+        }
+        
+        
     }
     
     
@@ -228,12 +265,13 @@ extension ViewController: LoginManagerDelegate {
             }
         }
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
             self.removeLoadingScreen()
 //            print(login.status)
 //            self.name = login.firstName
             
             if (login.status) == 1 {
+
                 if self.state == .loggedout {
                 self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!)
                     mainIdetn()
@@ -242,10 +280,11 @@ extension ViewController: LoginManagerDelegate {
                     mainIdetn()
                 }
                 else if self.state ==  .loggedHand {
+                    self.deleteAllData(entity: "Login")
                     self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!)
                     openMainController()
                 }
-                
+
                
                 
                 

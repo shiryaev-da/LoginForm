@@ -210,6 +210,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     }
     
 
+
     
     //MARK: Замеры
     private func registerTableViewCells() {
