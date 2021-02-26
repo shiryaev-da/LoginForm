@@ -107,6 +107,7 @@ class tableStepController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.view.backgroundColor = UIColor.white
         //self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
 
@@ -603,15 +604,6 @@ class tableStepController: UITableViewController {
         
 
         if dataCount == 0 {
-//            let alertController = UIAlertController(title: "Информация", message: "Нет ни одного замера", preferredStyle: .alert)
-//            let yesAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
-//                    print("The user is okay.")
-//                }
-//            let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
-//                    print("The user is not okay.")
-//                }
-//                alertController.addAction(yesAction)
-//            self.present(alertController, animated: true, completion: nil)
             self.showToast(message: "Комментарий недоступен", font: .systemFont(ofSize: 17.0))
         }
         else {
@@ -953,7 +945,7 @@ extension UIViewController {
 
 func showToast(message : String, font: UIFont) {
 
-    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 105, y: self.view.bounds.maxY-70, width: 250, height: 35))
+    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 125, y: self.view.bounds.maxY-70, width: 250, height: 35))
     toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
     toastLabel.textColor = UIColor.white
     toastLabel.font = font

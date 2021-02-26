@@ -31,7 +31,7 @@ class commentStep: UIViewController {
                 let labelTitil = UILabel(frame: CGRect(x:0, y: 450 ,width: self.view.frame.width ,height:50))
                 labelTitil.layer.cornerRadius = 20
                 labelTitil.backgroundColor = UIColor.init(red: 234.0/255.0, green: 191.0/255.0, blue: 159.0/255.0, alpha: 1)
-                labelTitil.text = "Комментарий: \(String(stepName))"
+                labelTitil.text = "  Комментарий: \(String(stepName))"
                 labelTitil.baselineAdjustment = .alignCenters
                 labelTitil.textAlignment = NSTextAlignment.left
                 labelTitil.font = .systemFont(ofSize: 15)

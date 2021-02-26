@@ -7,106 +7,73 @@
 
 import UIKit
 import LocalAuthentication
-
+import CoreData
 
 
 
 class ViewController: UIViewController {
+ //Биометрий
+
+
 
     
+    var contextIdent = LAContext()
+    enum AuthenticationState {
+        case loggedin, loggedout, loggedHand, loggedYes
+    }
+    
+    var state = AuthenticationState.loggedout {
+        didSet {
+            print("LoginBIO")
+        }
+    }
+    
+
     @IBOutlet weak var buttonLogin: UIButton!
     var loginManager = LoginManager()
     let resetCoredata: Bool = true
-    
     let loadingView = UIView()
-    /// Spinner shown during load the TableView
     let spinner = UIActivityIndicatorView()
-    /// Text shown during load the TableView
     let loadingLabel = UILabel()
     let delegateApp = UIApplication.shared.delegate as! AppDelegate
-//    let deviceToken = delegateApp.divToken
 
-    let context = LAContext()
-    
-    class BiometricIDAuth {
-      
+
+
+
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var itemTimeArray = [Login]()
+    //Загрузка в массив
+    func loadItems() {
+        let request : NSFetchRequest<Login> = Login.fetchRequest()
+        do {
+            itemTimeArray = try context.fetch(request)
+        } catch {
+            print("Error")
+        }
     }
     
-    func canEvaluatePolicy() -> Bool {
-      return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-    }
-    
-    let touchMe = BiometricIDAuth()
-    
-    
-    enum BiometricType {
-      case none
-      case touchID
-      case faceID
-    }
-    
-    
-    func biometricType() -> BiometricType {
-      let _ = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-      switch context.biometryType {
-      case .none:
-        return .none
-      case .touchID:
-        return .touchID
-      case .faceID:
-        return .faceID
-      @unknown default:
-        fatalError()
-      }
+    func typeAction(user: String, pass: String) {
+        let newItem = Login(context: self.context)
+        newItem.user = user
+        newItem.pass = pass
+        self.itemTimeArray.append(newItem)
+        self.saveItems()
     }
     
     
-    
-    
-    var loginReason = "Logging in with Touch ID"
-    
-    func authenticateUser(completion: @escaping (String?) -> Void) {
-        
-      guard canEvaluatePolicy() else {
-        completion("Touch ID not available")
-        return
-      }
-        
-      context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
-        localizedReason: loginReason) { (success, evaluateError) in
-          if success {
-            DispatchQueue.main.async {
-              completion(nil)
-            }
-          } else {
-                                  
-            let message: String
-                                  
-            switch evaluateError {
-            case LAError.authenticationFailed?:
-              message = "There was a problem verifying your identity."
-            case LAError.userCancel?:
-              message = "You pressed cancel."
-            case LAError.userFallback?:
-              message = "You pressed password."
-            case LAError.biometryNotAvailable?:
-              message = "Face ID/Touch ID is not available."
-            case LAError.biometryNotEnrolled?:
-              message = "Face ID/Touch ID is not set up."
-            case LAError.biometryLockout?:
-              message = "Face ID/Touch ID is locked."
-            default:
-              message = "Face ID/Touch ID may not be configured"
-            }
+    func saveItems() {
               
-            completion(message)
-          }
-      }
+              do {
+                  try context.save()
+                   print("Информация сохранена")
+              } catch {
+                print("Ошибка сохранения нового элемента замера\(error)")
+              }
     }
-    
-
-
-
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
     
     // Set the activity indicator into the main view
     private func setLoadingScreen() {
@@ -151,7 +118,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         loginManager.delegate = self
         self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
-
+        contextIdent.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+        loadItems()
+        // Set the initial app state. This impacts the initial state of the UI as well.
+        print(itemTimeArray.count)
+        dismissKeyboard()
+        if itemTimeArray.count == 0  {
+            state = .loggedout
+        } else {
+            state = .loggedYes
+            loginManager.performLogin(loginRegLet: itemTimeArray[0].user!, passRegLet: itemTimeArray[0].pass!)
+        }
+        
   
      
         
@@ -175,12 +153,16 @@ class ViewController: UIViewController {
         
         let loginRegLet = fieldLogin.text!
         let passRegLet = fieldPass.text!
-        print(delegateApp.divToken)
+        view.endEditing(true)
+//        print(delegateApp.divToken)
         if (delegateApp.divToken != nil) {
         loginManager.performAddDev(loginLet: loginRegLet, id: delegateApp.divToken)
         }
         loginManager.performLogin(loginRegLet: loginRegLet, passRegLet: passRegLet)
     }
+    
+    
+    
 }
 
 extension ViewController: LoginManagerDelegate {
@@ -189,34 +171,82 @@ extension ViewController: LoginManagerDelegate {
     }
     
     func didUpdateLogin(_ Login: LoginManager, login: LoginModel) {
+        
+        func openMainController() {
+            if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
+
+                newViewController.firstName = login.firstName
+                newViewController.user = login.login
+                newViewController.group = login.group
+                newViewController.resetCoredata = true
+
+                
+                
+                let navController = UINavigationController(rootViewController: newViewController)
+                navController.modalTransitionStyle = .flipHorizontal
+                navController.modalPresentationStyle = .overFullScreen
+                
+    //            newViewController.modalPresentationStyle = .currentContext
+    //            newViewController.modalPresentationStyle = .overCurrentContext // это та самая волшебная строка, убрав или закомментировав ее, вы получите появление смахиваемого контроллера
+                self.present(navController, animated: true, completion: nil)
+               }
+        }
+        
+        func mainIdetn() {
+            self.contextIdent = LAContext()
+
+            self.contextIdent.localizedCancelTitle = "Ввести логин и пароль"
+
+            // First check if we have the needed hardware support.
+            var error: NSError?
+            if self.contextIdent.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+
+                let reason = "Войти в учетную запись"
+                self.contextIdent.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
+
+                    if success {
+
+                        // Move to the main thread because a state update triggers UI changes.
+                        DispatchQueue.main.async { [unowned self] in
+//                            self.state = .loggedHand
+                            openMainController()
+
+                        }
+
+                    } else {
+                        print(error?.localizedDescription ?? "Failed to authenticate")
+                        self.state = .loggedHand
+                        // Fall back to a asking for username and password.
+                        // ...
+                    }
+                }
+            } else {
+                print(error?.localizedDescription ?? "Can't evaluate policy")
+
+                // Fall back to a asking for username and password.
+                // ...
+            }
+        }
+        
         DispatchQueue.main.async {
             self.removeLoadingScreen()
-            print(login.status)
+//            print(login.status)
 //            self.name = login.firstName
             
             if (login.status) == 1 {
-
-                if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
-
-//                    newViewController.modalTransitionStyle = .crossDissolve // это значение можно менять для разных видов анимации появления
-//                    newViewController.modalPresentationStyle = .overFullScreen
-//                    let newViewController = UINavigationController(rootViewController: tableController)
-                    newViewController.firstName = login.firstName
-                    newViewController.user = login.login
-                    newViewController.group = login.group
-                    newViewController.resetCoredata = true
-
-                    
-                    
-                    let navController = UINavigationController(rootViewController: newViewController)
-                    navController.modalTransitionStyle = .flipHorizontal
-                    navController.modalPresentationStyle = .overFullScreen
-                    
-        //            newViewController.modalPresentationStyle = .currentContext
-        //            newViewController.modalPresentationStyle = .overCurrentContext // это та самая волшебная строка, убрав или закомментировав ее, вы получите появление смахиваемого контроллера
-                    self.present(navController, animated: true, completion: nil)
-                   }
+                if self.state == .loggedout {
+                self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!)
+                    mainIdetn()
+                }
+                else if self.state == .loggedYes {
+                    mainIdetn()
+                }
+                else if self.state ==  .loggedHand {
+                    self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!)
+                    openMainController()
+                }
                 
+               
                 
                 
                 

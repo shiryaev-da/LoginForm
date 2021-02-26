@@ -51,6 +51,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.view.backgroundColor = UIColor.white
         title = "Активные замеры"
         //self.tableView.backgroundColor = addGradientBackground(UIColor.white, UIColor.black)
@@ -98,6 +99,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
         searchBar.delegate = self
         setLoadingScreen()
         self.tableView.reloadData()
+        self.tableView.keyboardDismissMode = .interactive
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.scrollsToTop = true
        loadItems()
@@ -199,7 +201,13 @@ class tableController: UITableViewController, UISearchBarDelegate {
     
     
 
-    
+    func deleteAllData(entity: String)
+    {
+        let ReqVar = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: ReqVar)
+        do { try context.execute(DelAllReqVar) }
+        catch { print(error) }
+    }
     
 
     
@@ -358,8 +366,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
         lb.font = lb.font.withSize(20)
         lb.textAlignment = .center
         popup.addSubview(lb)
-        let imageOpen = UIImage(systemName: "chevron.down") as UIImage?
-        let imageClose = UIImage(systemName: "chevron.backward") as UIImage?
+        let imageOpen = UIImage(systemName: "chevron.backward") as UIImage?
+        let imageClose = UIImage(systemName: "chevron.down") as UIImage?
         let button   = UIButton(type: UIButton.ButtonType.custom) as UIButton
         let isExpanded = filteredData[section].isExt
         button.frame = CGRect(x: 0, y: 10, width: view.frame.size.width * 1.9, height: 20)
@@ -387,8 +395,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
         let isExpanded = filteredData[section].isExt
         filteredData[section].isExt = !isExpanded
         
-        let imageOpen = UIImage(systemName: "chevron.down") as UIImage?
-        let imageClose = UIImage(systemName: "chevron.backward") as UIImage?
+        let imageOpen = UIImage(systemName: "chevron.backward") as UIImage?
+        let imageClose = UIImage(systemName: "chevron.down") as UIImage?
         
         button.setImage(isExpanded ? imageOpen : imageClose, for: .normal)
 
@@ -557,18 +565,21 @@ class tableController: UITableViewController, UISearchBarDelegate {
     //MARK: Кнопка Выход
     @objc public func didTapMenuButton() {
         
-        let alertController = UIAlertController(title: "Выход", message: "Вы хотите выйти?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Выход", message: "Вы из учетной записи?", preferredStyle: .alert)
 
             // Initialize Actions
         let yesAction = UIAlertAction(title: "Выйти", style: .destructive) { (action) -> Void in
                 print("The user is okay.")
-            
+            self.deleteAllData(entity: "Login")
             if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "main") {
                 newViewController.modalTransitionStyle = .flipHorizontal // это значение можно менять для разных видов анимации появления
                 newViewController.modalPresentationStyle = .overFullScreen
     //            newViewController.modalPresentationStyle = .currentContext
     //            newViewController.modalPresentationStyle = .overCurrentContext // это та самая волшебная строка, убрав или закомментировав ее, вы получите появление смахиваемого контроллера
                 self.present(newViewController, animated: true, completion: nil)
+
+
+
 
                }
             }
@@ -730,13 +741,7 @@ extension tableController: ContentManagerDelegate {
             return date
         }
         
-        func deleteAllData(entity: String)
-        {
-            let ReqVar = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
-            let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: ReqVar)
-            do { try context.execute(DelAllReqVar) }
-            catch { print(error) }
-        }
+
         
 //        self.content.remove(at: indexPath.row)
         
