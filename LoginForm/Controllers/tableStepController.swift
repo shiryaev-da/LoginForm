@@ -61,44 +61,44 @@ class tableStepController: UITableViewController {
     
 
     //Градиент пробую добавить
-    class Colors {
-        var gl:CAGradientLayer!
-
-        init() {
-            let colorTop = UIColor(red: 192.0 / 255.0, green: 38.0 / 255.0, blue: 42.0 / 255.0, alpha: 1.0).cgColor
-            let colorBottom = UIColor(red: 35.0 / 255.0, green: 2.0 / 255.0, blue: 2.0 / 255.0, alpha: 1.0).cgColor
-
-            self.gl = CAGradientLayer()
-            self.gl.colors = [colorTop, colorBottom]
-            self.gl.locations = [0.0, 1.0]
-        }
-    }
-    let colors = Colors()
+//    class Colors {
+//        var gl:CAGradientLayer!
+//
+//        init() {
+//            let colorTop = UIColor(red: 192.0 / 255.0, green: 38.0 / 255.0, blue: 42.0 / 255.0, alpha: 1.0).cgColor
+//            let colorBottom = UIColor(red: 35.0 / 255.0, green: 2.0 / 255.0, blue: 2.0 / 255.0, alpha: 1.0).cgColor
+//
+//            self.gl = CAGradientLayer()
+//            self.gl.colors = [colorTop, colorBottom]
+//            self.gl.locations = [0.0, 1.0]
+//        }
+//    }
+//    let colors = Colors()
     
     
-    func gradient(frame:CGRect) -> CAGradientLayer {
-        let layer = CAGradientLayer()
-        layer.frame = frame
-        layer.startPoint = CGPoint(x: 0.5, y: 0)
-        layer.endPoint = CGPoint(x: 0.5, y: 1)
-        let color1 = UIColor(hexString: "#dfebfe")
-        let color2 = UIColor(hexString: "#ffffff")
-        layer.colors = [
-                        //UIColor.white.cgColor,
-            color1.cgColor,  //?? UIColor.white.cgColor,
-            color2.cgColor  //?? UIColor.white.cgColor
-                        ]
-        
-        return layer
-    }
+//    func gradient(frame:CGRect) -> CAGradientLayer {
+//        let layer = CAGradientLayer()
+//        layer.frame = frame
+//        layer.startPoint = CGPoint(x: 0.5, y: 0)
+//        layer.endPoint = CGPoint(x: 0.5, y: 1)
+//        let color1 = UIColor(hexString: "#dfebfe")
+//        let color2 = UIColor(hexString: "#ffffff")
+//        layer.colors = [
+//                        //UIColor.white.cgColor,
+//            color1.cgColor,  //?? UIColor.white.cgColor,
+//            color2.cgColor  //?? UIColor.white.cgColor
+//                        ]
+//
+//        return layer
+//    }
     
-    func refreshColor() {
-        
-//            view.backgroundColor = UIColor.clearColor()
-//            var backgroundLayer = colors.gl
-//            backgroundLayer.frame = view.frame
-//            view.layer.insertSublayer(backgroundLayer, atIndex: 0)
-          }
+//    func refreshColor() {
+//
+////            view.backgroundColor = UIColor.clearColor()
+////            var backgroundLayer = colors.gl
+////            backgroundLayer.frame = view.frame
+////            view.layer.insertSublayer(backgroundLayer, atIndex: 0)
+//          }
 
     
     //END градиент функции
@@ -108,7 +108,7 @@ class tableStepController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1)
         //self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
 
         self.navigationItem.title = TOPIC_NAME
@@ -119,20 +119,20 @@ class tableStepController: UITableViewController {
             target: self,
             action: #selector(didTapMenuButtonAdd)
         )
-        let rightBackButton1 = UIBarButtonItem(
-    //            title: "Back",
-            image: UIImage(systemName: "stop"),
-            style: .plain,
-            target: self,
-            action: #selector(didRunTime)
-        )
+//        let rightBackButton1 = UIBarButtonItem(
+//    //            title: "Back",
+//            image: UIImage(systemName: "stop"),
+//            style: .plain,
+//            target: self,
+//            action: #selector(didRunTime)
+//        )
         let leftBackButton = UIBarButtonItem(
     //            title: "Back",
             image: UIImage(systemName: "arrow.backward.circle.fill"),
             style: .plain,
             target: self,
             action: #selector(didTapMenuButton))
-        self.navigationItem.rightBarButtonItems = [rightBackButton1,rightBackButton]
+        self.navigationItem.rightBarButtonItems = [/*rightBackButton1,*/rightBackButton]
         self.navigationItem.leftBarButtonItem = leftBackButton
         self.registerTableViewCells()
         contentStepManager.delegate = self
@@ -491,18 +491,25 @@ class tableStepController: UITableViewController {
 //        return popup
 //    }
     
+    // Set the spacing between sections
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
  //Радиус cell
-        cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 16
+        cell.layer.masksToBounds = false
+//        cell.layer.cornerRadius = 16
         //cell.backgroundView?.addGradientBackground(firstColor: .blue, secondColor: .darkGray)
         //cell.selectedBackgroundView?.addGradientBackground(firstColor: .blue, secondColor: .darkGray)
-       // cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
+//        cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
+        cell.backgroundColor = .white
+        
+        cell.layer.borderColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1).cgColor
+        cell.layer.borderWidth = 1
         
         cell.labelNme.text = contentFix[indexPath.row].STEP_NAME
+        cell.labelNme.textColor = UIColor.init(red: 68.0/255.0, green: 62.0/255.0, blue: 62.0/255.0, alpha: 1)
+        cell.labelNme.font = UIFont(name: "SBSansText-SemiBold", size: 15)
         cell.labelCount.text = String(countSecond)
 //        cell.labelCount.isHidden = true
 //        cell.labelComment.isHidden = true
@@ -611,6 +618,7 @@ class tableStepController: UITableViewController {
 
             newViewController.stepId = message.id
             newViewController.stepName = message.STEP_NAME
+            newViewController.stepNum = indexPath.row + 1
                     self.present(newViewController, animated: true, completion: nil)
             
         }
@@ -904,9 +912,10 @@ extension tableStepController {
             cell.updateTimeAll(deltaTime: timeDeltaSum(value: self.idStepIn) , localTime: localTime)
             cell.updateCountStep(count: countStepSum(value: self.idStepIn))
     //Радиус cell
-            cell.layer.masksToBounds = true
-            cell.layer.cornerRadius = 16
-            cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
+//            cell.layer.masksToBounds = true
+//            cell.layer.cornerRadius = 16
+//            cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
+            
 //              print(indexPath.row)
           }
         }

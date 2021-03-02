@@ -113,6 +113,7 @@ class ViewController: UIViewController {
         // Sets spinner
         spinner.style = UIActivityIndicatorView.Style.medium
         spinner.frame = CGRect(x: x, y: y, width: 0, height: 0)
+        spinner.color = .white
         spinner.startAnimating()
         buttonLogin.setTitle("", for: .normal)
         // Adds text and spinner to the view
@@ -141,12 +142,29 @@ class ViewController: UIViewController {
         self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
         contextIdent.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
         loadItems()
-        // Set the initial app state. This impacts the initial state of the UI as well.
-        print(itemTimeArray.count)
+        
+        
+        
         if itemTimeArray.count == 0  {
             state = .loggedout
             buttonLogin.setTitle("Вход", for: .normal)
         } else {
+            
+            if itemTimeArray[0].pass!.count < 30 {
+                state = .loggedYes
+                let icon = UIImage(systemName: biometricType())!
+
+    //            buttonLogin.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+                buttonLogin.setTitle("", for: .normal)
+                buttonLogin.setImage(icon, for: .normal)
+                buttonLogin.tintColor = .white
+                let user = itemTimeArray[0].user
+                let pass = itemTimeArray[0].pass!.sha512
+                self.deleteAllData(entity: "Login")
+                self.typeAction(user: user!, pass: pass)
+                loginManager.performLogin(loginRegLet: user!, passRegLet: pass)
+            } else {
+            
             state = .loggedYes
             let icon = UIImage(systemName: biometricType())!
 
@@ -156,6 +174,7 @@ class ViewController: UIViewController {
             buttonLogin.tintColor = .white
 //            buttonLogin.image(for: )
             loginManager.performLogin(loginRegLet: itemTimeArray[0].user!, passRegLet: itemTimeArray[0].pass!)
+            }
         }
         
   
@@ -180,7 +199,8 @@ class ViewController: UIViewController {
         setLoadingScreen()
         
         let loginRegLet = fieldLogin.text!
-        let passRegLet = fieldPass.text!
+        let passRegLet = fieldPass.text!.sha512
+//        print(fieldPass.text!.sha512)
         view.endEditing(true)
 //        print(delegateApp.divToken)
         if (delegateApp.divToken != nil) {
@@ -259,7 +279,7 @@ extension ViewController: LoginManagerDelegate {
                 }
             } else {
                 print(error?.localizedDescription ?? "Can't evaluate policy")
-
+                self.state = .loggedHand
                 // Fall back to a asking for username and password.
                 // ...
             }
@@ -273,7 +293,7 @@ extension ViewController: LoginManagerDelegate {
             if (login.status) == 1 {
 
                 if self.state == .loggedout {
-                self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!)
+                    self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!.sha512)
                     mainIdetn()
                 }
                 else if self.state == .loggedYes {
@@ -281,7 +301,7 @@ extension ViewController: LoginManagerDelegate {
                 }
                 else if self.state ==  .loggedHand {
                     self.deleteAllData(entity: "Login")
-                    self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!)
+                    self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!.sha512)
                     openMainController()
                 }
 
@@ -291,7 +311,7 @@ extension ViewController: LoginManagerDelegate {
                 
             } else {
                 let alert = UIAlertController(title: "Информация", message: "Проверьте логин/пароль", preferredStyle: UIAlertController.Style.alert)
-
+                buttonLogin.setTitle("Вход", for: .normal)
                 // add an action (button)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 

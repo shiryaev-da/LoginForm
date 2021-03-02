@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class commentStep: UIViewController {
+class commentStep: UIViewController, UITextViewDelegate {
     
     
     var stepId: Int!
@@ -18,61 +18,113 @@ class commentStep: UIViewController {
     var commentTextCore: String = ""
     let titleLabel = UITextView()
     var stepName: String!
+    var stepNum: Int!
+    var placeholderLabel = UILabel()
+    var titleLabelMain = UILabel()
+
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        titleLabel.delegate = self
         let newView = UIView(frame: CGRect(x: 0, y: 500, width: self.view.frame.width, height: 400))
-        newView.backgroundColor = .cyan
-        newView.layer.cornerRadius = 20
+        newView.backgroundColor = UIColor.init(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
+//        newView.layer.cornerRadius = 20
 //        print(stepId)
         self.view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
  
-                let labelTitil = UILabel(frame: CGRect(x:0, y: 450 ,width: self.view.frame.width ,height:50))
-                labelTitil.layer.cornerRadius = 20
-                labelTitil.backgroundColor = UIColor.init(red: 234.0/255.0, green: 191.0/255.0, blue: 159.0/255.0, alpha: 1)
-                labelTitil.text = "  Комментарий: \(String(stepName))"
-                labelTitil.baselineAdjustment = .alignCenters
-                labelTitil.textAlignment = NSTextAlignment.left
-                labelTitil.font = .systemFont(ofSize: 15)
-
-
-        
-                titleLabel.frame = CGRect(x:0, y: 500 ,width: self.view.frame.width ,height:380)
-        //        titleLabel.numberOfLines = 0;
-        //        titleLabel.lineBreakMode = .byWordWrapping
-                titleLabel.backgroundColor = UIColor.init(red: 250.0/255.0, green: 243.0/255.0, blue: 224.0/255.0, alpha: 1)
-                titleLabel.insertTextPlaceholder(with: CGSize(width: 130, height: 20))
-        //        titleLabel.baselineAdjustment = .alignCenters§
-                titleLabel.textAlignment = NSTextAlignment.left
-                titleLabel.font = .systemFont(ofSize: 15)
-        
-        loadItems()
-        
-                titleLabel.text = addComment(value: stepId)
                 
-        
-        
+            let labelTitilAll = UIView(frame: CGRect(x:0, y: 430 ,width: self.view.frame.width ,height:80))
+            labelTitilAll.layer.cornerRadius = 10
+            labelTitilAll.backgroundColor = .white
+            
+            
+                    let labelTitilStep = UILabel(frame: CGRect(x:16, y: 12 ,width: self.view.frame.width ,height: 10))
+                    labelTitilStep.text = "Шаг \(String(stepNum))"
+                    labelTitilStep.font = UIFont(name: "SBSansText-Regular", size: 12)
+                    labelTitilStep.numberOfLines = 1
+                    labelTitilStep.textColor = UIColor.init(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1)
+                    labelTitilStep.layer.cornerRadius = 20
+            
+                    let labelTitil = UILabel(frame: CGRect(x:16, y: 22 ,width: self.view.frame.width ,height:labelTitilAll.frame.height/2))
+                    labelTitil.backgroundColor = UIColor.init(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
+                    labelTitil.text =  (String(stepName))
+                    labelTitil.baselineAdjustment = .alignCenters
+                    labelTitil.textAlignment = NSTextAlignment.left
+                    labelTitil.font = UIFont(name: "SBSansText-Regular", size: 17)
+                    labelTitil.numberOfLines = 1
 
-        self.view.addSubview(labelTitil)
+            labelTitilAll.addSubview(labelTitilStep)
+            labelTitilAll.addSubview(labelTitil)
+
+//        placeholderLabel.isHidden = !toTextView.text.isEmpty
+        
+            titleLabelMain.frame = CGRect(x:16, y: 500 ,width: newView.frame.width-32 , height: self.view.frame.maxY - 500 - 70)
+            titleLabelMain.backgroundColor = UIColor.init(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1)
+        
+                titleLabel.frame = CGRect(x:24, y: 500 ,width: newView.frame.width-48 , height: self.view.frame.maxY - 500 - 70)
+                titleLabel.backgroundColor = UIColor.init(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1)
+                titleLabel.textAlignment = NSTextAlignment.left
+                titleLabel.font = UIFont(name: "SBSansText-Regular", size: 14)
+
+
+                    placeholderLabel.text = "Введите комментарий"
+                    placeholderLabel.frame = CGRect(x:0, y: 0 ,width: self.view.frame.width , height: 15)
+                    placeholderLabel.sizeToFit()
+                    placeholderLabel.font = UIFont(name: "SBSansText-Regular", size: 14)
+                    placeholderLabel.textColor = UIColor.init(red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 1)
+                    placeholderLabel.tag = 100
+
+
+        loadItems()
+
+        titleLabel.addSubview(placeholderLabel)
+        
+//        titleLabelMain.addSubview(titleLabel)
+
+
+        
+        
+        
+        self.view.addSubview(labelTitilAll)
         self.view.addSubview(newView)
+        self.view.addSubview(titleLabelMain)
         self.view.addSubview(titleLabel)
-//        titleLabel
+
+
+        titleLabel.text = addComment(value: stepId)
+
+
+        placeholderLabel.isHidden = !titleLabel.text.isEmpty
+
+
 
 
         // works without the tap gesture just fine (only dragging), but I also wanted to be able to tap anywhere and dismiss it, so I added the gesture below
+        
+
+        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         self.view.addGestureRecognizer(tap)
    
     }
     
-    
-    
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+//        print(!titleLabel.text.isEmpty)
+        placeholderLabel.isHidden = true
+
+//        placeholderLabel.text = ""
+    }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-//        print(stepId)
-        updateComment(value: stepId, textComment: "11223")
-        dismiss(animated: true, completion: nil)
+
+//        updateComment(value: stepId, textComment: "11223")
+//        titleLabel.text = ""
+//        dismiss(animated: true, completion: nil)
     }
     
     

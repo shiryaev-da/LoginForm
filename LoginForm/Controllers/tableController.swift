@@ -74,7 +74,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
         )
         let leftBackButton = UIBarButtonItem(
     //            title: "Back",
-            image: UIImage(systemName: "arrow.backward.circle.fill"),
+//            image: UIImage(systemName: "arrow.backward.circle.fill"),
+            title: "Выход",
             style: .plain,
             target: self,
             action: #selector(didTapMenuButton))
@@ -566,7 +567,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     //MARK: Кнопка Выход
     @objc public func didTapMenuButton() {
         
-        let alertController = UIAlertController(title: "Выход", message: "Вы из учетной записи?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Выход", message: "Выйти из учетной записи?", preferredStyle: .alert)
 
             // Initialize Actions
         let yesAction = UIAlertAction(title: "Выйти", style: .destructive) { (action) -> Void in

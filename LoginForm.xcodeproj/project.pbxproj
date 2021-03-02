@@ -44,6 +44,10 @@
 		8FD1C35B2548464A00242C42 /* registerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD1C35A2548464A00242C42 /* registerModel.swift */; };
 		8FD1C3602548479200242C42 /* registerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD1C35F2548479200242C42 /* registerManager.swift */; };
 		8FD598DC25922018005B7AF9 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8FD598DA25922018005B7AF9 /* Model.xcdatamodeld */; };
+		8FD5DF1F25EE5596002206A0 /* SBSansText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8FD5DF1B25EE53AF002206A0 /* SBSansText-Regular.ttf */; };
+		8FD5DF2725EEA1CE002206A0 /* SBSansText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8FD5DF2325EEA199002206A0 /* SBSansText-Bold.ttf */; };
+		8FD5DF2F25EEA8B1002206A0 /* SBSansText-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8FD5DF2B25EEA876002206A0 /* SBSansText-Light.ttf */; };
+		8FD5DF3425EEA9A1002206A0 /* SBSansText-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8FD5DF3325EEA988002206A0 /* SBSansText-SemiBold.ttf */; };
 		981B6C844ACE78574638F891 /* Pods_LoginForm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B01BFA1EA3420AC1CF927FA /* Pods_LoginForm.framework */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +127,10 @@
 		8FD1C35A2548464A00242C42 /* registerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerModel.swift; sourceTree = "<group>"; };
 		8FD1C35F2548479200242C42 /* registerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerManager.swift; sourceTree = "<group>"; };
 		8FD598DB25922018005B7AF9 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		8FD5DF1B25EE53AF002206A0 /* SBSansText-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SBSansText-Regular.ttf"; path = "../../../../../../Downloads/SBSans/SBSans  Sans Text Regular/OT-TTF/SBSansText-Regular.ttf"; sourceTree = "<group>"; };
+		8FD5DF2325EEA199002206A0 /* SBSansText-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SBSansText-Bold.ttf"; path = "../../../../../../Downloads/SBSans/SBSans Sans Text Bold/OT-TTF/SBSansText-Bold.ttf"; sourceTree = "<group>"; };
+		8FD5DF2B25EEA876002206A0 /* SBSansText-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SBSansText-Light.ttf"; path = "../../../../../../Downloads/SBSans/SBSans  Sans Text Light/OT-TTF/SBSansText-Light.ttf"; sourceTree = "<group>"; };
+		8FD5DF3325EEA988002206A0 /* SBSansText-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SBSansText-SemiBold.ttf"; path = "../../../../../../Downloads/SBSans/SBSans Sans Text Semibold/OT-TTF/SBSansText-SemiBold.ttf"; sourceTree = "<group>"; };
 		8FE855F125E101B1007B21C8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		8FE855F325E101B1007B21C8 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		8FE855F625E101B1007B21C8 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +203,17 @@
 			path = Step;
 			sourceTree = "<group>";
 		};
+		8F2A8FAE25ED24D4008006E4 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				8FD5DF1B25EE53AF002206A0 /* SBSansText-Regular.ttf */,
+				8FD5DF2B25EEA876002206A0 /* SBSansText-Light.ttf */,
+				8FD5DF3325EEA988002206A0 /* SBSansText-SemiBold.ttf */,
+				8FD5DF2325EEA199002206A0 /* SBSansText-Bold.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		8F30740825494F9900EB36BE /* Registration */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +258,7 @@
 		8F7A415125405529009440C8 /* LoginForm */ = {
 			isa = PBXGroup;
 			children = (
+				8F2A8FAE25ED24D4008006E4 /* Font */,
 				8FE8560725E10231007B21C8 /* LoginForm.entitlements */,
 				0D0BF7E825BCC19F00688A94 /* K */,
 				8FAACDD0254C082700DFB7E9 /* Core */,
@@ -487,6 +507,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FD5DF3425EEA9A1002206A0 /* SBSansText-SemiBold.ttf in Resources */,
+				8FD5DF2F25EEA8B1002206A0 /* SBSansText-Light.ttf in Resources */,
+				8FD5DF2725EEA1CE002206A0 /* SBSansText-Bold.ttf in Resources */,
+				8FD5DF1F25EE5596002206A0 /* SBSansText-Regular.ttf in Resources */,
 				8F7A41622540552B009440C8 /* LaunchScreen.storyboard in Resources */,
 				8F7A415F2540552B009440C8 /* Assets.xcassets in Resources */,
 				8F1300A625665BB200AE5DBD /* CustomTableViewCell.xib in Resources */,

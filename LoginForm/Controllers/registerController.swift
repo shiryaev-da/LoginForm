@@ -69,7 +69,7 @@ class registerController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     let loginRegLet = loginReg.text!
     let mailRegLet = mailReg.text!
     let phoneRegLet = phoneReg.text!
-    let passRegLet = passReg.text!
+    let passRegLet = passReg.text!.sha512
     let groupLet = textBox.text!
 
         registerManager.performRequest(nameRegLet: nameRegLet, loginRegLet: loginRegLet, mailRegLet: mailRegLet, phoneRegLet: phoneRegLet, passRegLet: passRegLet, groupLet: groupLet)
