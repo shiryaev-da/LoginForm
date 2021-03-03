@@ -52,12 +52,10 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.white
-        title = "Активные замеры"
+        self.view.backgroundColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1)
+        title = "Замеры"
         //self.tableView.backgroundColor = addGradientBackground(UIColor.white, UIColor.black)
-        
-        self.navigationItem.title = "Активные замеры"
-
+        self.navigationItem.title = "Замеры"
         let rightBackButton = UIBarButtonItem(
     //            title: "Back",
             image: UIImage(systemName: "plus.circle.fill"),
@@ -249,15 +247,35 @@ class tableController: UITableViewController, UISearchBarDelegate {
     
         var times: [String] = []
         if hours > 0 {
-          times.append("\(hours):")
+          times.append("\(hours)")
         }
-        if minutes > 0 {
-          times.append("\(minutes) мин ")
+        if hours < 1 {
+          times.append("0")
         }
-        times.append("\(seconds) сек")
+        if minutes > 9 {
+          times.append("\(minutes)")
+        }
+        if minutes >= 1 && minutes < 10 {
+          times.append("0\(minutes)")
+        }
+        if minutes <  1 {
+          times.append("00")
+        }
+        if seconds > 9 {
+            times.append("\(seconds)")
+        }
+        if  seconds >= 1  && seconds < 10 {
+            times.append("0\(seconds)")
+        }
+        if seconds < 1 {
+          times.append("00")
+        }
     
-    return times.joined(separator: "")
+    return times.joined(separator: ":")
     }
+    
+
+    
     
 
 
@@ -273,16 +291,59 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //MARK: Принудильтельный скролл
 
         cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 16
+        cell.layer.cornerRadius = 20
+        cell.layer.borderWidth = 10.0
+        cell.indentationWidth = 30
+        cell.layer.borderColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1).cgColor
+
+        cell.backgroundColor = .white
+
+        cell.labelNme.textColor = UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1)
+        cell.labelNme.font = UIFont(name: "SBSansText-SemiBold", size: 15)
         cell.labelNme.text = message.TOPIC_NAME
+        
+        
         let count = String(message.COUNT_STEP)
 //        cell.labelComment.text = message.FLD_COMMENT
-        cell.labelCount.text = "Текущие шаги: \(String(sumFactCell(topicI: message.id))) из \(count)"
-        cell.labelCountAct.text = "Замеров: \(String(message.COUNT_ACTIVE_F)) из \(message.PLAN_COUNT)"
+
+        
+        cell.labelCountAct.font = UIFont(name: "SBSansText-Regular", size: 14)
+        cell.labelCountAct.text = "\(String(message.COUNT_ACTIVE_F)) из \(message.PLAN_COUNT) замеров "
         cell.labelCountAct.textColor = isColorRow(numTag: Float(Float(message.COUNT_ACTIVE_F)/Float(message.PLAN_COUNT)))
-        cell.labelCountStep.text = "Шагов: \(String(message.COUNT_STEP_F))"
-        cell.labelTimeAVDAct.text = "Сред. время: \(castTime(localTimeDelta: Int(message.AVG_TIME_TOPIC)))"
-        cell.labelTimeAVDStep.text = "Сред. время шага: \(castTime(localTimeDelta: Int(message.AVG_TIME_STEP)))"
+        
+//        cell.labelCountStep.isHidden = true
+//        cell.labelCountStep.text = "Шагов: \(String(message.COUNT_STEP_F))"
+        
+        cell.labelTimeAVDAct.textColor = UIColor.init(red: 153/255.0, green: 153/255.0, blue: 153/255.0, alpha: 1)
+        cell.labelTimeAVDAct.font = UIFont(name: "SBSansText-Regular", size: 10)
+        cell.labelTimeAVDAct.text = (castTime(localTimeDelta: Int(message.AVG_TIME_TOPIC)))
+        
+        cell.labelAvgString.textColor = UIColor.init(red: 153/255.0, green: 153/255.0, blue: 153/255.0, alpha: 1)
+        cell.labelAvgString.font = UIFont(name: "SBSansText-Regular", size: 10)
+//        cell.labelAvgString.text = (castTime(localTimeDelta: Int(message.AVG_TIME_TOPIC)))
+        
+
+        
+        cell.labelTimeAVDStep.textColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+        cell.labelTimeAVDStep.font = UIFont(name: "SBSansText-Regular", size: 10)
+        cell.labelTimeAVDStep.text = (castTime(localTimeDelta: Int(message.AVG_TIME_STEP)))
+        
+        
+        
+        cell.labelCount.textColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+        cell.labelCount.font = UIFont(name: "SBSansText-Regular", size: 10)
+        cell.labelCount.text = "\(String(sumFactCell(topicI: message.id))) из \(count)"
+
+        
+        
+        
+        cell.labelAvgStep.textColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+        cell.labelAvgStep.font = UIFont(name: "SBSansText-Regular", size: 10)
+
+        cell.labelAvg.textColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+        cell.labelAvg.font = UIFont(name: "SBSansText-Regular", size: 10)
+
+        
         cell.buttonInfo.tag = message.id
         
         
@@ -363,13 +424,15 @@ class tableController: UITableViewController, UISearchBarDelegate {
         popup = UIView()
         popup.backgroundColor = UIColor.white
 
-        let lb = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
+        let lb = UILabel(frame: CGRect(x: 16, y: 0, width: view.frame.size.width, height: 40))
         lb.text = filteredData[section].name
-        lb.font = lb.font.withSize(20)
-        lb.textAlignment = .center
+//        lb.font = lb.font.withSize(20)
+        lb.textColor = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1)
+        lb.font = UIFont(name: "SBSansText-Thin", size: 17)
+        lb.textAlignment = .left
         popup.addSubview(lb)
-        let imageOpen = UIImage(systemName: "chevron.backward") as UIImage?
-        let imageClose = UIImage(systemName: "chevron.down") as UIImage?
+        let imageOpen = UIImage(systemName: "chevron.backward")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal) as UIImage?
+        let imageClose = UIImage(systemName: "chevron.down")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal) as UIImage?
         let button   = UIButton(type: UIButton.ButtonType.custom) as UIButton
         let isExpanded = filteredData[section].isExt
         button.frame = CGRect(x: 0, y: 10, width: view.frame.size.width * 1.9, height: 20)
@@ -397,8 +460,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
         let isExpanded = filteredData[section].isExt
         filteredData[section].isExt = !isExpanded
         
-        let imageOpen = UIImage(systemName: "chevron.backward") as UIImage?
-        let imageClose = UIImage(systemName: "chevron.down") as UIImage?
+        let imageOpen = UIImage(systemName: "chevron.backward")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal) as UIImage?
+        let imageClose = UIImage(systemName: "chevron.down")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal) as UIImage?
         
         button.setImage(isExpanded ? imageOpen : imageClose, for: .normal)
 
@@ -418,6 +481,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130
     }
+    
+
        
     
     

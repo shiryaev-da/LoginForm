@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 
 
-class CustomTableViewCell: UITableViewCell {
+class CustomTableViewCellStep: UITableViewCell {
     
 
 
@@ -23,18 +23,13 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var labelTimeAVDAct: UILabel!
     @IBOutlet weak var labelTimeAVDStep: UILabel!
     @IBOutlet weak var buttonInfo: UIButton!
-    @IBOutlet weak var labelAvgStep: UILabel!
-    @IBOutlet weak var labelAvg: UILabel!
-    @IBOutlet weak var labelAvgString: UILabel!
-    
     
     var countSecond = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
 //        labelNme.font
-        self.frame.size.width = 140
-        self.frame.size.height = 140
+//        print(1)
        // self.addGradientBackground(firstColor: .white , secondColor: .blue)
         // Initialization code
     }
@@ -44,6 +39,8 @@ class CustomTableViewCell: UITableViewCell {
      
         // Configure the view for the selected state
         
+
+
     }
     
 //    class Colors {
@@ -67,6 +64,11 @@ class CustomTableViewCell: UITableViewCell {
        
         let localTimeDelta = Int(Date().timeIntervalSince1970) - Int(localTimeInt)
    
+        labelTimeAVDAct.textColor = UIColor.init(red: 71/255.0, green: 142/255.0, blue: 204/255.0, alpha: 1)
+        labelTimeAVDAct.font = UIFont(name: "SBSansText-SemiBold", size: 14)
+        
+        labelNme.textColor = UIColor.init(red: 71/255.0, green: 142/255.0, blue: 204/255.0, alpha: 1)
+        labelNme.font = UIFont(name: "SBSansText-SemiBold", size: 15)
         
         let hours = Int(localTimeDelta) / 3600
         let minutes = Int(localTimeDelta) / 60 % 60
@@ -155,7 +157,7 @@ class CustomTableViewCell: UITableViewCell {
     
     @objc func updateCountStep(count: Int) {
         print(count)
-        labelCount.text = "Кол-во: \(String(count ))"
+        labelCount.text = (String(count ))
     }
     
 

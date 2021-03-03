@@ -117,6 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            print(book.topicID)
             if (book.dateTimeEnd == nil) {
                 book.dateTimeEnd = Date()
+                book.typeAction = "Finish"
                 saveContext()
             }
         })

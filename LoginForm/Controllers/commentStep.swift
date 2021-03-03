@@ -48,7 +48,7 @@ class commentStep: UIViewController, UITextViewDelegate {
                     labelTitilStep.textColor = UIColor.init(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1)
                     labelTitilStep.layer.cornerRadius = 20
             
-                    let labelTitil = UILabel(frame: CGRect(x:16, y: 22 ,width: self.view.frame.width ,height:labelTitilAll.frame.height/2))
+                    let labelTitil = UILabel(frame: CGRect(x:16, y: 22 ,width: self.view.frame.width-10 ,height:labelTitilAll.frame.height/2))
                     labelTitil.backgroundColor = UIColor.init(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
                     labelTitil.text =  (String(stepName))
                     labelTitil.baselineAdjustment = .alignCenters

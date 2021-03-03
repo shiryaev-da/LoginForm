@@ -30,6 +30,9 @@
 		8F8546F5256BC5BD00A32F50 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8546F4256BC5BD00A32F50 /* Task.swift */; };
 		8F9083B3255136C700FB2ACC /* tableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9083B2255136C700FB2ACC /* tableController.swift */; };
 		8F90DB8825DFC2B50051ACE5 /* commentStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F90DB8725DFC2B50051ACE5 /* commentStep.swift */; };
+		8F98651025EFA6BB0039980B /* CustomTableViewCellStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98650E25EFA6BB0039980B /* CustomTableViewCellStep.swift */; };
+		8F98651A25EFB0720039980B /* CustomTableViewCellStep.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F98650F25EFA6BB0039980B /* CustomTableViewCellStep.xib */; };
+		8F98651F25EFCD350039980B /* SBSansText-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F98651E25EFCD170039980B /* SBSansText-Thin.ttf */; };
 		8FA2B0FD25406EF5005401B2 /* registerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA2B0FC25406EF5005401B2 /* registerController.swift */; };
 		8FA2B10225406F06005401B2 /* loginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA2B10125406F06005401B2 /* loginController.swift */; };
 		8FAACE04254C355B00DFB7E9 /* contentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAACE03254C355B00DFB7E9 /* contentModel.swift */; };
@@ -113,6 +116,9 @@
 		8F8546F4256BC5BD00A32F50 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		8F9083B2255136C700FB2ACC /* tableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tableController.swift; sourceTree = "<group>"; };
 		8F90DB8725DFC2B50051ACE5 /* commentStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commentStep.swift; sourceTree = "<group>"; };
+		8F98650E25EFA6BB0039980B /* CustomTableViewCellStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCellStep.swift; sourceTree = "<group>"; };
+		8F98650F25EFA6BB0039980B /* CustomTableViewCellStep.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellStep.xib; sourceTree = "<group>"; };
+		8F98651E25EFCD170039980B /* SBSansText-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SBSansText-Thin.ttf"; path = "../../../../../../Downloads/SBSans/SBSans  Sans Text Thin/OT-TTF/SBSansText-Thin.ttf"; sourceTree = "<group>"; };
 		8FA2B0FC25406EF5005401B2 /* registerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerController.swift; sourceTree = "<group>"; };
 		8FA2B10125406F06005401B2 /* loginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginController.swift; sourceTree = "<group>"; };
 		8FAACE03254C355B00DFB7E9 /* contentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contentModel.swift; sourceTree = "<group>"; };
@@ -210,6 +216,7 @@
 				8FD5DF2B25EEA876002206A0 /* SBSansText-Light.ttf */,
 				8FD5DF3325EEA988002206A0 /* SBSansText-SemiBold.ttf */,
 				8FD5DF2325EEA199002206A0 /* SBSansText-Bold.ttf */,
+				8F98651E25EFCD170039980B /* SBSansText-Thin.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -299,6 +306,8 @@
 				8F7A415825405529009440C8 /* Main.storyboard */,
 				8F1300A325665BB200AE5DBD /* CustomTableViewCell.swift */,
 				8F1300A425665BB200AE5DBD /* CustomTableViewCell.xib */,
+				8F98650E25EFA6BB0039980B /* CustomTableViewCellStep.swift */,
+				8F98650F25EFA6BB0039980B /* CustomTableViewCellStep.xib */,
 				8FBB029A25CBDB4D005B2883 /* CustomTableDetailCell.swift */,
 				8FBB029B25CBDB4D005B2883 /* CustomTableDetailCell.xib */,
 			);
@@ -507,6 +516,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F98651F25EFCD350039980B /* SBSansText-Thin.ttf in Resources */,
 				8FD5DF3425EEA9A1002206A0 /* SBSansText-SemiBold.ttf in Resources */,
 				8FD5DF2F25EEA8B1002206A0 /* SBSansText-Light.ttf in Resources */,
 				8FD5DF2725EEA1CE002206A0 /* SBSansText-Bold.ttf in Resources */,
@@ -515,6 +525,7 @@
 				8F7A415F2540552B009440C8 /* Assets.xcassets in Resources */,
 				8F1300A625665BB200AE5DBD /* CustomTableViewCell.xib in Resources */,
 				8F7A415A25405529009440C8 /* Main.storyboard in Resources */,
+				8F98651A25EFB0720039980B /* CustomTableViewCellStep.xib in Resources */,
 				8FBB029D25CBDB4D005B2883 /* CustomTableDetailCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -668,6 +679,7 @@
 				8FBB02A725CBECE5005B2883 /* contentDetailModel.swift in Sources */,
 				8F8546F5256BC5BD00A32F50 /* Task.swift in Sources */,
 				8FD598DC25922018005B7AF9 /* Model.xcdatamodeld in Sources */,
+				8F98651025EFA6BB0039980B /* CustomTableViewCellStep.swift in Sources */,
 				8FBB029C25CBDB4D005B2883 /* CustomTableDetailCell.swift in Sources */,
 				8F7A415D25405529009440C8 /* LoginForm.xcdatamodeld in Sources */,
 				8FB2CD9E25B71067009AB020 /* stepManager.swift in Sources */,

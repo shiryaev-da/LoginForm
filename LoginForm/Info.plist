@@ -68,6 +68,7 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
+		<string>SBSansText-Thin.ttf</string>
 		<string>SBSansText-SemiBold.ttf</string>
 		<string>SBSansText-Light.ttf</string>
 		<string>SBSansText-Regular.ttf</string>

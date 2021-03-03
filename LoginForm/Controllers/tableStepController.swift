@@ -388,20 +388,37 @@ class tableStepController: UITableViewController {
     
     //MARK: Преобразование во Время
     func castTime (localTimeDelta: Int) -> String {
-    let hours = Int(localTimeDelta) / 3600
-    let minutes = Int(localTimeDelta) / 60 % 60
-    let seconds = Int(localTimeDelta) % 60
-    
+        let hours = Int(localTimeDelta) / 3600
+        let minutes = Int(localTimeDelta) / 60 % 60
+        let seconds = Int(localTimeDelta) % 60
+        
         var times: [String] = []
         if hours > 0 {
-          times.append("\(hours) Час")
+          times.append("\(hours)")
         }
-        if minutes > 0 {
-          times.append("\(minutes) мин")
+        if hours < 1 {
+          times.append("0")
         }
-        times.append("\(seconds) сек")
-    
-    return times.joined(separator: " ")
+        if minutes > 9 {
+          times.append("\(minutes)")
+        }
+        if minutes >= 1 && minutes < 10 {
+          times.append("0\(minutes)")
+        }
+        if minutes <  1 {
+          times.append("00")
+        }
+        if seconds > 9 {
+            times.append("\(seconds)")
+        }
+        if  seconds >= 1  && seconds < 10 {
+            times.append("0\(seconds)")
+        }
+        if seconds < 1 {
+          times.append("00")
+        }
+        
+    return times.joined(separator: ":")
     }
     // MARK: - Table view data source
     
@@ -427,10 +444,10 @@ class tableStepController: UITableViewController {
 
 
     private func registerTableViewCells() {
-        let textFieldCell = UINib(nibName: "CustomTableViewCell",
+        let textFieldCell = UINib(nibName: "CustomTableViewCellStep",
                                   bundle: nil)
         self.tableView.register(textFieldCell,
-                                forCellReuseIdentifier: "CustomTableViewCell")
+                                forCellReuseIdentifier: "CustomTableViewCellStep")
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -495,7 +512,7 @@ class tableStepController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCellStep", for: indexPath) as! CustomTableViewCellStep
  //Радиус cell
         cell.layer.masksToBounds = false
 //        cell.layer.cornerRadius = 16
@@ -504,40 +521,49 @@ class tableStepController: UITableViewController {
 //        cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
         cell.backgroundColor = .white
         
+        
         cell.layer.borderColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1).cgColor
         cell.layer.borderWidth = 1
         
-        cell.labelNme.text = contentFix[indexPath.row].STEP_NAME
+//        cell.labelCountStep.isHidden = true
+//        cell.labelCountAct.isHidden = true
+        
+            //Наименование шага
         cell.labelNme.textColor = UIColor.init(red: 68.0/255.0, green: 62.0/255.0, blue: 62.0/255.0, alpha: 1)
         cell.labelNme.font = UIFont(name: "SBSansText-SemiBold", size: 15)
+        cell.labelNme.text = contentFix[indexPath.row].STEP_NAME
         cell.labelCount.text = String(countSecond)
-//        cell.labelCount.isHidden = true
-//        cell.labelComment.isHidden = true
-//        cell.labelTimeAVDStep.isHidden = true
-//        cell.labelTimeAVDAct.isHidden = true
-        cell.labelCountStep.isHidden = true
-        cell.labelCountAct.isHidden = true
-        cell.buttonInfo.isHidden = true
+
+
+
         var idStepViz = contentFix[indexPath.row].id
-         let data = timeDelta(value: idStepViz)
+        let data = timeDelta(value: idStepViz)
         let dataSum = timeDeltaSum(value: idStepViz)
         let dataCount = String(countStepSum(value: idStepViz))
-        cell.labelTimeAVDAct.text =  "Время: \(castTime(localTimeDelta: dataSum))"
+        
+            //Общее время
+        cell.labelTimeAVDAct.text =  (castTime(localTimeDelta: dataSum))
+        cell.labelTimeAVDAct.textColor = UIColor.init(red: 68.0/255.0, green: 62.0/255.0, blue: 62.0/255.0, alpha: 1)
+        cell.labelTimeAVDAct.font = UIFont(name: "SBSansText-SemiBold", size: 14)
+        
+        
         //  cell.labelTimeAVDAct.text =  "Посл. шаг: \(castTime(localTimeDelta: data))"
-        cell.labelTimeAVDStep.text = "Посл. шаг: \(castTime(localTimeDelta: data))"
-        cell.labelCount.text = "Кол-во: \(dataCount)"
-//        idStepViz = 0
-//        var popup:UIView!
-//        popup = UIView()
-//        let imageOpen = UIImage(systemName: "chevron.down") as UIImage?
-//        let imageClose = UIImage(systemName: "chevron.backward") as UIImage?
-//        let button   = UIButton(type: UIButton.ButtonType.custom) as UIButton
-//        button.frame = CGRect(x: 0, y: 10, width: view.frame.size.width * 1.9, height: 20)
-//        button.setImage(imageOpen, for: .normal)
-//        button.addTarget(self, action: #selector(), for: .touchUpInside)
-//        button.tag = 0
-//        print(indexPath)
-//        cell.addSubview(button)
+//        cell.labelTimeAVDAct.text =  (castTime(localTimeDelta: dataSum))
+        cell.labelCountAct.textColor = UIColor.init(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1)
+        cell.labelCountAct.font = UIFont(name: "SBSansText-Regular", size: 10)
+        cell.labelCountAct.text = "Последний шаг"
+        
+        cell.labelTimeAVDStep.textColor = UIColor.init(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1)
+        cell.labelTimeAVDStep.font = UIFont(name: "SBSansText-Regular", size: 10)
+        cell.labelTimeAVDStep.text = (castTime(localTimeDelta: data))
+        
+        cell.labelCountStep.textColor = UIColor.init(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1)
+        cell.labelCountStep.font = UIFont(name: "SBSansText-Regular", size: 10)
+        cell.labelCountStep.text = "Количество"
+        
+        cell.labelCount.textColor = UIColor.init(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1)
+        cell.labelCount.font = UIFont(name: "SBSansText-Regular", size: 10)
+        cell.labelCount.text = (dataCount)
         return cell
     }
 //
@@ -900,14 +926,13 @@ extension tableStepController {
     
     @objc func updateTimer() {
 
-
+//        self.tableView.reloadData()
 
 //        for indexPath in visibleRowsIndexPaths {
           // 2
-          if let cell = tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as? CustomTableViewCell {
+          if let cell = tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as? CustomTableViewCellStep {
      
-       
-        
+                
             cell.updateTime(localTime: localTime)
             cell.updateTimeAll(deltaTime: timeDeltaSum(value: self.idStepIn) , localTime: localTime)
             cell.updateCountStep(count: countStepSum(value: self.idStepIn))
