@@ -19,12 +19,15 @@ class registerController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 
     var registerManager = RegisterManager()
     var nameRegVar = ""
+    var countryList = [List]()
+    var selectedCountryID: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
         // Do any additional setup after loading the view.
         registerManager.delegate = self
+        registerManager.performRequestGroup()
         
         createPickerView()
         dismissPickerView()
@@ -70,7 +73,7 @@ class registerController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     let mailRegLet = mailReg.text!
     let phoneRegLet = phoneReg.text!
     let passRegLet = passReg.text!.sha512
-    let groupLet = textBox.text!
+    let groupLet = (selectedCountryID != nil) ? String(selectedCountryID) : ""
 
         registerManager.performRequest(nameRegLet: nameRegLet, loginRegLet: loginRegLet, mailRegLet: mailRegLet, phoneRegLet: phoneRegLet, passRegLet: passRegLet, groupLet: groupLet)
 
@@ -80,7 +83,7 @@ class registerController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     //MARK: Piker
     
     var selectedCountry: String?
-    var countryList = ["1", "2", "3", "4", "5", "10"]
+//    var countryList = ["1", "2", "3", "4", "5", "10"]
     
     
     func createPickerView() {
@@ -110,10 +113,11 @@ class registerController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     return countryList.count // number of dropdown items
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return countryList[row] // dropdown item
+        return countryList[row].name // dropdown item
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedCountry = countryList[row] // selected item
+        selectedCountryID = countryList[row].group_id
+        selectedCountry = String(countryList[row].name) // selected item
         textBox.text = selectedCountry
     }
 
@@ -121,6 +125,12 @@ class registerController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 
 //MARK: RegisterFunc
 extension registerController: RegisterManagerDelegate {
+    func didListGroup(_ weatherRegister: RegisterManager, register: [List]) {
+        
+        countryList = register
+        
+    }
+    
     func didUpdateRegister(_ weatherRegister: RegisterManager, register: ResponceModel) {
         DispatchQueue.main.async {
             print(register.statusUser)

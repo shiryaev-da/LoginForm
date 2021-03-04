@@ -13,6 +13,7 @@ protocol ContentStepManagerDelegate {
     func didAddTopicStep(_ Content: ContentStepManager, content: AddTopicModelStep)
     func didDelTopicStep(_ Content: ContentStepManager, content: AddTopicModelStep)
     func didActimeTime(_ Content: ContentStepManager, content: AddActiveModel)
+    func didAddLocation(_ Content: ContentStepManager, content: AddLoccation)
     
 }
 
@@ -217,6 +218,62 @@ struct ContentStepManager {
 //            return nil
 //        }
 //    }
+    
+    
+
+    
+    //    //MARK: ADD location
+    func performAddLocation (activeID: Int,  lat: String, lon: String){
+
+        let url = URL(string: "https://shi-ku.ru:8443/ords/interval/add_location/active/")
+        guard let requestUrl = url else { fatalError() }
+
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "POST"
+
+        // HTTP Request Parameters which will be sent in HTTP Request Body
+        let postString : Data = "{\"ACTIVEID\": \(activeID), \"LAT\":\"\(lat)\", \"LON\":\"\(lon)\"}".data(using: .utf8)!;
+        
+//        print("{ \"ACTIVEID\": \(activeID), \"LAT\":\"\(lat)\", \"LON\":\"\(lon)\"}")
+        // Set HTTP Request Body
+        request.httpBody = postString;
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+                // Check for Error
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+            if let safeData = data {
+                if let login = self.parseJSONAddLocation(safeData) {
+                    self.delegate?.didAddLocation(self, content: login)
+                }
+            }
+
+        }
+        task.resume()
+        }
+
+        func parseJSONAddLocation(_ responceData: Data) -> AddLoccation? {
+            let decoder = JSONDecoder()
+            do{
+                let decoderData = try decoder.decode(AddLoccation.self, from: responceData)
+        //                print(decoderData.statusUser)
+                let statusAdd = decoderData.statusAddLocation
+                print(statusAdd)
+                let statusReg  = AddLoccation(statusAddLocation: statusAdd)
+    //            print(statusReg.statusUser)
+                return statusReg
+
+            } catch {
+    //            let statusReg  = AddTopicModel(statusAddTopic: nil)
+                return nil
+            }
+        }
     
     
 }

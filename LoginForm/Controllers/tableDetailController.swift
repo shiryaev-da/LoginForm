@@ -154,21 +154,51 @@ class tableDetailController: UITableViewController {
         return layer
     }
     
+    func isColorRow (numTag: Int) -> UIColor {
+
+        switch numTag {
+        case -1:
+            return UIColor(hexString: "#FDB64E")
+        case 0:
+            return UIColor(hexString: "#FDB64E")
+        case 1:
+            return UIColor(hexString: "#ADD57F")
+        default:
+            return UIColor(hexString: "#FDB64E")
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = filteredData[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableDetailCell", for: indexPath) as! CustomTableDetailCell
-        cell.labelName.text = "Дата проведения: \(message.DATE)"
-        cell.labelStep.text = "Замеров шагов: \(String(message.STEPFACT)) из \(message.STEPPLAN)"
+        
+        cell.layer.masksToBounds = false
+        cell.backgroundColor = .white
+        
+        
+        cell.layer.borderColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1).cgColor
+        cell.layer.borderWidth = 1
+        cell.labelName.textColor = UIColor.init(red: 68.0/255.0, green: 62.0/255.0, blue: 62.0/255.0, alpha: 1)
+        cell.labelName.font = UIFont(name: "SBSansText-Regular", size: 15)
+//        cell.labelName.text = contentFix[indexPath.row].STEP_NAME
+        cell.labelName.text = "Дата замера: \(message.DATE)"
+        
+        cell.labelStep.textColor = UIColor.init(red: 153/255.0, green: 153/255.0, blue: 153/255.0, alpha: 1)
+        cell.labelStep.font = UIFont(name: "SBSansText-Regular", size: 10)
+        cell.labelStep.text = "Шагов в замере: \(String(message.STEPFACT)) из \(message.STEPPLAN)"
+        
+        cell.labelTime.textColor = UIColor.init(red: 153/255.0, green: 153/255.0, blue: 153/255.0, alpha: 1)
+        cell.labelTime.font = UIFont(name: "SBSansText-Regular", size: 10)
         cell.labelTime.text = "Общее время: \(String(castTime(localTimeDelta: message.TIMEALL)))"
 
           
         cell.imageValid.image = colorValid(flag: message.FLAG)
         
         //Радиус cell
-        cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 16
-        cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
+//        cell.layer.masksToBounds = true
+//        cell.layer.cornerRadius = 16
+//        cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
 
         return cell
         
@@ -276,14 +306,31 @@ class tableDetailController: UITableViewController {
     
         var times: [String] = []
         if hours > 0 {
-          times.append("\(hours):")
+          times.append("\(hours)")
         }
-        if minutes > 0 {
-          times.append("\(minutes):")
+        if hours < 1 {
+          times.append("0")
         }
-        times.append("\(seconds) с")
+        if minutes > 9 {
+          times.append("\(minutes)")
+        }
+        if minutes >= 1 && minutes < 10 {
+          times.append("0\(minutes)")
+        }
+        if minutes <  1 {
+          times.append("00")
+        }
+        if seconds > 9 {
+            times.append("\(seconds)")
+        }
+        if  seconds >= 1  && seconds < 10 {
+            times.append("0\(seconds)")
+        }
+        if seconds < 1 {
+          times.append("00")
+        }
     
-    return times.joined(separator: "")
+    return times.joined(separator: ":")
     }
     
     

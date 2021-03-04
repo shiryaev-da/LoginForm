@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import CoreData
-
+import CoreLocation
 
 class SeccondViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
@@ -46,6 +46,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
     /// Text shown during load the TableView
     let loadingLabel = UILabel()
     
+    //Location
+ 
 
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -55,29 +57,61 @@ class tableController: UITableViewController, UISearchBarDelegate {
         self.view.backgroundColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1)
         title = "Замеры"
         //self.tableView.backgroundColor = addGradientBackground(UIColor.white, UIColor.black)
+        
+        let rotate = UIAction(title: "Новый замер", image: UIImage(systemName: "doc.badge.plus")) { action in
+            self.didTapMenuButtonAdd()
+        }
+        // Creating Delete button
+        let delete = UIAction(title: "Отправить отчет", image: UIImage(systemName: "envelope.open") ) { action in
+            self.didTapMenuButtonSendMail()
+        }
+
+//            ?.withTintColor(.red, renderingMode: .alwaysOriginal)
+//        cancelAction.setValue(UIColor.green, forKey: "titleTextColor")
+
+
+        // Use the .displayInline option to avoid displaying the menu as a submenu,
+        // and to separate it from the other menu elements using a line separator.
+        let newMenu = UIMenu(title: "", options: .displayInline, children: [rotate, delete])
         self.navigationItem.title = "Замеры"
         let rightBackButton = UIBarButtonItem(
     //            title: "Back",
-            image: UIImage(systemName: "plus.circle.fill"),
-            style: .plain,
-            target: self,
-            action: #selector(didTapMenuButtonAdd)
+            image: UIImage(systemName: "ellipsis.circle"),
+            menu: newMenu
+//            menu: newMenu
         )
-        let rightBackButton1 = UIBarButtonItem(
-    //            title: "Back",
-            image: UIImage(systemName: "square.and.arrow.up"),
-            style: .plain,
-            target: self,
-            action: #selector(didTapMenuButtonSendMail)
-        )
+//        let rightBackButton1 = UIBarButtonItem(
+//    //            title: "Back",
+//            image: UIImage(systemName: "square.and.arrow.up"),
+//            style: .plain,
+//            target: self,
+//            action: #selector(didTapMenuButtonSendMail)
+//        )
+
+        
+//        let leftBackButton1 = UIBarButtonItem(
+//    //            title: "Back",
+//            image: UIImage(systemName: "list.number"),
+////            title: "Выход",
+////            style: .plain,
+////            target: self,
+//                menu: newMenu
+////            action: #selector(didTapMenuButton)
+//        )
+        
+        
+        
         let leftBackButton = UIBarButtonItem(
-    //            title: "Back",
-//            image: UIImage(systemName: "arrow.backward.circle.fill"),
             title: "Выход",
             style: .plain,
             target: self,
-            action: #selector(didTapMenuButton))
-        self.navigationItem.rightBarButtonItems = [rightBackButton, rightBackButton1]
+            action: #selector(didTapMenuButton)
+        )
+
+
+    
+
+        self.navigationItem.rightBarButtonItem = rightBackButton
         self.navigationItem.leftBarButtonItem = leftBackButton
         self.navigationController?.navigationBar.prefersLargeTitles = true
 //        labelHello.text =  "Привет \(String(firstName))!!!"
@@ -97,11 +131,15 @@ class tableController: UITableViewController, UISearchBarDelegate {
 //        self.searchBar.isFocused
         searchBar.delegate = self
         setLoadingScreen()
+        
         self.tableView.reloadData()
         self.tableView.keyboardDismissMode = .interactive
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.scrollsToTop = true
-       loadItems()
+        
+
+
+        loadItems()
 
 
 //        showSearchBar()
@@ -225,13 +263,13 @@ class tableController: UITableViewController, UISearchBarDelegate {
 
         switch numTag {
         case 0, 0.33:
-            return UIColor(hexString: "#cd3011")
+            return UIColor(hexString: "#fd574e")
         case 0.34..<0.66:
-            return UIColor(hexString: "#ff8b05")
+            return UIColor(hexString: "#FDB64E")
         case 0.66..<100:
-            return UIColor(hexString: "#20ab00")
+            return UIColor(hexString: "#4edf71")
         default:
-            return UIColor(hexString: "#cd3011")
+            return UIColor(hexString: "#fd574e")
         }
     }
     
@@ -295,7 +333,15 @@ class tableController: UITableViewController, UISearchBarDelegate {
         cell.layer.borderWidth = 10.0
         cell.indentationWidth = 30
         cell.layer.borderColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1).cgColor
-
+     
+        
+        
+        
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.init(red: 233.0/255.0, green: 233.0/255.0, blue: 233.0/255.0, alpha: 1)
+        cell.selectedBackgroundView = backgroundView
+        
         cell.backgroundColor = .white
 
         cell.labelNme.textColor = UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1)
@@ -324,23 +370,23 @@ class tableController: UITableViewController, UISearchBarDelegate {
         
 
         
-        cell.labelTimeAVDStep.textColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+        cell.labelTimeAVDStep.textColor = UIColor.init(red: 180/255.0, green: 180/255.0, blue: 180/255.0, alpha: 1)
         cell.labelTimeAVDStep.font = UIFont(name: "SBSansText-Regular", size: 10)
         cell.labelTimeAVDStep.text = (castTime(localTimeDelta: Int(message.AVG_TIME_STEP)))
         
         
         
-        cell.labelCount.textColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+        cell.labelCount.textColor = UIColor.init(red: 180/255.0, green: 180/255.0, blue: 180/255.0, alpha: 1)
         cell.labelCount.font = UIFont(name: "SBSansText-Regular", size: 10)
         cell.labelCount.text = "\(String(sumFactCell(topicI: message.id))) из \(count)"
 
         
         
         
-        cell.labelAvgStep.textColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+        cell.labelAvgStep.textColor = UIColor.init(red: 180/255.0, green: 180/255.0, blue: 180/255.0, alpha: 1)
         cell.labelAvgStep.font = UIFont(name: "SBSansText-Regular", size: 10)
 
-        cell.labelAvg.textColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+        cell.labelAvg.textColor = UIColor.init(red: 180/255.0, green: 180/255.0, blue: 180/255.0, alpha: 1)
         cell.labelAvg.font = UIFont(name: "SBSansText-Regular", size: 10)
 
         
@@ -955,3 +1001,6 @@ class SpinnerViewController: UIViewController {
         spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }
+
+
+

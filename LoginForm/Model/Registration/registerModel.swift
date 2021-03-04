@@ -29,4 +29,14 @@ struct ResponceModel {
 }
 
 
+struct ListGroup: Codable {
+    let group: [List]
+}
+
+struct List: Codable {
+    let name: String
+    let group_id: Int
+}
+
+
 

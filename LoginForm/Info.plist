@@ -24,6 +24,16 @@
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Use Face ID instead of a password to access your account.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Геолокация</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SBSansText-Thin.ttf</string>
+		<string>SBSansText-SemiBold.ttf</string>
+		<string>SBSansText-Light.ttf</string>
+		<string>SBSansText-Regular.ttf</string>
+		<string>SBSansText-Bold.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -65,14 +75,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SBSansText-Thin.ttf</string>
-		<string>SBSansText-SemiBold.ttf</string>
-		<string>SBSansText-Light.ttf</string>
-		<string>SBSansText-Regular.ttf</string>
-		<string>SBSansText-Bold.ttf</string>
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>

@@ -57,6 +57,10 @@ class tableStepController: UITableViewController {
     /// Text shown during load the TableView
     let loadingLabel = UILabel()
     
+    let locationManager = CLLocationManager()
+
+    
+    
     
     
 
@@ -114,7 +118,7 @@ class tableStepController: UITableViewController {
         self.navigationItem.title = TOPIC_NAME
         let rightBackButton = UIBarButtonItem(
     //            title: "Back",
-            image: UIImage(systemName: "plus.circle.fill"),
+            image: UIImage(systemName: "plus"),
             style: .plain,
             target: self,
             action: #selector(didTapMenuButtonAdd)
@@ -128,7 +132,7 @@ class tableStepController: UITableViewController {
 //        )
         let leftBackButton = UIBarButtonItem(
     //            title: "Back",
-            image: UIImage(systemName: "arrow.backward.circle.fill"),
+            image: UIImage(systemName: "chevron.backward"),
             style: .plain,
             target: self,
             action: #selector(didTapMenuButton))
@@ -142,6 +146,10 @@ class tableStepController: UITableViewController {
 //        let notificationCenter = NotificationCenter.default
 //        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
 //        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -432,6 +440,17 @@ class tableStepController: UITableViewController {
 //        return 40
 //    }
     
+    
+    func isColorRow (time: Int) -> UIColor {
+
+        switch time {
+        case 0:
+            return UIColor(hexString: "#443E3E")
+        default:
+            return UIColor(hexString: "#478ECC")
+        }
+    }
+    
 
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -521,6 +540,9 @@ class tableStepController: UITableViewController {
 //        cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
         cell.backgroundColor = .white
         
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.init(red: 233.0/255.0, green: 233.0/255.0, blue: 233.0/255.0, alpha: 1)
+        cell.selectedBackgroundView = backgroundView
         
         cell.layer.borderColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1).cgColor
         cell.layer.borderWidth = 1
@@ -529,10 +551,7 @@ class tableStepController: UITableViewController {
 //        cell.labelCountAct.isHidden = true
         
             //Наименование шага
-        cell.labelNme.textColor = UIColor.init(red: 68.0/255.0, green: 62.0/255.0, blue: 62.0/255.0, alpha: 1)
-        cell.labelNme.font = UIFont(name: "SBSansText-SemiBold", size: 15)
-        cell.labelNme.text = contentFix[indexPath.row].STEP_NAME
-        cell.labelCount.text = String(countSecond)
+
 
 
 
@@ -541,9 +560,15 @@ class tableStepController: UITableViewController {
         let dataSum = timeDeltaSum(value: idStepViz)
         let dataCount = String(countStepSum(value: idStepViz))
         
+        //Наименование шага
+        cell.labelNme.textColor = isColorRow(time: dataSum)
+        cell.labelNme.font = UIFont(name: "SBSansText-SemiBold", size: 15)
+        cell.labelNme.text = contentFix[indexPath.row].STEP_NAME
+        cell.labelCount.text = String(countSecond)
+        
             //Общее время
         cell.labelTimeAVDAct.text =  (castTime(localTimeDelta: dataSum))
-        cell.labelTimeAVDAct.textColor = UIColor.init(red: 68.0/255.0, green: 62.0/255.0, blue: 62.0/255.0, alpha: 1)
+        cell.labelTimeAVDAct.textColor = isColorRow(time: dataSum)
         cell.labelTimeAVDAct.font = UIFont(name: "SBSansText-SemiBold", size: 14)
         
         
@@ -634,10 +659,10 @@ class tableStepController: UITableViewController {
         let dataCount = countStepSum(value: message.id)
         
         
-        
+//        cell.labelCountAct.font = UIFont(name: "SBSansText-Regular", size: 10)
 
         if dataCount == 0 {
-            self.showToast(message: "Комментарий недоступен", font: .systemFont(ofSize: 17.0))
+            self.showToast(message: "Комментарий недоступен", font: UIFont(name: "SBSansText-Regular", size: 14)!)
         }
         else {
             let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "commentStepId") as! commentStep
@@ -851,6 +876,10 @@ class tableStepController: UITableViewController {
 }
 
 extension tableStepController: ContentStepManagerDelegate {
+    func didAddLocation(_ Content: ContentStepManager, content: AddLoccation) {
+        
+    }
+    
     func didActimeTime(_ Content: ContentStepManager, content: AddActiveModel) {
         
         activeID = content.idAddActive
@@ -936,6 +965,7 @@ extension tableStepController {
             cell.updateTime(localTime: localTime)
             cell.updateTimeAll(deltaTime: timeDeltaSum(value: self.idStepIn) , localTime: localTime)
             cell.updateCountStep(count: countStepSum(value: self.idStepIn))
+            self.contentStepManager.performAddTopicStep(groupLet: self.idTopic, nameStep:  String(self.idTopic))
     //Радиус cell
 //            cell.layer.masksToBounds = true
 //            cell.layer.cornerRadius = 16
@@ -989,9 +1019,26 @@ func showToast(message : String, font: UIFont) {
     toastLabel.layer.cornerRadius = 10;
     toastLabel.clipsToBounds  =  true
     self.view.addSubview(toastLabel)
-    UIView.animate(withDuration: 1.1, delay: 0.1, options: .curveEaseOut, animations: {
+    UIView.animate(withDuration: 1.5, delay: 0.1, options: .curveEaseOut, animations: {
          toastLabel.alpha = 0.0
     }, completion: {(isCompleted) in
         toastLabel.removeFromSuperview()
     })
 } }
+
+
+//MARK: Геолокация
+extension tableStepController: CLLocationManagerDelegate{
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        print("New Location")
+        if let location = locations.last {
+            let lat = location.coordinate.latitude
+            let lon = location.coordinate.longitude
+            self.contentStepManager.performAddLocation(activeID: self.activeID, lat: String(lat), lon: String(lon))
+        } 
+    }
+    
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+}

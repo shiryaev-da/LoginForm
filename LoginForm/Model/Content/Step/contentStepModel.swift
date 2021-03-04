@@ -58,5 +58,9 @@ struct TopicStepFix: Codable {
 }
 
 
+struct AddLoccation: Codable {
+    let statusAddLocation: Int
+}
+
 
 
