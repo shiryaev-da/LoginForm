@@ -236,7 +236,7 @@ class tableStepController: UITableViewController {
               
               do {
                   try context.save()
-                   print("Информация сохранена")
+//                   print("Информация сохранена")
               } catch {
                 print("Ошибка сохранения нового элемента замера\(error)")
               }
@@ -294,7 +294,7 @@ class tableStepController: UITableViewController {
     {
         if (self.idStepIn != nil) {
             if let i = itemTimeArray.firstIndex(where: { $0.stepID == self.idStepIn && $0.dateTimeEnd == nil && $0.user == user }) {
-                print(i)
+//                print(i)
                 idStepIn = i
                 itemTimeArray[i].setValue(Date(), forKey: "dateTimeEnd")
                 itemTimeArray[i].setValue("Finish", forKey: "typeAction")
@@ -308,7 +308,7 @@ class tableStepController: UITableViewController {
     {
 
         if let i = itemTimeArray.firstIndex(where: {  $0.flagActive == 0 && $0.user == user && $0.topicID ==  Int16(searchValue)}) {
-                print(i)
+//                print(i)
             activeID = Int(itemTimeArray[i].activeID)
             }
         return activeID
@@ -965,7 +965,6 @@ extension tableStepController {
             cell.updateTime(localTime: localTime)
             cell.updateTimeAll(deltaTime: timeDeltaSum(value: self.idStepIn) , localTime: localTime)
             cell.updateCountStep(count: countStepSum(value: self.idStepIn))
-            self.contentStepManager.performAddTopicStep(groupLet: self.idTopic, nameStep:  String(self.idTopic))
     //Радиус cell
 //            cell.layer.masksToBounds = true
 //            cell.layer.cornerRadius = 16

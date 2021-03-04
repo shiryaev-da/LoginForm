@@ -156,7 +156,7 @@ class CustomTableViewCellStep: UITableViewCell {
     
     
     @objc func updateCountStep(count: Int) {
-        print(count)
+//        print(count)
         labelCount.text = (String(count ))
     }
     
