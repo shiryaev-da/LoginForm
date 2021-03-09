@@ -15,10 +15,12 @@ class SeccondViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .red
-        title = "Статистика"
-
+//        title = "Статистика"
     }
 }
+
+
+
 
 
 class tableController: UITableViewController, UISearchBarDelegate {
@@ -39,6 +41,7 @@ class tableController: UITableViewController, UISearchBarDelegate {
     var valueSearch: String = ""
     
     let loadingView = UIView()
+    let tabBar = UITabBar()
 
     /// Spinner shown during load the TableView
     let spinner = UIActivityIndicatorView()
@@ -56,23 +59,21 @@ class tableController: UITableViewController, UISearchBarDelegate {
 
         self.view.backgroundColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1)
         title = "Замеры"
-        //self.tableView.backgroundColor = addGradientBackground(UIColor.white, UIColor.black)
+
+        let editMenu = self.makeEditMenu()
         
-        let rotate = UIAction(title: "Новый замер", image: UIImage(systemName: "doc.badge.plus")) { action in
-            self.didTapMenuButtonAdd()
+        let exit = UIAction(
+            title: "Выход",
+//            image: UIImage(systemName: "trash"),
+            identifier: nil, discoverabilityTitle: nil,
+            attributes: .destructive, state: .off
+            
+            )  { action in
+            self.didTapMenuButton()
         }
-        // Creating Delete button
-        let delete = UIAction(title: "Отправить отчет", image: UIImage(systemName: "envelope.open") ) { action in
-            self.didTapMenuButtonSendMail()
-        }
-
-//            ?.withTintColor(.red, renderingMode: .alwaysOriginal)
-//        cancelAction.setValue(UIColor.green, forKey: "titleTextColor")
-
-
         // Use the .displayInline option to avoid displaying the menu as a submenu,
         // and to separate it from the other menu elements using a line separator.
-        let newMenu = UIMenu(title: "", options: .displayInline, children: [rotate, delete])
+        let newMenu = UIMenu(title: "Меню", options: .displayInline, children: [editMenu,exit])
         self.navigationItem.title = "Замеры"
         let rightBackButton = UIBarButtonItem(
     //            title: "Back",
@@ -80,25 +81,6 @@ class tableController: UITableViewController, UISearchBarDelegate {
             menu: newMenu
 //            menu: newMenu
         )
-//        let rightBackButton1 = UIBarButtonItem(
-//    //            title: "Back",
-//            image: UIImage(systemName: "square.and.arrow.up"),
-//            style: .plain,
-//            target: self,
-//            action: #selector(didTapMenuButtonSendMail)
-//        )
-
-        
-//        let leftBackButton1 = UIBarButtonItem(
-//    //            title: "Back",
-//            image: UIImage(systemName: "list.number"),
-////            title: "Выход",
-////            style: .plain,
-////            target: self,
-//                menu: newMenu
-////            action: #selector(didTapMenuButton)
-//        )
-        
         
         
         let leftBackButton = UIBarButtonItem(
@@ -109,17 +91,31 @@ class tableController: UITableViewController, UISearchBarDelegate {
         )
 
 
-    
+        
 
         self.navigationItem.rightBarButtonItem = rightBackButton
-        self.navigationItem.leftBarButtonItem = leftBackButton
+
+//        self.navigationItem.leftBarButtonItem = leftBackButton
         self.navigationController?.navigationBar.prefersLargeTitles = true
 //        labelHello.text =  "Привет \(String(firstName))!!!"
 //        self.tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+//        let attributes = [NSAttributedString.Key.font: UIFont(name: "SBSansText-SemiBold", size: 17)!]
+//        UINavigationBar.appearance().titleTextAttributes = attributes
+        
+        let navigation = UINavigationBar.appearance()
+
+        let navigationFont = UIFont(name: "SBSansText-SemiBold", size: 16)
+        let navigationLargeFont = UIFont(name: "SBSansText-SemiBold", size: 34) //34 is Large Title size by default
+
+        navigation.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: navigationFont!]
+        
+        if #available(iOS 11, *){
+            navigation.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: navigationLargeFont!]
+        }
+
+
         self.registerTableViewCells()
         self.tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell" )
-//        let itemExersiceArray = contentManager.performLogin
-//        print(contentManager.performLogin)
         contentManager.delegate = self
         contentManager.performLogin(user: user)
         contentManager.performStep(loginLet: user)
@@ -137,6 +133,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.scrollsToTop = true
         
+        
+        tableView.addSubview(tabBar)
 
 
         loadItems()
@@ -146,6 +144,25 @@ class tableController: UITableViewController, UISearchBarDelegate {
 
     }
         
+    
+    func makeEditMenu() -> UIMenu {
+    
+    let addTopic = UIAction(title: "Новый замер", image: UIImage(systemName: "doc.badge.plus")) { action in
+        self.didTapMenuButtonAdd()
+    }
+    // Creating Delete button
+    let sendMail = UIAction(title: "Отправить отчет",
+        image: UIImage(systemName: "envelope.open") ) { action in
+        self.didTapMenuButtonSendMail()
+    }
+        
+        
+        return UIMenu(title: "Edit",
+//                          image: editIcon,
+                      options: [.displayInline], // [], .displayInline, .destructive
+            children: [addTopic, sendMail])
+    }
+    
     
     
     // MARK: Ожидание загрузки
@@ -180,6 +197,8 @@ class tableController: UITableViewController, UISearchBarDelegate {
          tableView.addSubview(loadingView)
 
      }
+    
+    
 
      // Remove the activity indicator from the main view
      private func removeLoadingScreen() {
@@ -700,17 +719,12 @@ class tableController: UITableViewController, UISearchBarDelegate {
         let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
                 print("The user is not okay.")
             }
-
-            // Add Actions
-        
-            alertController.addAction(noAction)
             alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+
 
             // Present Alert Controller
         self.present(alertController, animated: true, completion: nil)
-        
-        
-
     }
     
     //MARK: Кнопка Добавления

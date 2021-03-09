@@ -35,19 +35,19 @@ class commentStep: UIViewController, UITextViewDelegate {
 //        print(stepId)
         self.view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
  
-                
+            // Заголовок
             let labelTitilAll = UIView(frame: CGRect(x:0, y: 430 ,width: self.view.frame.width ,height:80))
             labelTitilAll.layer.cornerRadius = 10
             labelTitilAll.backgroundColor = .white
             
-            
+                //Номер шага
                     let labelTitilStep = UILabel(frame: CGRect(x:16, y: 12 ,width: self.view.frame.width ,height: 10))
                     labelTitilStep.text = "Шаг \(String(stepNum))"
                     labelTitilStep.font = UIFont(name: "SBSansText-Regular", size: 12)
                     labelTitilStep.numberOfLines = 1
                     labelTitilStep.textColor = UIColor.init(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1)
                     labelTitilStep.layer.cornerRadius = 20
-            
+                //Название шага
                     let labelTitil = UILabel(frame: CGRect(x:16, y: 22 ,width: self.view.frame.width-10 ,height:labelTitilAll.frame.height/2))
                     labelTitil.backgroundColor = UIColor.init(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
                     labelTitil.text =  (String(stepName))
@@ -61,33 +61,24 @@ class commentStep: UIViewController, UITextViewDelegate {
 
 //        placeholderLabel.isHidden = !toTextView.text.isEmpty
         
+            //  Основной фрейм
             titleLabelMain.frame = CGRect(x:16, y: 500 ,width: newView.frame.width-32 , height: self.view.frame.maxY - 500 - 70)
-            titleLabelMain.backgroundColor = UIColor.init(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1)
-        
+            titleLabelMain.backgroundColor = UIColor.init(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 0)
+
                 titleLabel.frame = CGRect(x:24, y: 500 ,width: newView.frame.width-48 , height: self.view.frame.maxY - 500 - 70)
                 titleLabel.backgroundColor = UIColor.init(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1)
                 titleLabel.textAlignment = NSTextAlignment.left
                 titleLabel.font = UIFont(name: "SBSansText-Regular", size: 14)
 
-
+                
                     placeholderLabel.text = "Введите комментарий"
                     placeholderLabel.frame = CGRect(x:0, y: 0 ,width: self.view.frame.width , height: 15)
                     placeholderLabel.sizeToFit()
                     placeholderLabel.font = UIFont(name: "SBSansText-Regular", size: 14)
                     placeholderLabel.textColor = UIColor.init(red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 1)
                     placeholderLabel.tag = 100
-
-
         loadItems()
-
         titleLabel.addSubview(placeholderLabel)
-        
-//        titleLabelMain.addSubview(titleLabel)
-
-
-        
-        
-        
         self.view.addSubview(labelTitilAll)
         self.view.addSubview(newView)
         self.view.addSubview(titleLabelMain)

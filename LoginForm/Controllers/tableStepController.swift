@@ -47,6 +47,7 @@ class tableStepController: UITableViewController {
     var delRow: Int = 0
     var countSubRow: Int!
     var numberOfRows: [IndexPath] = []
+    var colorSort: UIColor!
     
     
     var numberOfRowsMain: [IndexPath] = []
@@ -115,28 +116,31 @@ class tableStepController: UITableViewController {
         self.view.backgroundColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1)
         //self.view.addGradientBackground(firstColor: UIColor(hexString: "#dfebfe"), secondColor: UIColor(hexString: "#ffffff"))
 
+        
+
         self.navigationItem.title = TOPIC_NAME
         let rightBackButton = UIBarButtonItem(
     //            title: "Back",
             image: UIImage(systemName: "plus"),
             style: .plain,
             target: self,
-            action: #selector(didTapMenuButtonAdd)
+            action: #selector(didTapMenuButtonNewStart)
         )
-//        let rightBackButton1 = UIBarButtonItem(
-//    //            title: "Back",
-//            image: UIImage(systemName: "stop"),
-//            style: .plain,
-//            target: self,
-//            action: #selector(didRunTime)
-//        )
+        let rightBackButton1 = UIBarButtonItem(
+    //            title: "Back",
+            image: UIImage(systemName: "arrow.up.arrow.down"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapSort)
+        )
+        rightBackButton1.tintColor = colorSort
         let leftBackButton = UIBarButtonItem(
     //            title: "Back",
             image: UIImage(systemName: "chevron.backward"),
             style: .plain,
             target: self,
             action: #selector(didTapMenuButton))
-        self.navigationItem.rightBarButtonItems = [/*rightBackButton1,*/rightBackButton]
+        self.navigationItem.rightBarButtonItems = [/*rightBackButton1,*/ rightBackButton]
         self.navigationItem.leftBarButtonItem = leftBackButton
         self.registerTableViewCells()
         contentStepManager.delegate = self
@@ -338,6 +342,16 @@ class tableStepController: UITableViewController {
         } else{
             return 0
         }
+    }
+    
+    func sumFactCell (topicI: Int) -> Int {
+        var i = 0
+        self.itemTimeArray.forEach({ book in
+            if (book.topicID == topicI && book.flagActive == 0 && book.user == user) {
+                i = i + 1
+            }
+        })
+        return i
     }
     
     
@@ -649,7 +663,26 @@ class tableStepController: UITableViewController {
 ////        tableView.scrollRangeToVisible(selectedRange)
 //    }
 
-
+    
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        contentFix.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+    }
+    
+    
+    @objc func didTapSort() {
+        if tableView.isEditing {
+            tableView.isEditing = false
+            self.colorSort = UIColor(hexString: "#443E3E")
+            
+        } else {
+            tableView.isEditing = true
+            self.colorSort = UIColor(hexString: "#043E3E")
+        }
+    }
     
    //MARK: Действие на нажатие
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)  {
@@ -824,6 +857,23 @@ class tableStepController: UITableViewController {
             self.stepManager.performRequest(loginRegLet: self.user, json: jsonString)
             self.timer.invalidate()
             
+            
+            DispatchQueue.main.async {
+                
+                
+                if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
+                    newViewController.user = self.user
+                    newViewController.group = self.group
+                    newViewController.resetCoredata = self.resetCoredata
+                    newViewController.numberOfRows = self.numberOfRowsMain
+                    newViewController.valueSearch = self.valueSearchStep
+                    let navController = UINavigationController(rootViewController: newViewController)
+                    navController.modalTransitionStyle = .crossDissolve
+                    navController.modalPresentationStyle = .overFullScreen
+                    self.present(navController, animated: true, completion: nil)
+                   }
+            }
+            
             }
 
         let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
@@ -868,6 +918,96 @@ class tableStepController: UITableViewController {
         alert.addAction(action)
             self.tableView.reloadData()
             self.present(alert, animated: true, completion: nil)
+        }
+
+    }
+    
+//    if activeFlag == false {
+//        activeID = sercheActive(searchValue: idTopic)
+//    } else {
+//        contentStepManager.performActive(loginLet: user)
+//    }
+    
+    //MARK: Создание нового замера внутри топика
+    @objc public func didTapMenuButtonNewStart() {
+        DispatchQueue.main.async { [self] in
+                    
+
+
+                    
+                    func upadteFlagAction () {
+                        self.itemTimeArray.forEach({ book in
+                            print(book.topicID)
+                            if (book.topicID == self.idTopic && book.flagActive == 0 && book.user == self.user) {
+                                book.flagActive = 1
+                                
+ 
+                                
+                            }
+                        })
+                    }
+                    
+
+                    if ((sumFactCell(topicI: self.idTopic)) != 0) {
+                        let alertController = UIAlertController(title: "Создать новый замер?", message: "", preferredStyle: .alert)
+
+                            // Initialize Actions
+                        let yesAction = UIAlertAction(title: "Да", style: .default) { (action) -> Void in
+                                print("The user is okay.")
+                                stopUpdateLocal()
+                                upadteFlagAction ()
+                            
+
+                                self.saveItems()
+                                self.timer.invalidate()
+                                self.saveItems()
+                                contentStepManager.performActive(loginLet: self.user)
+                                self.tableView.reloadData()
+                                let jsonTo = self.convertToJSONArray(moArray: self.itemTimeArray)
+                                let jsonString = self.convertIntoJSONString(arrayObject: jsonTo)!
+                                self.stepManager.performRequest(loginRegLet: self.user, json: jsonString)
+    
+                            }
+
+                        let noAction = UIAlertAction(title: "Нет", style: .default) { (action) -> Void in
+                                print("The user is not okay.")
+                            activeID = sercheActive(searchValue: idTopic)
+
+                            }
+
+                            // Add Actions
+                        
+                            alertController.addAction(yesAction)
+                            alertController.addAction(noAction)
+                 
+
+                            // Present Alert Controller
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                    else {
+                        let alertController = UIAlertController(title: "", message: "Замеров не производилось", preferredStyle: .alert)
+
+                            // Initialize Actions
+                        let yesAction = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
+                                print("The user is okay.")
+//                                upadteFlagAction ()
+                            activeID = sercheActive(searchValue: idTopic)
+                            
+
+                            }
+
+
+
+                            // Add Actions
+                        
+                            alertController.addAction(yesAction)
+//                            alertController.addAction(noAction)
+                 
+
+                            // Present Alert Controller
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+
         }
 
     }
@@ -979,21 +1119,7 @@ extension tableStepController {
 
 extension tableStepController: StepManagerDelegate {
     func didPostStep(_ weatherRegister: StepManager, register: StepModel) {
-        DispatchQueue.main.async {
-            
-            
-            if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
-                newViewController.user = self.user
-                newViewController.group = self.group
-                newViewController.resetCoredata = self.resetCoredata
-                newViewController.numberOfRows = self.numberOfRowsMain
-                newViewController.valueSearch = self.valueSearchStep
-                let navController = UINavigationController(rootViewController: newViewController)
-                navController.modalTransitionStyle = .crossDissolve
-                navController.modalPresentationStyle = .overFullScreen
-                self.present(navController, animated: true, completion: nil)
-               }
-        }
+
         
         
     }
@@ -1023,7 +1149,18 @@ func showToast(message : String, font: UIFont) {
     }, completion: {(isCompleted) in
         toastLabel.removeFromSuperview()
     })
-} }
+}
+//    func color
+//    if tableView.isEditing {
+//
+//        self.colorSort = UIColor(hexString: "#EEEEEE")
+//        
+//    } else {
+//
+//        self.colorSort = UIColor(hexString: "#0B0B0B")
+//    }
+    
+}
 
 
 //MARK: Геолокация
