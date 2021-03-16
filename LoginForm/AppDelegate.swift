@@ -44,10 +44,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
+
+    
     func applicationWillResignActive(_ application: UIApplication) {
-        print("111")
+        print("end")
     }
     
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        print("start")
+    }
     
     
     // MARK: - Core Data save context
