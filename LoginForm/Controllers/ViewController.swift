@@ -15,7 +15,10 @@ class ViewController: UIViewController {
  //Биометрий
 
 
-
+    let tabBarVC = UITabBarController()
+    let user: String! = nil
+    let group: Int! = nil
+    
     
     var contextIdent = LAContext()
     enum AuthenticationState {
@@ -134,7 +137,8 @@ class ViewController: UIViewController {
 //        buttonLogin.setTitle("Вход", for: .normal)
 
     }
- 
+    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,7 +148,7 @@ class ViewController: UIViewController {
         loadItems()
         
         
-        
+
         if itemTimeArray.count == 0  {
             state = .loggedout
             buttonLogin.setTitle("Вход", for: .normal)
@@ -223,11 +227,47 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: LoginManagerDelegate {
+    
+
     func didAddDev(_ Login: LoginManager, login: FlagAdd) {
         
     }
     
     func didUpdateLogin(_ Login: LoginManager, login: LoginModel) {
+        
+//        func openMainController() {
+//            let vc1 = SeccondViewController()
+//            let vc2 = FirstViewController()
+//            let vc3 = tableController()
+//            vc3.user = login.login
+//            vc3.group = login.group
+//            vc3.resetCoredata = true
+//            vc3.firstName = login.firstName
+//            vc3.valueSearch = ""
+//            let navController = UINavigationController(rootViewController: vc3)
+//                      navController.modalTransitionStyle = .flipHorizontal
+//                      navController.modalPresentationStyle = .overFullScreen
+//            vc3.navigationController?.show(vc3, sender: self)
+//            //vc3.navigationController = navController
+//
+//
+//    //        if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
+//    //
+//    //            newViewController.firstName = firstName
+//    //            newViewController.user = user
+//    //            newViewController.group = group
+//    //            newViewController.resetCoredata = true
+//    //        }
+//            tabBarVC.setViewControllers([vc1, vc2, vc3], animated: false)
+//
+//
+//
+//            tabBarVC.modalPresentationStyle = .fullScreen
+////            tabBarVC.navigationController = navController
+////            present(navController, animated: true, completion: nil)
+//            present(tabBarVC, animated: true)
+//        }
+        
         
         func openMainController() {
             if let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "Table") as? tableController {
@@ -250,7 +290,7 @@ extension ViewController: LoginManagerDelegate {
         }
         
         func mainIdetn() {
-            self.contextIdent = LAContext()
+
 
             self.contextIdent.localizedCancelTitle = "Ввести логин и пароль"
 
@@ -273,6 +313,7 @@ extension ViewController: LoginManagerDelegate {
                     } else {
                         print(error?.localizedDescription ?? "Failed to authenticate")
                         self.state = .loggedHand
+//                        self.deleteAllData(entity: "Login")
                         // Fall back to a asking for username and password.
                         // ...
                     }
@@ -280,6 +321,7 @@ extension ViewController: LoginManagerDelegate {
             } else {
                 print(error?.localizedDescription ?? "Can't evaluate policy")
                 self.state = .loggedHand
+                self.deleteAllData(entity: "Login")
                 // Fall back to a asking for username and password.
                 // ...
             }
@@ -289,6 +331,7 @@ extension ViewController: LoginManagerDelegate {
             self.removeLoadingScreen()
 //            print(login.status)
 //            self.name = login.firstName
+            mainIdetn()
             
             if (login.status) == 1 {
 
@@ -301,7 +344,7 @@ extension ViewController: LoginManagerDelegate {
                 }
                 else if self.state ==  .loggedHand {
                     self.deleteAllData(entity: "Login")
-                    self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!.sha512)
+//                    self.typeAction(user: self.fieldLogin.text!, pass: self.fieldPass.text!.sha512)
                     openMainController()
                 }
 

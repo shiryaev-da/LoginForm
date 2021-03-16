@@ -19,6 +19,17 @@ class SeccondViewController: UITableViewController, UISearchBarDelegate {
     }
 }
 
+class FirstViewController: UITableViewController, UISearchBarDelegate {
+    @IBOutlet weak var searchBar: UISearchBar!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .blue
+//        title = "Статистика"
+    }
+}
+
+
+
 
 
 
@@ -50,18 +61,18 @@ class tableController: UITableViewController, UISearchBarDelegate {
     let loadingLabel = UILabel()
     
     //Location
- 
+    
+    
+    //TabBar
+    let tabBarVC = UITabBarController()
 
     @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1)
         title = "Замеры"
-
         let editMenu = self.makeEditMenu()
-        
         let exit = UIAction(
             title: "Выход",
 //            image: UIImage(systemName: "trash"),
@@ -134,9 +145,16 @@ class tableController: UITableViewController, UISearchBarDelegate {
         self.tableView.scrollsToTop = true
         
         
-        tableView.addSubview(tabBar)
+//        tableView.addSubview(tabBar)
 
-
+//        let vc1 = SeccondViewController()
+//        let vc2 = FirstViewController()
+//        let vc3 = tableController()
+//        
+//        tabBarVC.setViewControllers([vc1, vc2, vc3], animated: false)
+//        
+////        tabBarVC.modalPresentationStyle = .fullScreen
+//        present(tabBarVC, animated: true)
         loadItems()
 
 

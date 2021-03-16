@@ -34,6 +34,11 @@ class commentStep: UIViewController, UITextViewDelegate {
 //        newView.layer.cornerRadius = 20
 //        print(stepId)
         self.view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        
+        
+        print(self.view.frame.size)
+        
+        print(view.frame.size)
  
             // Заголовок
             let labelTitilAll = UIView(frame: CGRect(x:0, y: 430 ,width: self.view.frame.width ,height:80))
@@ -65,7 +70,7 @@ class commentStep: UIViewController, UITextViewDelegate {
             titleLabelMain.frame = CGRect(x:16, y: 500 ,width: newView.frame.width-32 , height: self.view.frame.maxY - 500 - 70)
             titleLabelMain.backgroundColor = UIColor.init(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 0)
 
-                titleLabel.frame = CGRect(x:24, y: 500 ,width: newView.frame.width-48 , height: self.view.frame.maxY - 500 - 70)
+                titleLabel.frame = CGRect(x:24, y: 500 ,width: newView.frame.width-48 , height: titleLabelMain.frame.maxY - 500 - 70)
                 titleLabel.backgroundColor = UIColor.init(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1)
                 titleLabel.textAlignment = NSTextAlignment.left
                 titleLabel.font = UIFont(name: "SBSansText-Regular", size: 14)
